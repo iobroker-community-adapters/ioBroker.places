@@ -1,0 +1,116 @@
+<html>
+<head>
+
+<!-- these 4 files always have to be included -->
+<link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+
+<script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
+<!-- these files always have to be included -->
+<script type="text/javascript" src="../../js/translate.js"></script>
+<script type="text/javascript" src="../../lib/js/materialize.js"></script>
+<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+<script type="text/javascript" src="words.js"></script>
+
+
+<script type="text/javascript">
+    var places = [];
+
+    function setValue(id, value, onChange) {
+        var $value = $('#' + id + '.value');
+
+        if ($value.attr('type') !== 'checkbox') {
+            $value.val(value).change(function() {
+                onChange();
+            }).keyup(function() {
+                // Chack that only numbers entered
+                if ($(this).hasClass('number')) {
+                    var val = $(this).val();
+                    if (val) {
+                        var newVal = '';
+                        for (var i = 0; i < val.length; i++) {
+                            if (val[i] >= '0' && val[i] <= '9') {
+                                newVal += val[i];
+                            }
+                        }
+
+                        if (val != newVal) $(this).val(newVal);
+                    }
+                }
+
+                onChange();
+            });
+        }
+    }
+
+    function load(settings, onChange) {
+        if (!settings) return;
+
+        places = settings.places || [];
+
+        for (var key in settings) {
+            if (!settings.hasOwnProperty(key)) continue;
+            setValue(key, settings[key], onChange);
+        }
+
+        values2table('values', places, onChange);
+        onChange(false);
+    }
+
+    function save(callback) {
+        var obj = {};
+        $('.value').each(function () {
+            var $this = $(this);
+            if ($this.attr('type') === 'checkbox') {
+                obj[$this.attr('id')] = $this.prop('checked');
+            } else {
+                obj[$this.attr('id')] = $this.val();
+            }
+        });
+
+        // Get edited table
+        obj.places = table2values('values');
+
+        callback(obj);
+    }
+</script>
+</head>
+<body>
+    <div id="m adapter-container">
+        <table>
+            <tr>
+                <td><img src="places.png"></td>
+                <td style="padding-top: 20px;padding-left: 10px"><h3 class="translate">ADAPTER_SETTINGS</h3></td>
+            </tr>
+        </table>
+
+        <h2 class="translate">GENERAL_SETTINGS</h2>
+        <table>
+            <tr>
+                <td><label class="translate" for="radius">RADIUS</label></td>
+                <td class="admin-icon"></td>
+                <td><input  class="value" type="number" id="radius" min="1" max="500" size="3" maxlength="3"/></td>
+            </tr>
+        </table>
+        <h2 class="translate">LOC_LIST</h2>
+        <div id="values" style="width: 100%; height: calc(100% - 300px)">
+            <button class="table-button-add" style="display: inline-block; margin-left: 10px; height: 2em"></button>
+            <div style="width: 100%; height: calc(100% - 30px); overflow: auto;">
+                <table class="table-values" style="width: 100%;">
+                    <thead>
+                    <tr>
+                        <th data-name="_index"      style="width: 40px" class="translate"></th>
+                        <th data-name="name"        style="width: 30%" class="translate">LOC_NAME</th>
+                        <th data-name="latitude"    class="translate">LOC_LAT</th>
+                        <th data-name="longitude"   class="translate">LOC_LON</th>
+                        <th data-buttons="delete"   style="width: 40px"></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "name": "iobroker.places",
+  "version": "0.0.1",
+  "description": "Places adapter for ioBroker",
+  "author": "Bastian Gogolin <basgo@gmx.de>",
+  "contributors": [],
+  "homepage": "https://github.com/BasGo/ioBroker.places",
+  "license": "MIT",
+  "keywords": ["iobroker", "geofence", "egigeozone", "geofency", "locations", "places", "coordinates", "gps"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BasGo/ioBroker.places"
+  },
+  "dependencies": {
+    "request": "^2.76.0",
+    "url": "^0.11.0",
+    "geolib": "^2.0.24"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-replace": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-jscs": "^3.0.1",
+    "grunt-http": "^2.2.0",
+    "mocha": "^4.0.1",
+    "chai": "^4.1.2"
+  },
+  "bugs": {
+    "url": "https://github.com/BasGo/ioBroker.places/issues"
+  },
+  "main": "main.js",
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha"
+  }
+}

@@ -1,0 +1,71 @@
+{
+    "common": {
+        "name": "places",
+        "version": "0.1.0",
+        "news": {
+            "0.1.0": {
+                "en": "Initial release",
+                "de": "Initiale Version"
+            }
+        },
+        "title": "Places Adapter",
+        "titleLang": {
+            "en": "Javascript/Node.js based template adapter",
+            "de": "Javascript / Node.js basierte Vorlagenadapter"
+        },
+        "desc": {
+            "en": "Adapter for analyzing location information.",
+            "de": "Adapter für die Analyse von Lokationsinformationen."
+        },
+        "authors": ["Bastian Gogolin <basgo@gmx.de>"],
+        "platform": "Javascript/Node.js",
+        "mode": "daemon",
+        "icon": "places.png",
+        "extIcon": "https://raw.githubusercontent.com/BasGo/ioBroker.places/master/admin/places.png",
+        "readme": "https://github.com/BasGo/ioBroker.places/blob/master/README.md",
+        "license": "MIT",
+        "npmLibs": [],
+        "type": "geoposition",
+        "keywords": ["iobroker", "geofence", "egigeozone", "geofency", "locations", "places", "coordinates", "gps"],
+        "loglevel": "info",
+        "enabled": false,
+        "messagebox": true,
+        "systemConfig": true,
+        "subscribe": "messagebox",
+        "stopBeforeUpdate": true,
+        "materialize": true
+    },
+    "native": {
+        "radius": 250,
+        "places": []
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "personsAtHome",
+            "type": "state",
+            "common": {
+                "name": "personsAtHome",
+                "type": "string",
+                "role": "state",
+                "read": true,
+                "write": false,
+                "def": [],
+                "desc": "Persons at home"
+            }
+        },
+        {
+            "_id": "numberAtHome",
+            "type": "state",
+            "common": {
+                "name": "numberAtHome",
+                "type": "number",
+                "role": "state",
+                "read": true,
+                "write": false,
+                "def": 0,
+                "desc": "Number of persons at home"
+            }
+        }
+    ]
+}
