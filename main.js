@@ -35,7 +35,7 @@ adapter.on('message', function (obj) {
     // ensure having correct timestamp
     obj.message.timestamp = Number((obj.message.timestamp + '0000000000000').substring(0, 13));
     adapter.log.debug('Received message with location info -> ' + JSON.stringify(obj.message));
-    
+
     // process message
     var response = processMessage(obj.message);
 
@@ -62,16 +62,12 @@ function main() {
     adapter.log.debug("Current configuration -> " + JSON.stringify(adapter.config));
 }
 
-var lastStateNames = ["lastLeave", "lastEnter"],
-    stateAtHomeCount = "numberAtHome",
-    stateAtHome = "personsAtHome";
-
 function processMessage(msg) {
     msg.user = msg.user || 'Dummy';
 
     msg.date = adapter.formatDate(new Date(msg.timestamp), "YYYY-MM-DD hh:mm:ss");
     msg.atHome = geolib.isPointInCircle(msg, adapter.config, adapter.config.radius);
-    msg.homeDistance = geolib.getDistance(msg, adapter.config);
+    msg.homeDistance = geolib.getDistance(msg, adapter.config) || 0;
 
     if (msg.atHome) {
         msg.name = "zuhause";
@@ -88,44 +84,54 @@ function processMessage(msg) {
 
     adapter.log.debug('New location  -> ' + JSON.stringify(msg));
 
+    // fix whitespaces in username
+    var dpUser = msg.user.replace(/\s|\./g, '_');
     // create user device (if not exists)
-    adapter.getObject(msg.user, function (err, obj) {
+    adapter.getObject(dpUser, function (err, obj) {
         if (err || !obj) {
             adapter.log.debug("Creating device for user '" + msg.user + "'");
-            adapter.setObjectNotExists(msg.user, {
+            adapter.setObjectNotExists(dpUser, {
                 type: 'device',
-                common: {id: msg.user, name: msg.user},
-                native: {name: msg.user, device: msg.user}
+                common: {id: dpUser, name: dpUser},
+                native: {name: dpUser, device: dpUser}
             });
 
             // create states
-            adapter.setObjectNotExists(msg.user + '.place', {type: 'state', common: {name: 'place', read: true, write: false, type: 'string'}, native: {}});
-            adapter.setObjectNotExists(msg.user + '.distance', {type: 'state', common: {name: 'distance', read: true, write: false, type: 'number'}, native: {}});
-            adapter.setObjectNotExists(msg.user + '.latitude', {type: 'state', common: {role: 'value.gps.latitude', name: 'latitude', read: true, write: false, type: 'number'}, native: {}});
-            adapter.setObjectNotExists(msg.user + '.longitude', {type: 'state', common: {role: 'value.gps.longitude', name: 'longitude', read: true, write: false, type: 'number'}, native: {}});
-            adapter.setObjectNotExists(msg.user + '.date', {type: 'state', common: {role: 'value.datetime', name: 'date', read: true, write: false, type: 'string'}, native: {}});
+            adapter.setObjectNotExists(dpUser + '.place', {type: 'state', common: {role: 'text', name: 'place', read: true, write: false, type: 'string'}, native: {}});
+            adapter.setObjectNotExists(dpUser + '.timestamp', {type: 'state', common: {role: 'value', name: 'timestamp', read: true, write: false, type: 'number'}, native: {}});
+            adapter.setObjectNotExists(dpUser + '.distance', {type: 'state', common: {role: 'value', name: 'distance', read: true, write: false, type: 'number'}, native: {}});
+            adapter.setObjectNotExists(dpUser + '.latitude', {type: 'state', common: {role: 'value.gps.latitude', name: 'latitude', read: true, write: false, type: 'number'}, native: {}});
+            adapter.setObjectNotExists(dpUser + '.longitude', {type: 'state', common: {role: 'value.gps.longitude', name: 'longitude', read: true, write: false, type: 'number'}, native: {}});
+            adapter.setObjectNotExists(dpUser + '.date', {type: 'state', common: {role: 'text', name: 'date', read: true, write: false, type: 'string'}, native: {}});
 
-            setStateValues(msg);
+            setStateValues(dpUser, msg);
         } else if (!err && obj) {
-            setStateValues(msg);
+            setStateValues(dpUser, msg);
         }
     });
 
     return msg;
 }
 
-function setStateValues(loc) {
-    setStateValue(loc.user, "changed", loc.date);
-    setStateValue(loc.user, "location", loc.name);
-    setStateValue(loc.user, "latitude", loc.latitude);
-    setStateValue(loc.user, "longitude", loc.longitude);
-    setStateValue(loc.user, "distance", loc.homeDistance);
+function setStateValues(dpUser, loc) {
+    setStateValue(dpUser, "timestamp", loc.timestamp);
+    setStateValue(dpUser, "date", loc.date);
+    setStateValue(dpUser, "place", loc.name);
+    setStateValue(dpUser, "latitude", loc.latitude);
+    setStateValue(dpUser, "longitude", loc.longitude);
+    setStateValue(dpUser, "distance", loc.homeDistance);
 
     analyzePersonsAtHome(loc);
 }
 
 function setStateValue(user, key, value) {
-    adapter.setState(user + "." + key, {val: value, ack: true});
+    adapter.setState(user + "." + key, {val: value, ack: true}, function (err, obj) {
+        if (err) {
+            adapter.log.warn("Error while setting value '" + value + "' for '" + user + "." + key+"' -> " + err);
+        } else if (obj) {
+            adapter.log.silly("Successfully set value '" + value + "' for '" + user + "." + key+"' -> " + obj);
+        }
+    });
 }
 
 function analyzePersonsAtHome(loc) {
