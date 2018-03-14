@@ -65,8 +65,8 @@ sendTo('locations.0', {
 
 ## Changelog
 
-### 0.0.1
-* (BasGo) Initial release
+### 0.1.0
+* (BasGo) First implementation
 
 # License
 This adapter is licensed under the [MIT license](../blob/master/LICENSE) which is part of this repository.
