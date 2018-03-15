@@ -1,25 +1,64 @@
 {
     "common": {
         "name": "places",
-        "version": "0.1.1",
+        "version": "0.2.0",
         "news": {
+            "0.2.0": {
+                "en": "Materialized admin page",
+                "de": "Admin-Seite materialisiert",
+                "ru": "Материализованная страница администратора",
+                "pt": "Página de administração materializada",
+                "nl": "Gematerialiseerde beheerderspagina",
+                "fr": "Page d'administration matérialisée",
+                "it": "Pagina di amministrazione materializzata",
+                "es": "Página de administración materializada",
+                "pl": "Zmaterializowana strona administratora"
+            },
             "0.1.1": {
-                "en": "Fixed some issues",
-                "de": "Einige Fehler behoben"
+                "en": "Fixed some smaller issues",
+                "de": "Einige kleinere Probleme wurden behoben",
+                "ru": "Исправлены некоторые более мелкие проблемы",
+                "pt": "Corrigido alguns problemas menores",
+                "nl": "Enkele kleinere problemen opgelost",
+                "fr": "Correction de quelques problèmes plus petits",
+                "it": "Risolti alcuni problemi minori",
+                "es": "Se corrigieron algunos problemas menores",
+                "pl": "Naprawiono kilka mniejszych problemów"
             },
             "0.1.0": {
                 "en": "Initial release",
-                "de": "Initiale Version"
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie"
             }
         },
         "title": "Places Adapter",
         "titleLang": {
-            "en": "Javascript/Node.js based template adapter",
-            "de": "Javascript / Node.js basierte Vorlagenadapter"
+            "en": "Location analysis for GPS coordinates",
+            "de": "Standortanalyse für GPS-Koordinaten",
+            "ru": "Анализ местоположения для координат GPS",
+            "pt": "Análise de localização para coordenadas GPS",
+            "nl": "Locatieanalyse voor GPS-coördinaten",
+            "fr": "Analyse de localisation pour les coordonnées GPS",
+            "it": "Analisi della posizione per le coordinate GPS",
+            "es": "Análisis de ubicación para coordenadas de GPS",
+            "pl": "Analiza lokalizacji dla współrzędnych GPS"
         },
         "desc": {
-            "en": "Adapter for analyzing location information.",
-            "de": "Adapter für die Analyse von Lokationsinformationen."
+            "en": "Adapter for analyzing location information",
+            "de": "Adapter zum Analysieren von Standortinformationen",
+            "ru": "Адаптер для анализа информации о местоположении",
+            "pt": "Adaptador para análise de informações de localização",
+            "nl": "Adapter voor het analyseren van locatie-informatie",
+            "fr": "Adaptateur pour analyser des informations de localisation",
+            "it": "Adattatore per analizzare le informazioni sulla posizione",
+            "es": "Adaptador para analizar información de ubicación",
+            "pl": "Adapter do analizy informacji o lokalizacji"
         },
         "authors": ["Bastian Gogolin <basgo@gmx.de>"],
         "platform": "Javascript/Node.js",

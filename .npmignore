@@ -1,11 +1,10 @@
-Gruntfile.js
+gulpfile.js
+admin/i18n
 tasks
 node_modules
 .idea
-.gitignore
 .git
-.DS_Store
+/node_modules
 test
 .travis.yml
 appveyor.yml
-.vscode

@@ -1,14 +1,12 @@
+/*global systemDictionary:true */
+'use strict';
+
 systemDictionary = {
-    "ADAPTER_SETTINGS":     {"en": "Adapter settings",  "de": "Adapter-Einstellungen",      "ru": "Настройки драйвера SONOS "},
-    "GENERAL_SETTINGS":     {"en": "General settings",  "de": "Allgemeine Einstellungen",   "ru": "Настройки веб сервера SONOS"},
-    "RADIUS":               {"en": "Radius:",           "de": "Radius:",                    "ru": "Порт:"},
-    "LOC_LIST":             {"en": "Location list",     "de": "Lokationen",                 "ru": "SONOS Устройства"},
-    "LOC_NAME":             {"en": "Name",              "de": "Name",                       "ru": "Имя"},
-    "LOC_LAT":              {"en": "Latitude",          "de": "Lat / Breitengrad",          "ru": "IP Адрес"},
-    "LOC_LON":              {"en": "Longitude",         "de": "Lat / Längengrad",           "ru": "IP Адрес"},
-    "tooltip_radius": {
-        "en": "Radius around location",
-        "de": "Radius um Lokationen",
-        "ru": "Порт для веб интерфейса"
-    }
+    "ADD_PLACE": {                                   "en": "Add place",                                       "de": "Ort hinzufügen",                                  "ru": "Добавить место",                                  "pt": "Adicionar lugar",                                 "nl": "Voeg een plaats toe",                             "fr": "Ajouter un lieu",                                 "it": "Aggiungi posto",                                  "es": "Añadir lugar",                                    "pl": "Dodaj miejsce"},
+    "CUSTOM_PLACES": {                               "en": "Custom places",                                   "de": "Benutzerdefinierte Orte",                         "ru": "Пользовательские места",                          "pt": "Lugares personalizados",                          "nl": "Aangepaste plaatsen",                             "fr": "Lieux personnalisés",                             "it": "Posti personalizzati",                            "es": "Lugares personalizados",                          "pl": "Niestandardowe miejsca"},
+    "PLACE_LATITUDE": {                              "en": "Latitude",                                        "de": "Breitengrad",                                     "ru": "широта",                                          "pt": "Latitude",                                        "nl": "Breedtegraad",                                    "fr": "Latitude",                                        "it": "Latitudine",                                      "es": "Latitud",                                         "pl": "Szerokość"},
+    "PLACE_LONGITUDE": {                             "en": "Longitude",                                       "de": "Längengrad",                                      "ru": "долгота",                                         "pt": "Longitude",                                       "nl": "Lengtegraad",                                     "fr": "Longitude",                                       "it": "Longitudine",                                     "es": "Longitud",                                        "pl": "Długość geograficzna"},
+    "PLACE_NAME": {                                  "en": "Name",                                            "de": "Name",                                            "ru": "имя",                                             "pt": "Nome",                                            "nl": "Naam",                                            "fr": "prénom",                                          "it": "Nome",                                            "es": "Nombre",                                          "pl": "Nazwa"},
+    "RADIUS": {                                      "en": "Radius in meters used to find the current location", "de": "Radius in Metern zum Auffinden des aktuellen Orts", "ru": "Радиус в метрах, используемый для нахождения текущего местоположения", "pt": "Raio em metros usado para encontrar a localização atual", "nl": "Straal in meters gebruikt om de huidige locatie te vinden", "fr": "Rayon en mètres utilisé pour trouver l'emplacement actuel", "it": "Raggio in metri utilizzato per trovare la posizione corrente", "es": "Radio en metros utilizado para encontrar la ubicación actual", "pl": "Promień w metrach służy do znalezienia aktualnej lokalizacji"},
+    "SETTINGS": {                                    "en": "Settings",                                        "de": "Einstellungen",                                   "ru": "настройки",                                       "pt": "Configurações",                                   "nl": "Instellingen",                                    "fr": "Paramètres",                                      "it": "Impostazioni",                                    "es": "Configuraciones",                                 "pl": "Ustawienia"},
 };

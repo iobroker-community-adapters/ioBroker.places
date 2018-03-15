@@ -1,0 +1,7 @@
+Ort hinzufügen
+Benutzerdefinierte Orte
+Breitengrad
+Längengrad
+Name
+Radius in Metern zum Auffinden des aktuellen Orts
+Einstellungen

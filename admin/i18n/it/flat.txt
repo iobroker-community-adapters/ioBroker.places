@@ -1,0 +1,7 @@
+Aggiungi posto
+Posti personalizzati
+Latitudine
+Longitudine
+Nome
+Raggio in metri utilizzato per trovare la posizione corrente
+Impostazioni

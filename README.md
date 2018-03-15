@@ -18,7 +18,7 @@ This is an ioBroker adapter for processing location information messages which s
 There is just one mandatory configuration value: the radius (meters) which will be used to identify the current location of a user. The location of ioBroker is used to identify users being "at home", other places can be added as part of the configuration.
 
 * **Radius** (_mandatory_) should be the radius in meters used to check whether the user is at a specific place (home or custom).
-* **Places** is a flexible lsit containing custom places where each place should have valid values for name, latitude and longitude.
+* **Custom Places** is a flexible list containing custom places where each place should have valid values for name, latitude and longitude.
 
 ## Usage
 
@@ -65,8 +65,14 @@ sendTo('locations.0', {
 
 ## Changelog
 
+### 0.2.0
+* (BasGo) Materialized admin page
+
+### 0.1.1
+* (BasGo) Fixed some smaller issues
+
 ### 0.1.0
-* (BasGo) First implementation
+* (BasGo) Initial release
 
 # License
 This adapter is licensed under the [MIT license](../blob/master/LICENSE) which is part of this repository.

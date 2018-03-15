@@ -1,0 +1,7 @@
+Ajouter un lieu
+Lieux personnalisés
+Latitude
+Longitude
+prénom
+Rayon en mètres utilisé pour trouver l'emplacement actuel
+Paramètres

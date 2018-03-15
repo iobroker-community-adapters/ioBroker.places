@@ -1,0 +1,7 @@
+Dodaj miejsce
+Niestandardowe miejsca
+Szerokość
+Długość geograficzna
+Nazwa
+Promień w metrach służy do znalezienia aktualnej lokalizacji
+Ustawienia

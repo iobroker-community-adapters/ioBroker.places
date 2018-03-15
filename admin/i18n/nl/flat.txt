@@ -1,0 +1,7 @@
+Voeg een plaats toe
+Aangepaste plaatsen
+Breedtegraad
+Lengtegraad
+Naam
+Straal in meters gebruikt om de huidige locatie te vinden
+Instellingen

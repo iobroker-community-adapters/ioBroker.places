@@ -1,0 +1,7 @@
+Add place
+Custom places
+Latitude
+Longitude
+Name
+Radius in meters used to find the current location
+Settings

@@ -1,0 +1,7 @@
+Añadir lugar
+Lugares personalizados
+Latitud
+Longitud
+Nombre
+Radio en metros utilizado para encontrar la ubicación actual
+Configuraciones
