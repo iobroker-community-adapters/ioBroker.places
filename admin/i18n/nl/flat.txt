@@ -1,7 +1,9 @@
 Voeg een plaats toe
 Aangepaste plaatsen
+Naam van de plaats als iemand thuis is
 Breedtegraad
 Lengtegraad
 Naam
+Radius
 Straal in meters gebruikt om de huidige locatie te vinden
 Instellingen

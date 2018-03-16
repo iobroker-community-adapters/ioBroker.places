@@ -1,7 +1,9 @@
 Aggiungi posto
 Posti personalizzati
+Nome del luogo se qualcuno è a casa
 Latitudine
 Longitudine
 Nome
+Raggio
 Raggio in metri utilizzato per trovare la posizione corrente
 Impostazioni

@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "places",
-        "version": "0.2.0",
+        "version": "0.2.1",
         "news": {
+            "0.2.1": {
+                "en": "Extended configuration",
+                "de": "Erweiterte Konfiguration",
+                "ru": "Расширенная конфигурация",
+                "pt": "Configuração estendida",
+                "nl": "Uitgebreide configuratie",
+                "fr": "Configuration étendue",
+                "it": "Configurazione estesa",
+                "es": "Configuración extendida",
+                "pl": "Rozszerzona konfiguracja"
+            },
             "0.2.0": {
                 "en": "Materialized admin page",
                 "de": "Admin-Seite materialisiert",
@@ -80,6 +91,7 @@
     },
     "native": {
         "radius": 250,
+        "homeName": "Home",
         "places": []
     },
     "objects": [],

@@ -34,13 +34,16 @@ adapter.on('message', function (obj) {
 
     // ensure having correct timestamp
     obj.message.timestamp = Number((obj.message.timestamp + '0000000000000').substring(0, 13));
-    adapter.log.debug('Received message with location info -> ' + JSON.stringify(obj.message));
+    adapter.log.debug('Received message with location info: ' + JSON.stringify(obj.message));
 
     // process message
     var response = processMessage(obj.message);
 
     // send response in callback if required, response will be the enriched location
-    if (obj.callback) adapter.sendTo(obj.from, obj.command, response, obj.callback);
+    if (obj.callback) {
+        adapter.log.debug('Found callback, returning result: ' + JSON.stringify(response));
+        adapter.sendTo(obj.from, obj.command, response, obj.callback);
+    }
 });
 
 // is called when databases are connected and adapter received configuration.
@@ -59,7 +62,7 @@ adapter.on('ready', function () {
 });
 
 function main() {
-    adapter.log.debug("Current configuration -> " + JSON.stringify(adapter.config));
+    adapter.log.debug("Current configuration: " + JSON.stringify(adapter.config));
 }
 
 function processMessage(msg) {
@@ -70,22 +73,26 @@ function processMessage(msg) {
     msg.homeDistance = geolib.getDistance(msg, adapter.config) || 0;
 
     if (msg.atHome) {
-        msg.name = "zuhause";
+        msg.name = adapter.config.homeName || 'Home';
     } else {
-        adapter.config.places.forEach(function(place) {
-            var isThere = geolib.isPointInCircle(msg, place, adapter.config.radius);
+        for(var place of adapter.config.places) {
+            adapter.log.silly("Checking if position is at '" + place.name + "' (radius: " + place.radius + "m)");
+            var isThere = geolib.isPointInCircle(msg, place, place.radius);
             if (isThere) {
                 msg.name = place.name;
+                adapter.log.debug("Place found, skipping other checks");
+                break;
             }
-        });
+        }
     }
 
     msg.name = msg.name || '';
 
-    adapter.log.debug('New location  -> ' + JSON.stringify(msg));
+    adapter.log.debug('Analyzed place: ' + JSON.stringify(msg));
 
     // fix whitespaces in username
     var dpUser = msg.user.replace(/\s|\./g, '_');
+
     // create user device (if not exists)
     adapter.getObject(dpUser, function (err, obj) {
         if (err || !obj) {

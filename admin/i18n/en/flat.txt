@@ -1,7 +1,9 @@
 Add place
 Custom places
+Name of place if somebody is at home
 Latitude
 Longitude
 Name
+Radius
 Radius in meters used to find the current location
 Settings

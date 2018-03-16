@@ -12,65 +12,59 @@
     <script type="text/javascript" src="words.js"></script>
     <script type="text/javascript">
         var places = [];
-
-        function setValue(id, value, onChange) {
-            var $value = $('#' + id + '.value');
-            if ($value.attr('type') === 'checkbox') {
-                $value.prop('checked', value).change(function () {
-                    onChange();
-                });
-            } else {
-                $value.val(value).change(function () {
-                    onChange();
-                }).keyup(function () {
-                    // Check that only numbers entered
-                    if ($(this).hasClass('number')) {
-                        var val = $(this).val();
-                        if (val) {
-                            var newVal = '';
-                            for (var i = 0; i < val.length; i++) {
-                                if (val[i] >= '0' && val[i] <= '9') {
-                                    newVal += val[i];
-                                }
-                            }
-                            if (val != newVal) $(this).val(newVal);
-                        }
-                    }
-                    $(this).trigger('change');
-                });
-            }
-        }
-
+        var config;
+        // the function loadSettings has to exist ...
         function load(settings, onChange) {
             if (!settings) return;
 
-            places = settings.places || [];
-
+            config = settings;
             for (var key in settings) {
                 if (!settings.hasOwnProperty(key)) continue;
-                setValue(key, settings[key], onChange);
+                var $value = $('#' + key + '.value');
+                if ($value.attr('type') === 'checkbox') {
+                    $value.prop('checked', settings[key]).on('change', function() {
+                        if ($('#auth').prop('checked')) {
+                            $('#secure').prop('checked', true);
+                        }
+                        onChange();
+                        showHideSettings();
+                    });
+                } else {
+                    $value.val(settings[key]).on('change', function() {
+                        onChange();
+                    }).keyup(function() {
+                        onChange();
+                    });
+                }
             }
 
-            values2table('values', places, onChange);
-            onChange(false);
-        }
+            places = settings.places || [];
+            for (var c = 0; c < settings.places.length; c++) {
+                settings.places[c].name         = settings.places[c].name || '';
+                settings.places[c].latitude     = settings.places[c].latitude || '';
+                settings.places[c].longitude    = settings.places[c].longitude || '';
+                settings.places[c].radius       = settings.places[c].radius || settings.radius;
+            }
 
+            onChange(false);
+            values2table('places', places, onChange);
+        }
         function save(callback) {
-            var settings = {};
+            var obj = {};
             $('.value').each(function () {
                 var $this = $(this);
-                var id = $this.attr('id');
                 if ($this.attr('type') === 'checkbox') {
-                    settings[id] = $this.prop('checked');
+                    obj[$this.attr('id')] = $this.prop('checked');
                 } else {
-                    settings[id] = $this.val();
+                    obj[$this.attr('id')] = $this.val();
                 }
             });
 
-            // Get edited table
-            settings.places = table2values('values');
-
-            callback(settings);
+            obj.places = table2values('places');
+            for (var c = 0; c < obj.places.length; c++) {
+                obj.places[c].radius       = obj.places[c].radius || config.radius;
+            }
+            callback(obj);
         }
     </script>
 </head>
@@ -78,47 +72,45 @@
     <div class="m adapter-container">
         <div class="row">
             <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s4"><a href="#tab-main" class="translate active">SETTINGS</a></li>
+                    <li class="tab col s8"><a href="#tab-places" class="translate">CUSTOM_PLACES</a></li>
+                </ul>
+            </div>
+            <div id="tab-main" class="col s12 page">
                 <div class="row">
-                    <div class="col s12">
+                    <div class="col s12 m4 l2">
                         <img src="places.png" class="logo">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s12">
-                        <h6 class="translate title">SETTINGS</h6>
+                    <div class="col s12 m4">
+                        <input id="homeName" type="text" class="value"/>
+                        <label for="homeName" class="translate">HOME_NAME</label>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col s12">
+                    <div class="col s12 m4">
                         <input id="radius" type="number" size="3" class="value"/>
                         <label for="radius" class="translate">RADIUS</label>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col s12">
-                        <h6 class="translate title">CUSTOM_PLACES</h6>
+            </div>
+            <div id="tab-places" class="col s12 page">
+                <div class="col s12" id="places">
+                    <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+                    <div class="table-values-div">
+                        <table class="table-values">
+                            <thead>
+                            <tr>
+                                <th data-name="name"        class="translate">PLACE_NAME</th>
+                                <th data-name="latitude"    class="translate">PLACE_LATITUDE</th>
+                                <th data-name="longitude"   class="translate">PLACE_LONGITUDE</th>
+                                <th data-name="radius" data-type="number" class="translate">PLACE_RADIUS</th>
+                                <th data-buttons="delete up down"></th>
+                            </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
-                <div class="row">
-                        <div class="col s12">
-                            <div id="values" style="width: 100%; height: calc(100% - 300px)">
-                                <button class="table-button-add translate" style="display: inline-block; margin-left: 10px; height: 2em">ADD_PLACE</button>
-                                <div style="width: 100%; height: calc(100% - 30px); overflow: auto;">
-                                    <table class="table-values" style="width: 100%;">
-                                        <thead>
-                                            <tr>
-                                                <th data-name="_index"      style="width: 40px" class="translate"></th>
-                                                <th data-name="name"        style="width: 30%" class="translate">PLACE_NAME</th>
-                                                <th data-name="latitude"    class="translate">PLACE_LATITUDE</th>
-                                                <th data-name="longitude"   class="translate">PLACE_LONGITUDE</th>
-                                                <th data-buttons="delete"   style="width: 40px"></th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
             </div>
         </div>
     </div>

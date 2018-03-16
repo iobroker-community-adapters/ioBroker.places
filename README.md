@@ -65,6 +65,9 @@ sendTo('locations.0', {
 
 ## Changelog
 
+### 0.2.1
+* (BasGo) Extended configuration
+
 ### 0.2.0
 * (BasGo) Materialized admin page
 

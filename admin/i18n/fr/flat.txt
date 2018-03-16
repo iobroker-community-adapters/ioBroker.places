@@ -1,7 +1,9 @@
 Ajouter un lieu
 Lieux personnalisés
+Nom du lieu si quelqu'un est à la maison
 Latitude
 Longitude
 prénom
+Rayon
 Rayon en mètres utilisé pour trouver l'emplacement actuel
 Paramètres

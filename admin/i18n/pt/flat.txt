@@ -1,7 +1,9 @@
 Adicionar lugar
 Lugares personalizados
+Nome do lugar se alguém estiver em casa
 Latitude
 Longitude
 Nome
+Raio
 Raio em metros usado para encontrar a localização atual
 Configurações
