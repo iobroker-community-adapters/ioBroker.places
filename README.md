@@ -62,6 +62,52 @@ sendTo('locations.0', {
 }
 
 ```
+## Sample: OwnTracks + ioBroker.cloud (Pro) + ioBroker.places
+#### 1. Configuration iobroker.cloud
+Add a custom services **xyz** under "White list for Services".
+
+#### 2. Configuration OwnTracks mobile app
+Change the mode to **HTTP Privat** and use the following address as host:
+
+https://iobroker.pro/service/custom_xyz/<user-app-key>
+
+#### 3. Script (ioBroker.javascript)
+Create a short script with a subscription to the cloud request, f.e. from **cloud.0.services.custom_xyz**, and send a new request object to iobroker.places:
+
+```javascript
+on({id: "cloud.0.services.custom_xyz", change: "ne"}, function (obj) {
+    var data = JSON.parse(obj.newState.val);
+    if (data._type === "location") {
+        sendTo('places.0', {
+            user: data.tid, 
+            latitude: data.lat, 
+            longitude: data.lon, 
+            timestamp: data.tst
+        }, function (res) { log('places analyzed cloud request position as: ' + JSON.stringify(res)); });
+    }
+});
+```
+
+## Sample: Telegram + ioBroker.telegram + ioBroker.places
+#### 1. Configuration iobroker.telegram
+Enable the option to **store raw request**.
+
+#### 2. Script (ioBroker.javascript)
+Create a short script with a subscription to the raw request, f.e. from **telegram.0.communicate.requestRaw**, and send a new request object to iobroker.places:
+
+```javascript
+on({id: "telegram.0.communicate.requestRaw", change: "ne"}, function (obj) {
+    var data = JSON.parse(obj.newState.val);
+    if (data.from && data.location) {
+        sendTo('places.0', {
+            user: data.from.first_name, 
+            latitude: data.location.latitude, 
+            longitude: data.location.longitude, 
+            timestamp: data.date
+        }, function (res) { log('places analyzed telegram position as: ' + JSON.stringify(res)); });
+    }
+});
+```
 
 ## Changelog
 
