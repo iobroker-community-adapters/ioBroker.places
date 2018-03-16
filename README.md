@@ -63,15 +63,15 @@ sendTo('locations.0', {
 
 ```
 ## Sample: OwnTracks + ioBroker.cloud (Pro) + ioBroker.places
-#### 1. Configuration iobroker.cloud
+#### 1. Configure iobroker.cloud
 Add a custom services **xyz** under "White list for Services".
 
-#### 2. Configuration OwnTracks mobile app
+#### 2. Configure OwnTracks mobile app
 Change the mode to **HTTP Privat** and use the following address as host:
 
 https://iobroker.pro/service/custom_xyz/<user-app-key>
 
-#### 3. Script (ioBroker.javascript)
+#### 3. Create script (ioBroker.javascript)
 Create a short script with a subscription to the cloud request, f.e. from **cloud.0.services.custom_xyz**, and send a new request object to iobroker.places:
 
 ```javascript
@@ -89,10 +89,10 @@ on({id: "cloud.0.services.custom_xyz", change: "ne"}, function (obj) {
 ```
 
 ## Sample: Telegram + ioBroker.telegram + ioBroker.places
-#### 1. Configuration iobroker.telegram
-Enable the option to **store raw request**.
+#### 1. Configure iobroker.telegram
+Enable the option to **store raw requests**.
 
-#### 2. Script (ioBroker.javascript)
+#### 2. Create script (ioBroker.javascript)
 Create a short script with a subscription to the raw request, f.e. from **telegram.0.communicate.requestRaw**, and send a new request object to iobroker.places:
 
 ```javascript
