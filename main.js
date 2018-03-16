@@ -96,12 +96,8 @@ function processMessage(msg) {
     // create user device (if not exists)
     adapter.getObject(dpUser, function (err, obj) {
         if (err || !obj) {
-            adapter.log.debug("Creating device for user '" + msg.user + "'");
-            adapter.setObjectNotExists(dpUser, {
-                type: 'device',
-                common: {id: dpUser, name: dpUser},
-                native: {name: dpUser, device: dpUser}
-            });
+            // create device for user
+            adapter.setObjectNotExists(dpUser, {type: 'device', common: {id: dpUser, name: dpUser}, native: {name: dpUser, device: dpUser}});
 
             // create states
             adapter.setObjectNotExists(dpUser + '.place', {type: 'state', common: {role: 'text', name: 'place', read: true, write: false, type: 'string'}, native: {}});
@@ -111,32 +107,45 @@ function processMessage(msg) {
             adapter.setObjectNotExists(dpUser + '.longitude', {type: 'state', common: {role: 'value.gps.longitude', name: 'longitude', read: true, write: false, type: 'number'}, native: {}});
             adapter.setObjectNotExists(dpUser + '.date', {type: 'state', common: {role: 'text', name: 'date', read: true, write: false, type: 'string'}, native: {}});
 
-            setStateValues(dpUser, msg);
+            setStates(dpUser, msg);
         } else if (!err && obj) {
-            setStateValues(dpUser, msg);
+            setStates(dpUser, msg);
         }
     });
 
     return msg;
 }
 
-function setStateValues(dpUser, loc) {
-    setStateValue(dpUser, "timestamp", loc.timestamp);
-    setStateValue(dpUser, "date", loc.date);
-    setStateValue(dpUser, "place", loc.name);
-    setStateValue(dpUser, "latitude", loc.latitude);
-    setStateValue(dpUser, "longitude", loc.longitude);
-    setStateValue(dpUser, "distance", loc.homeDistance);
+function setStates(dpUser, loc) {
+    adapter.getState(dpUser + '.timestamp', function (err, state) {
+        if (!err && state && state.val) {
+            var oldTs = Number(state.val);
+            if (oldTs < loc.timestamp) {
+                setValues(dpUser, loc);
+            } else {
+                adapter.log.warn("Found a newer place for this user: skipping update");
+            }
+        } else {
+            setValues(dpUser, loc);
+        }
+    });
+}
+
+function setValues(dpUser, loc) {
+    setValue(dpUser, "timestamp", loc.timestamp);
+    setValue(dpUser, "date", loc.date);
+    setValue(dpUser, "place", loc.name);
+    setValue(dpUser, "latitude", loc.latitude);
+    setValue(dpUser, "longitude", loc.longitude);
+    setValue(dpUser, "distance", loc.homeDistance);
 
     analyzePersonsAtHome(loc);
 }
 
-function setStateValue(user, key, value) {
+function setValue(user, key, value) {
     adapter.setState(user + "." + key, {val: value, ack: true}, function (err, obj) {
         if (err) {
             adapter.log.warn("Error while setting value '" + value + "' for '" + user + "." + key+"' -> " + err);
-        } else if (obj) {
-            adapter.log.silly("Successfully set value '" + value + "' for '" + user + "." + key+"' -> " + obj);
         }
     });
 }

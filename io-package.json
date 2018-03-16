@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "places",
-        "version": "0.2.1",
+        "version": "0.2.2",
         "news": {
+            "0.2.2": {
+                "en": "Added check for newer entries",
+                "de": "Prüfung auf neuere Einträge hinzugefügt",
+                "ru": "Добавлена ​​проверка новых записей",
+                "pt": "Verificação adicional de entradas mais recentes",
+                "nl": "Controle toegevoegd voor nieuwere vermeldingen",
+                "fr": "Vérification supplémentaire pour les entrées plus récentes",
+                "it": "Aggiunto controllo per le voci più recenti",
+                "es": "Comprobación adicional para entradas más nuevas",
+                "pl": "Dodano sprawdzanie nowszych wpisów"
+            },
             "0.2.1": {
                 "en": "Extended configuration",
                 "de": "Erweiterte Konfiguration",

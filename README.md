@@ -111,6 +111,9 @@ on({id: "telegram.0.communicate.requestRaw", change: "ne"}, function (obj) {
 
 ## Changelog
 
+### 0.2.2
+* (BasGo) Added check for newer entries
+
 ### 0.2.1
 * (BasGo) Extended configuration
 
