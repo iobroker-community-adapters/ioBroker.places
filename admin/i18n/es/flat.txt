@@ -1,9 +1,0 @@
-Añadir lugar
-Lugares personalizados
-Nombre del lugar si alguien está en casa
-Latitud
-Longitud
-Nombre
-Radio
-Radio en metros utilizado para encontrar la ubicación actual
-Configuraciones

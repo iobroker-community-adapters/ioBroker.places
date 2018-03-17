@@ -2,7 +2,7 @@
 /*jslint node: true */
 'use strict';
 
-var utils =    require(__dirname + '/lib/utils'); 
+var utils = require(__dirname + '/lib/utils');
 var geolib = require('geolib');
 
 // you have to call the adapter function and pass a options object
@@ -13,7 +13,6 @@ var adapter = new utils.Adapter('places');
 // is called when adapter shuts down - callback has to be called under any circumstances!
 adapter.on('unload', function (callback) {
     try {
-        adapter.log.info("Adapter got 'unload' signal -> cleaning up ...");
         callback();
     } catch (e) {
         callback();
@@ -55,14 +54,33 @@ adapter.on('ready', function () {
         } else {
             adapter.config.latitude = obj.common.latitude;
             adapter.config.longitude = obj.common.longitude;
-            adapter.log.info("Adapter got 'ready' signal -> calling main function ...");
+            adapter.subscribeStates('*');
             main();
         }
     });
 });
 
+adapter.on('stateChange', function (id, state) {
+    if (id && state && !state.ack) {
+        id = id.substring(adapter.namespace.length + 1);
+        switch (id) {
+            case 'clearHome':
+                adapter.setState('personsAtHome', JSON.stringify([]), false);
+                break;
+            case 'personsAtHome':
+                var homePersons =state.val ? JSON.parse(state.val) : [];
+                adapter.setState('numberAtHome', homePersons.length, true);
+                adapter.setState('anybodyAtHome', homePersons.length > 0, true);
+                break;
+            default:
+                break;
+        }
+    }
+});
+
 function main() {
     adapter.log.debug("Current configuration: " + JSON.stringify(adapter.config));
+    checkInstanceObjects();
 }
 
 function processMessage(msg) {
@@ -75,7 +93,7 @@ function processMessage(msg) {
     if (msg.atHome) {
         msg.name = adapter.config.homeName || 'Home';
     } else {
-        for(var place of adapter.config.places) {
+        for (var place of adapter.config.places) {
             adapter.log.silly("Checking if position is at '" + place.name + "' (radius: " + place.radius + "m)");
             var isThere = geolib.isPointInCircle(msg, place, place.radius);
             if (isThere) {
@@ -97,15 +115,15 @@ function processMessage(msg) {
     adapter.getObject(dpUser, function (err, obj) {
         if (err || !obj) {
             // create device for user
-            adapter.setObjectNotExists(dpUser, {type: 'device', common: {id: dpUser, name: dpUser}, native: {name: dpUser, device: dpUser}});
+            adapter.setObjectNotExists(dpUser, { type: 'device', common: { id: dpUser, name: dpUser }, native: { name: dpUser, device: dpUser } });
 
             // create states
-            adapter.setObjectNotExists(dpUser + '.place', {type: 'state', common: {role: 'text', name: 'place', read: true, write: false, type: 'string'}, native: {}});
-            adapter.setObjectNotExists(dpUser + '.timestamp', {type: 'state', common: {role: 'value', name: 'timestamp', read: true, write: false, type: 'number'}, native: {}});
-            adapter.setObjectNotExists(dpUser + '.distance', {type: 'state', common: {role: 'value', name: 'distance', read: true, write: false, type: 'number'}, native: {}});
-            adapter.setObjectNotExists(dpUser + '.latitude', {type: 'state', common: {role: 'value.gps.latitude', name: 'latitude', read: true, write: false, type: 'number'}, native: {}});
-            adapter.setObjectNotExists(dpUser + '.longitude', {type: 'state', common: {role: 'value.gps.longitude', name: 'longitude', read: true, write: false, type: 'number'}, native: {}});
-            adapter.setObjectNotExists(dpUser + '.date', {type: 'state', common: {role: 'text', name: 'date', read: true, write: false, type: 'string'}, native: {}});
+            adapter.setObjectNotExists(dpUser + '.place', { type: 'state', common: { role: 'text', name: 'place', read: true, write: false, type: 'string' }, native: {} });
+            adapter.setObjectNotExists(dpUser + '.timestamp', { type: 'state', common: { role: 'value', name: 'timestamp', read: true, write: false, type: 'number' }, native: {} });
+            adapter.setObjectNotExists(dpUser + '.distance', { type: 'state', common: { role: 'value', name: 'distance', read: true, write: false, type: 'number' }, native: {} });
+            adapter.setObjectNotExists(dpUser + '.latitude', { type: 'state', common: { role: 'value.gps.latitude', name: 'latitude', read: true, write: false, type: 'number' }, native: {} });
+            adapter.setObjectNotExists(dpUser + '.longitude', { type: 'state', common: { role: 'value.gps.longitude', name: 'longitude', read: true, write: false, type: 'number' }, native: {} });
+            adapter.setObjectNotExists(dpUser + '.date', { type: 'state', common: { role: 'text', name: 'date', read: true, write: false, type: 'string' }, native: {} });
 
             setStates(dpUser, msg);
         } else if (!err && obj) {
@@ -143,32 +161,37 @@ function setValues(dpUser, loc) {
 }
 
 function setValue(user, key, value) {
-    adapter.setState(user + "." + key, {val: value, ack: true}, function (err, obj) {
+    adapter.setState(user + "." + key, { val: value, ack: true }, function (err, obj) {
         if (err) {
-            adapter.log.warn("Error while setting value '" + value + "' for '" + user + "." + key+"' -> " + err);
+            adapter.log.warn("Error while setting value '" + value + "' for '" + user + "." + key + "' -> " + err);
         }
     });
 }
 
 function analyzePersonsAtHome(loc) {
-    var homeCount, homePersons;
-    adapter.getState('numberAtHome', function (err, obj) {
+    var homePersons;
+
+    adapter.getState('personsAtHome', function (err, obj) {
         if (err) return;
-        homeCount = obj ? obj.val : 0;
-        adapter.getState('personsAtHome', function (err, obj) {
-            if (err) return;
-            homePersons = obj ? (obj.val ? JSON.parse(obj.val) : []) : [];
-            var idx = homePersons.indexOf(loc.user);
+        homePersons = obj ? (obj.val ? JSON.parse(obj.val) : []) : [];
+        var idx = homePersons.indexOf(loc.user);
 
-            if (idx < 0 && loc.atHome) {
-                homePersons.push(loc.user);
-                adapter.setState('personsAtHome', JSON.stringify(homePersons), true);
-            } else if (idx >= 0 && !loc.atHome) {
-                homePersons.splice(idx, 1);
-                adapter.setState('personsAtHome', JSON.stringify(homePersons), true);
-            }
-
-            if (homeCount !== homePersons.length) adapter.setState('numberAtHome', homePersons.length, true);
-        });
+        if (idx < 0 && loc.atHome) {
+            homePersons.push(loc.user);
+            adapter.setState('personsAtHome', JSON.stringify(homePersons), false);
+        } else if (idx >= 0 && !loc.atHome) {
+            homePersons.splice(idx, 1);
+            adapter.setState('personsAtHome', JSON.stringify(homePersons), false);
+        }
     });
+}
+
+function checkInstanceObjects() {
+    var fs = require('fs'),
+        io = fs.readFileSync(__dirname + "/io-package.json"),
+        objs = JSON.parse(io);
+
+    for (var i = 0; i < objs.instanceObjects.length; i++) {
+        adapter.setObjectNotExists(objs.instanceObjects[i]._id, objs.instanceObjects[i]);
+    }
 }

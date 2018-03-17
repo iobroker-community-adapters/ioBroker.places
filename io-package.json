@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "places",
-        "version": "0.2.2",
+        "version": "0.2.3",
         "news": {
+            "0.2.3": {
+                "en": "Optimized state handling\nAdded option to clear array",
+                "de": "Optimierte Statusbehandlung\nAdded Option zum Löschen des Arrays",
+                "ru": "Оптимизированная обработка состояния\nnУдаленная опция для очистки массива",
+                "pt": "Manipulação de estado otimizada\nAplicação para limpar a matriz",
+                "nl": "Geoptimaliseerde statusafhandeling\nToegevoegde optie om array te wissen",
+                "fr": "Gestion optimisée des états\nAjout de l'option pour effacer le tableau",
+                "it": "Gestione dello stato ottimizzata\nUna opzione aggiunta per cancellare la matrice",
+                "es": "Manejo de estado optimizado\nOpción de opción para borrar matriz",
+                "pl": "Zoptymalizowana obsługa stanów\nDodano opcję czyszczenia tablicy"
+            },
             "0.2.2": {
                 "en": "Added check for newer entries",
                 "de": "Prüfung auf neuere Einträge hinzugefügt",
@@ -82,7 +93,9 @@
             "es": "Adaptador para analizar información de ubicación",
             "pl": "Adapter do analizy informacji o lokalizacji"
         },
-        "authors": ["Bastian Gogolin <basgo@gmx.de>"],
+        "authors": [
+            "Bastian Gogolin <basgo@gmx.de>"
+        ],
         "platform": "Javascript/Node.js",
         "mode": "daemon",
         "icon": "places.png",
@@ -91,14 +104,29 @@
         "license": "MIT",
         "npmLibs": [],
         "type": "geoposition",
-        "keywords": ["iobroker", "geofence", "egigeozone", "geofency", "locations", "places", "coordinates", "gps"],
+        "keywords": [
+            "iobroker",
+            "geofence",
+            "egigeozone",
+            "geofency",
+            "locations",
+            "places",
+            "coordinates",
+            "gps"
+        ],
         "loglevel": "info",
         "enabled": false,
         "messagebox": true,
         "systemConfig": true,
         "subscribe": "messagebox",
         "stopBeforeUpdate": true,
-        "materialize": true
+        "materialize": true,
+        "blockly": true,
+        "config": {
+            "minWidth": 800,
+            "width": 1224,
+            "height": 600
+        }
     },
     "native": {
         "radius": 250,
@@ -131,6 +159,31 @@
                 "write": false,
                 "def": 0,
                 "desc": "Number of persons at home"
+            }
+        },
+        {
+            "_id": "anybodyAtHome",
+            "type": "state",
+            "common": {
+                "name": "anybodyAtHome",
+                "type": "boolean",
+                "role": "state",
+                "read": true,
+                "write": false,
+                "def": false,
+                "desc": "Indicator if anybody is at home"
+            }
+        },
+        {
+            "_id": "clearHome",
+            "type": "state",
+            "common": {
+                "name": "Clear",
+                "role": "button",
+                "type": "boolean",
+                "read": false,
+                "write": true,
+                "desc": "Clear persons at home"
             }
         }
     ]

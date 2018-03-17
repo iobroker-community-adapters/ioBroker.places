@@ -1,9 +1,0 @@
-Dodaj miejsce
-Niestandardowe miejsca
-Nazwa miejsca, w którym ktoś jest w domu
-Szerokość
-Długość geograficzna
-Nazwa
-Promień
-Promień w metrach służy do znalezienia aktualnej lokalizacji
-Ustawienia

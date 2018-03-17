@@ -1,9 +1,0 @@
-Ort hinzufügen
-Benutzerdefinierte Orte
-Name des Ortes, wenn jemand zu Hause ist
-Breitengrad
-Längengrad
-Name
-Radius
-Radius in Metern zum Auffinden des aktuellen Orts
-Einstellungen
