@@ -1,6 +1,7 @@
 <html>
+
 <head>
-    <link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
     <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
 
     <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
@@ -11,12 +12,110 @@
     <script type="text/javascript" src="../../js/adapter-settings.js"></script>
     <script type="text/javascript" src="words.js"></script>
     <script type="text/javascript">
-        var places      = [],
-            users       = [];
+        var places = [],
+            users = [];
         var config;
-        // the function loadSettings has to exist ...
+
+        var selectedPlaceIndex = -1;
+        var selectedPlace;
+        var mapTimer;
+        var mapLoaded;
+
+        function initMap() {
+            mapLoaded = true;
+            updateMap(true);
+        }
+
+        function updateMap(immediately) {
+            if (!mapLoaded) return;
+
+            if (!immediately) {
+                clearTimeout(mapTimer);
+                mapTimer = setTimeout(function () {
+                    updateMap(true);
+                }, 1000);
+                return;
+            }
+
+            if (mapTimer) {
+                clearTimeout(mapTimer);
+                mapTimer = null;
+            }
+
+            var lng;
+            var lat;
+            var n = config.homeName || 'Home';
+            var r = config.radius;
+            var editable = false;
+            if (!selectedPlace && systemConfig && systemConfig.common && (systemConfig.common.longitude || systemConfig.common.latitude)) {
+                lng = systemConfig.common.longitude;
+                lat = systemConfig.common.latitude;
+            } else {
+                lat = selectedPlace.latitude;
+                lng = selectedPlace.longitude;
+                n = selectedPlace.name;
+                r = selectedPlace.radius;
+                editable = true;
+            }
+
+            lng = lng || 0;
+            lat = lat || 0;
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 16,
+                center: { lat: parseFloat(lat), lng: parseFloat(lng) }
+            });
+
+            var marker = new google.maps.Marker({
+                position: { lat: parseFloat(lat), lng: parseFloat(lng) },
+                map: map,
+                title: n,
+                draggable: editable
+            });
+
+            var circle = new google.maps.Circle({
+                map: map,
+                radius: Number(r),
+                editable: editable
+            });
+
+            circle.bindTo('center', marker, 'position');
+
+            google.maps.event.addListener(circle, 'radius_changed', function () {
+                radiusChanged(circle);
+            });
+
+            google.maps.event.addListener(marker, 'dragend', function () {
+                positionChanged(marker);
+            });
+        }
+
         function load(settings, onChange) {
             if (!settings) return;
+
+            var key1 = 'AIzaSyCIrBRZfZAE';
+            var key2 = '_0C1OplAUy7OXhiWLoZc3eY';
+            var key = key1 + key2;
+
+            if (!settings.googleApiKey || settings.googleApiKey.length == 0) {
+                getAdapterInstances('vis-map', function (list) {
+                    for (var l = 0; l < list.length; l++) {
+                        if (list[l].native && list[l].native.googleApiKey && list[l].native.googleApiKey.length > 0) {
+                            settings.googleApiKey = list[l].native.googleApiKey;
+                            console.log('Using Google API key from vis-map instance: ' + settings.googleApiKey);
+                            $('#tab-main').find("input#googleApiKey").val(settings.googleApiKey).keyup();
+                            onChange();
+                        }
+                    }
+                });
+            }
+
+            var apiKey = (settings.googleApiKey && settings.googleApiKey.length > 0) ? settings.googleApiKey : key;
+            $.ajax({
+                url: 'https://maps.googleapis.com/maps/api/js?key=' + apiKey + '&signed_in=true&callback=initMap',
+                dataType: 'script',
+                cache: true
+            });
 
             config = settings;
             for (var key in settings) {
@@ -40,26 +139,51 @@
             }
 
             settings.places = settings.places || [];
-            places  = settings.places || [];
+            places = settings.places || [];
 
             settings.users = settings.users || [];
-            users   = settings.users || [];
+            users = settings.users || [];
 
             for (var c = 0; c < settings.places.length; c++) {
-                settings.places[c].name         = settings.places[c].name || '';
-                settings.places[c].latitude     = settings.places[c].latitude || '';
-                settings.places[c].longitude    = settings.places[c].longitude || '';
-                settings.places[c].radius       = settings.places[c].radius || settings.radius;
+                settings.places[c].name = settings.places[c].name || '';
+                settings.places[c].latitude = settings.places[c].latitude || '';
+                settings.places[c].longitude = settings.places[c].longitude || '';
+                settings.places[c].radius = settings.places[c].radius || settings.radius;
             }
 
             for (var c = 0; c < settings.users.length; c++) {
-                settings.users[c].name           = settings.users[c].name || '';
-                settings.users[c].replacement    = settings.users[c].replacement || '';
+                settings.users[c].name = settings.users[c].name || '';
+                settings.users[c].replacement = settings.users[c].replacement || '';
             }
+
+            $('.tab-places').on('click', function () {
+                updateMap();
+            });
 
             onChange(false);
             values2table('places', places, onChange);
             values2table('users', users, onChange);
+        }
+
+        function positionChanged(marker) {
+            if (selectedPlaceIndex > -1) {
+                var pos = marker.getPosition();
+                $('#tab-places').find("input[data-index='" + selectedPlaceIndex + "'][data-name='latitude']").val(pos.lat()).keyup();
+                $('#tab-places').find("input[data-index='" + selectedPlaceIndex + "'][data-name='longitude']").val(pos.lng()).keyup();
+            }
+        }
+
+        function radiusChanged(c) {
+            if (selectedPlaceIndex > -1) {
+                var changedRadius = c.getRadius();
+                var roundedRadius = changedRadius.toFixed(0);
+                if (parseFloat(changedRadius) == parseFloat(roundedRadius)) {
+                    return;
+                }
+
+                c.setRadius(parseFloat(roundedRadius));
+                $('#tab-places').find("input[data-index='" + selectedPlaceIndex + "'][data-name='radius']").val(roundedRadius).keyup();
+            }
         }
 
         function save(callback) {
@@ -75,71 +199,115 @@
 
             obj.places = table2values('places');
             for (var c = 0; c < obj.places.length; c++) {
-                obj.places[c].radius       = obj.places[c].radius || config.radius;
+                obj.places[c].radius = obj.places[c].radius || config.radius;
             }
 
             obj.users = table2values('users');
 
             callback(obj);
         }
+
+        function editLine(id, obj) {
+            selectedPlaceIndex = id;
+            selectedPlace = obj;
+            updateMap(true);
+        }
     </script>
+    <style>
+        .top-padding {
+            padding: 1rem;
+        }
+
+        #map {
+            width: 100%;
+            height: calc(100% - 60px);
+        }
+    </style>
 </head>
+
 <body>
     <div class="m adapter-container">
         <div class="row">
             <div class="col s12">
                 <ul class="tabs">
-                    <li class="tab col s4"><a href="#tab-main" class="translate active">GENERAL</a></li>
-                    <li class="tab col s4"><a href="#tab-places" class="translate">PLACES</a></li>
-                    <li class="tab col s4"><a href="#tab-users" class="translate">USERS</a></li>
+                    <li class="tab col s4">
+                        <a href="#tab-main" class="translate active">GENERAL</a>
+                    </li>
+                    <li class="tab col s4">
+                        <a href="#tab-places" class="translate">PLACES</a>
+                    </li>
+                    <li class="tab col s4">
+                        <a href="#tab-users" class="translate">USERS</a>
+                    </li>
                 </ul>
             </div>
             <div id="tab-main" class="col s12 page">
                 <div class="row">
-                    <div class="col s12 m4 l2">
+                    <div class="col s6 m6 l6">
                         <img src="places.png" class="logo">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s12 m4">
-                        <input id="homeName" type="text" class="value"/>
+                    <div class="col s12 m3">
+                        <input id="radius" type="number" size="3" class="value" />
+                        <label for="radius" class="translate">RADIUS</label>
+                    </div>
+                    <div class="col s12 m3">
+                        <input id="homeName" type="text" class="value" />
                         <label for="homeName" class="translate">HOME_NAME</label>
                     </div>
-                    <div class="col s12 m4">
-                        <input id="radius" type="number" size="3" class="value"/>
-                        <label for="radius" class="translate">RADIUS</label>
+                    <div class="col s12 m6">
+                        <input id="googleApiKey" type="text" class="value" />
+                        <label for="googleApiKey" class="translate">GOOGLE_API_KEY</label>
+                    </div>
+                </div>
+                <div class="row"></div>
+                    <div class="col s12 m6">
+                        <input id="useGeocoding" class="value" type="checkbox"/>
+                        <label for="useGeocoding" class="translate">USE_GEOCODING</label>
                     </div>
                 </div>
             </div>
             <div id="tab-places" class="col s12 page">
-                <div class="col s12" id="places">
-                    <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
-                    <div class="table-values-div">
-                        <table class="table-values">
-                            <thead>
-                            <tr>
-                                <th data-name="name"        class="translate">PLACE_NAME</th>
-                                <th data-name="latitude"    class="translate">PLACE_LATITUDE</th>
-                                <th data-name="longitude"   class="translate">PLACE_LONGITUDE</th>
-                                <th data-name="radius" data-type="number" class="translate">PLACE_RADIUS</th>
-                                <th data-buttons="delete up down"></th>
-                            </tr>
-                            </thead>
-                        </table>
+                <div class="row top-padding">
+                    <div class="col s12 m8">
+                        <div class="col s12" id="places">
+                            <a class="btn-floating waves-effect waves-light blue table-button-add">
+                                <i class="material-icons">add</i>
+                            </a>
+                            <div class="table-values-div">
+                                <table class="table-values">
+                                    <thead>
+                                        <tr>
+                                            <th data-name="name" class="translate">PLACE_NAME</th>
+                                            <th data-name="latitude" class="translate">PLACE_LATITUDE</th>
+                                            <th data-name="longitude" class="translate">PLACE_LONGITUDE</th>
+                                            <th data-name="radius" data-type="number" class="translate">PLACE_RADIUS</th>
+                                            <th data-buttons="edit up down delete"></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m4 map">
+                        <div id="map"></div>
                     </div>
                 </div>
             </div>
             <div id="tab-users" class="col s12 page">
                 <div class="col s12" id="users">
-                    <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+                    <a class="btn-floating waves-effect waves-light blue table-button-add">
+                        <i class="material-icons">add</i>
+                    </a>
                     <div class="table-values-div">
                         <table class="table-values">
                             <thead>
-                            <tr>
-                                <th data-name="name"        class="translate">USER_NAME</th>
-                                <th data-name="replacement" class="translate">USER_REPLACEMENT</th>
-                                <th data-buttons="delete up down"></th>
-                            </tr>
+                                <tr>
+                                    <th data-name="name" class="translate">USER_NAME</th>
+                                    <th data-name="replacement" class="translate">USER_REPLACEMENT</th>
+                                    <th data-buttons="delete up down"></th>
+                                </tr>
                             </thead>
                         </table>
                     </div>
@@ -148,4 +316,5 @@
         </div>
     </div>
 </body>
+
 </html>

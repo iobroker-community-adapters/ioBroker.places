@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "places",
-        "version": "0.3.0",
+        "version": "0.4.0",
         "news": {
+            "0.4.0": {
+                "en": "Google Maps can be used for configuration\nGeocoding can be activated",
+                "de": "Google Maps kann für die Konfiguration verwendet werden\nGeocodierung kann aktiviert werden",
+                "ru": "Карты Google можно использовать для конфигурации\nГокодирование может быть активировано",
+                "pt": "O Google Maps pode ser usado para a configuração\nA codificação pode ser ativada",
+                "nl": "Google Maps kan worden gebruikt voor configuratie\nGeocoding kan worden geactiveerd",
+                "fr": "Google Maps peut être utilisé pour la configuration\nGeocoding peut être activé",
+                "it": "Google Maps può essere utilizzato per la configurazione\nGeocoding può essere attivato",
+                "es": "Google Maps se puede usar para la configuración\nLa codificación geográfica se puede activar",
+                "pl": "Do konfiguracji można użyć Google Maps\nGoocoding można aktywować"
+            },
             "0.3.0": {
                 "en": "Added user mappings",
                 "de": "Benutzerzuordnungen hinzugefügt",
@@ -16,7 +27,7 @@
             },
             "0.2.3": {
                 "en": "Optimized state handling\nAdded option to clear array",
-                "de": "Optimierte Statusbehandlung\nAdded Option zum Löschen des Arrays",
+                "de": "Optimierte Statusbehandlung\nOption zum Löschen des Arrays hinzugefügt",
                 "ru": "Оптимизированная обработка состояния\nnУдаленная опция для очистки массива",
                 "pt": "Manipulação de estado otimizada\nAplicação para limpar a matriz",
                 "nl": "Geoptimaliseerde statusafhandeling\nToegevoegde optie om array te wissen",
@@ -143,7 +154,9 @@
         "radius": 250,
         "homeName": "Home",
         "places": [],
-        "users": []
+        "users": [],
+        "googleApiKey": "",
+        "useGeocoding": false
     },
     "objects": [],
     "instanceObjects": [
