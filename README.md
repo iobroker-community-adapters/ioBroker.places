@@ -57,20 +57,27 @@ sendTo('locations.0', {
         longitude:  6.8272409, 
         timestamp:  1520932471
 }, function (res) { log(JSON.stringify(res)); });
+```
 
-// a possible callback object 'res' will look like:
+## Structure for returned messages
+
+The following block shows how response messages look like. For each value the ioBroker object tree has an according state.
+
+```javascript
 {
-    "user":         "Name of person",
+    "user":         "Name of person",       // name of person (may have been replaced by user mapping)
     "latitude":     50.9576191,
     "longitude":    6.8272409,
     "timestamp":    1520932471000,
     "date":         "2018-03-13 10:14:31",  // date extracted from timestamp
     "atHome":       false,                  // true if inside the configured radius around ioBroker
     "homeDistance": 104898,                 // distance in meters between position and ioBroker
-    "name":         ""                      // name of configured place
+    "name":         "",                     // name of place found within the configuration
+    "address":      "",                     // readable address (if geocoding is active)
+    "elevation":    "",                     // elevation in meters (if geocoding is active)
 }
-
 ```
+
 ## Sample: OwnTracks + ioBroker.cloud (Pro) + ioBroker.places
 #### 1. Configure iobroker.cloud
 Add a custom services **xyz** under "White list for Services".
