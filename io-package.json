@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "places",
-        "version": "0.2.3",
+        "version": "0.3.0",
         "news": {
+            "0.3.0": {
+                "en": "Added user mappings",
+                "de": "Benutzerzuordnungen hinzugefügt",
+                "ru": "Добавлены сопоставления пользователей",
+                "pt": "Mapeamentos de usuários adicionados",
+                "nl": "Toegevoegde gebruikerstoewijzingen",
+                "fr": "Mappages d'utilisateurs ajoutés",
+                "it": "Aggiunti mappature utente",
+                "es": "Mapeos de usuarios agregados",
+                "pl": "Dodano mapowania użytkowników"
+            },
             "0.2.3": {
                 "en": "Optimized state handling\nAdded option to clear array",
                 "de": "Optimierte Statusbehandlung\nAdded Option zum Löschen des Arrays",
@@ -131,7 +142,8 @@
     "native": {
         "radius": 250,
         "homeName": "Home",
-        "places": []
+        "places": [],
+        "users": []
     },
     "objects": [],
     "instanceObjects": [

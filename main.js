@@ -52,8 +52,10 @@ adapter.on('ready', function () {
         if (err) {
             adapter.log.info("Adapter could not read latitude/longitude from system config!");
         } else {
-            adapter.config.latitude = obj.common.latitude;
-            adapter.config.longitude = obj.common.longitude;
+            adapter.config.latitude     = obj.common.latitude;
+            adapter.config.longitude    = obj.common.longitude;
+            adapter.config.places       = adapter.config.places || [];
+            adapter.config.users        = adapter.config.users || [];
             adapter.subscribeStates('*');
             main();
         }
@@ -77,6 +79,12 @@ adapter.on('stateChange', function (id, state) {
         }
     }
 });
+
+String.prototype.equalIgnoreCase = function(str) {
+    return (str != null &&
+      typeof str === 'string' &&
+      this.toUpperCase() === str.toUpperCase());
+  }
 
 function main() {
     adapter.log.debug("Current configuration: " + JSON.stringify(adapter.config));
@@ -104,6 +112,17 @@ function processMessage(msg) {
         }
     }
 
+    // try if user should be replaced
+    for (var user of adapter.config.users) {
+        if (msg.user.equalIgnoreCase(user.name)) {
+            msg.user = user.replacement;
+            adapter.log.debug("Replacement for user found, skipping other checks");
+            break;
+        }
+    }
+
+    // some default values if no valid content
+    msg.user = msg.user || 'Dummy';
     msg.name = msg.name || '';
 
     adapter.log.debug('Analyzed place: ' + JSON.stringify(msg));

@@ -11,7 +11,8 @@
     <script type="text/javascript" src="../../js/adapter-settings.js"></script>
     <script type="text/javascript" src="words.js"></script>
     <script type="text/javascript">
-        var places = [];
+        var places      = [],
+            users       = [];
         var config;
         // the function loadSettings has to exist ...
         function load(settings, onChange) {
@@ -38,7 +39,12 @@
                 }
             }
 
-            places = settings.places || [];
+            settings.places = settings.places || [];
+            places  = settings.places || [];
+
+            settings.users = settings.users || [];
+            users   = settings.users || [];
+
             for (var c = 0; c < settings.places.length; c++) {
                 settings.places[c].name         = settings.places[c].name || '';
                 settings.places[c].latitude     = settings.places[c].latitude || '';
@@ -46,9 +52,16 @@
                 settings.places[c].radius       = settings.places[c].radius || settings.radius;
             }
 
+            for (var c = 0; c < settings.users.length; c++) {
+                settings.users[c].name           = settings.users[c].name || '';
+                settings.users[c].replacement    = settings.users[c].replacement || '';
+            }
+
             onChange(false);
             values2table('places', places, onChange);
+            values2table('users', users, onChange);
         }
+
         function save(callback) {
             var obj = {};
             $('.value').each(function () {
@@ -64,6 +77,9 @@
             for (var c = 0; c < obj.places.length; c++) {
                 obj.places[c].radius       = obj.places[c].radius || config.radius;
             }
+
+            obj.users = table2values('users');
+
             callback(obj);
         }
     </script>
@@ -73,8 +89,9 @@
         <div class="row">
             <div class="col s12">
                 <ul class="tabs">
-                    <li class="tab col s4"><a href="#tab-main" class="translate active">SETTINGS</a></li>
-                    <li class="tab col s8"><a href="#tab-places" class="translate">CUSTOM_PLACES</a></li>
+                    <li class="tab col s4"><a href="#tab-main" class="translate active">GENERAL</a></li>
+                    <li class="tab col s4"><a href="#tab-places" class="translate">PLACES</a></li>
+                    <li class="tab col s4"><a href="#tab-users" class="translate">USERS</a></li>
                 </ul>
             </div>
             <div id="tab-main" class="col s12 page">
@@ -105,6 +122,22 @@
                                 <th data-name="latitude"    class="translate">PLACE_LATITUDE</th>
                                 <th data-name="longitude"   class="translate">PLACE_LONGITUDE</th>
                                 <th data-name="radius" data-type="number" class="translate">PLACE_RADIUS</th>
+                                <th data-buttons="delete up down"></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="tab-users" class="col s12 page">
+                <div class="col s12" id="users">
+                    <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+                    <div class="table-values-div">
+                        <table class="table-values">
+                            <thead>
+                            <tr>
+                                <th data-name="name"        class="translate">USER_NAME</th>
+                                <th data-name="replacement" class="translate">USER_REPLACEMENT</th>
                                 <th data-buttons="delete up down"></th>
                             </tr>
                             </thead>

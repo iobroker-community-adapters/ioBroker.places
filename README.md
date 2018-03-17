@@ -18,7 +18,8 @@ This is an ioBroker adapter for processing location information messages which s
 There is just one mandatory configuration value: the radius (meters) which will be used to identify the current location of a user. The location of ioBroker is used to identify users being "at home", other places can be added as part of the configuration.
 
 * **Radius** (_mandatory_) should be the radius in meters used to check whether the user is at a specific place (home or custom).
-* **Custom Places** is a flexible list containing custom places where each place should have valid values for name, latitude and longitude.
+* **Places** is a flexible list containing custom places where each place should have valid values for name, latitude and longitude.
+* **Users** is a flexible list containing user mappings.
 
 ## Usage
 
@@ -111,9 +112,13 @@ on({id: "telegram.0.communicate.requestRaw", change: "ne"}, function (obj) {
 
 ## Changelog
 
+### 0.3.0
+* (BasGo) Added user mappings
+
 ### 0.2.3
 * (BasGo) Optimized state handling
 * (BasGo) Added option to clear array
+
 ### 0.2.2
 * (BasGo) Added check for newer entries
 
