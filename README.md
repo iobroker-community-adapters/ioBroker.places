@@ -78,15 +78,13 @@ The following block shows how response messages look like. For each value the io
 
 ## Sample: OwnTracks + ioBroker.cloud (Pro) + ioBroker.places
 #### 1. Configure iobroker.cloud
-Add a custom services **xyz** under "White list for Services".
+Add a custom services **xyz** under **White list for Services**.
 
-#### 2. Configure OwnTracks mobile app
-Change the mode to **HTTP Privat** and use the following address as host:
-
-https://iobroker.pro/service/custom_xyz/<user-app-key>
+#### 2. Configure OwnTracks mobile apps
+Change the mode to **HTTP Private** and use the following address as **Host** : https://iobroker.pro/service/custom_xyz/<user-app-key>
 
 #### 3. Create script (ioBroker.javascript)
-Create a short script with a subscription to the cloud request, f.e. from **cloud.0.services.custom_xyz**, and send a new request object to iobroker.places:
+Create a short script with a subscription to the cloud request, f.e. from **cloud.0.services.custom_xyz**, and send a new request object to iobroker.places (or an instance of it):
 
 ```javascript
 on({id: "cloud.0.services.custom_xyz", change: "ne"}, function (obj) {
@@ -107,7 +105,7 @@ on({id: "cloud.0.services.custom_xyz", change: "ne"}, function (obj) {
 Enable the option to **store raw requests**.
 
 #### 2. Create script (ioBroker.javascript)
-Create a short script with a subscription to the raw request, f.e. from **telegram.0.communicate.requestRaw**, and send a new request object to iobroker.places:
+Create a short script with a subscription to the raw request, f.e. from **telegram.0.communicate.requestRaw**, and send a new request object to iobroker.places (or an instance of it):
 
 ```javascript
 on({id: "telegram.0.communicate.requestRaw", change: "ne"}, function (obj) {
