@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "places",
-        "version": "0.4.0",
+        "version": "0.4.1",
         "news": {
+            "0.4.1": {
+                "en": "Configuration dialog extended",
+                "de": "Konfigurationsdialog erweitert",
+                "ru": "Диалог конфигурации расширен",
+                "pt": "Diálogo de configuração ampliado",
+                "nl": "Configuratie dialoogvenster uitgebreid",
+                "fr": "Boîte de dialogue de configuration étendue",
+                "it": "Finestra di dialogo di configurazione estesa",
+                "es": "Diálogo de configuración extendido",
+                "pl": "Rozszerzone okno konfiguracji"
+            },
             "0.4.0": {
                 "en": "Google Maps can be used for configuration\nGeocoding can be activated",
                 "de": "Google Maps kann für die Konfiguration verwendet werden\nGeocodierung kann aktiviert werden",

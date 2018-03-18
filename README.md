@@ -1,14 +1,12 @@
-# ioBroker.places
-
+![Logo](admin/places.png)
+ioBroker.places
+=================
 [![NPM version](https://img.shields.io/npm/v/iobroker.places.svg)](https://www.npmjs.com/package/iobroker.places)
-[![Downloads](https://img.shields.io/npm/dm/iobroker.places.svg)](https://www.npmjs.com/package/iobroker.places)
 [![Dependency Status](https://img.shields.io/david/basgo/iobroker.places.svg)](https://david-dm.org/basgo/iobroker.places)
-
-
-[![NPM](https://nodei.co/npm/iobroker.places.png?downloads=true)](https://nodei.co/npm/iobroker.places/)
-
-**Tests:** Linux/Mac: [![Travis-CI](https://img.shields.io/travis/BasGo/ioBroker.places/master.svg)](https://travis-ci.org/BasGo/ioBroker.places)
-Windows: [![Build status](https://ci.appveyor.com/api/projects/status/eobyt279ncmd9qbi/branch/master?svg=true)](https://ci.appveyor.com/project/BasGo/iobroker-places/branch/master)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.places.svg)](https://www.npmjs.com/package/iobroker.places)
+[![Github Issues](http://githubbadges.herokuapp.com/BasGo/ioBroker.places/issues.svg)](https://github.com/BasGo/ioBroker.places/issues)
+[![Travis-CI](https://img.shields.io/travis/BasGo/ioBroker.places/master.svg)](https://travis-ci.org/BasGo/ioBroker.places)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/eobyt279ncmd9qbi/branch/master?svg=true)](https://ci.appveyor.com/project/BasGo/iobroker-places/branch/master)
 
 ## Description
 This is an ioBroker adapter for processing location information messages which should contain a user, a geoposition and a timestamp as minimum. The adapters analyzes whether the location information is within a radius around the location configuration of ioBroker or optional other places.
@@ -127,29 +125,24 @@ on({id: "telegram.0.communicate.requestRaw", change: "ne"}, function (obj) {
 
 ## Changelog
 
+### 0.4.1
+* (BasGo) Configuration dialog extended
 ### 0.4.0
 * (BasGo) Google Maps can be used for configuration
 * (BasGo) Geocoding can be activated
-
 ### 0.3.0
 * (BasGo) Added user mappings
-
 ### 0.2.3
 * (BasGo) Optimized state handling
 * (BasGo) Added option to clear array
-
 ### 0.2.2
 * (BasGo) Added check for newer entries
-
 ### 0.2.1
 * (BasGo) Extended configuration
-
 ### 0.2.0
 * (BasGo) Materialized admin page
-
 ### 0.1.1
 * (BasGo) Fixed some smaller issues
-
 ### 0.1.0
 * (BasGo) Initial release
 

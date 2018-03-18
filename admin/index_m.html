@@ -21,6 +21,30 @@
         var mapTimer;
         var mapLoaded;
 
+        jQuery.fn.extend({
+            allEmpty: function (dataIndex, dataName) {
+                for(var idx in dataName) {
+                    var elem = this.find("input[data-index='" +dataIndex + "'][data-name='" + dataName[idx] + "']");
+                    if (elem) {
+                        var v = elem.val();
+                        if (typeof v != 'undefined' && v != '') {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            },
+            initIfEmpty: function (dataIndex, dataName, initValue, raiseKeyUp = false) {
+                var elem = this.find("input[data-index='" +dataIndex + "'][data-name='" + dataName + "']");
+                if (elem && elem.val() == '')
+                    elem.val(initValue);
+                    if (raiseKeyUp) {
+                        elem.keyup();
+                    }
+            }
+        });
+
         function initMap() {
             mapLoaded = true;
             updateMap(true);
@@ -161,7 +185,20 @@
             });
 
             onChange(false);
-            values2table('places', places, onChange);
+            values2table('places', places, onChange, function () { 
+                var emptyLine = $('#tab-places').allEmpty(places.length-1, ['name','latitude','longitude','radius']);
+                if (emptyLine)
+                {
+                    selectedPlaceIndex = places.length -1 ;
+                    selectedPlace = places[selectedPlaceIndex];
+                    $('#tab-places').initIfEmpty(selectedPlaceIndex, 'name', '...', true);
+                    $('#tab-places').initIfEmpty(selectedPlaceIndex, 'latitude', systemConfig.common.latitude, true);
+                    $('#tab-places').initIfEmpty(selectedPlaceIndex, 'longitude', systemConfig.common.longitude, true);
+                    $('#tab-places').initIfEmpty(selectedPlaceIndex, 'radius', config.radius, true);
+                    updateMap(true);
+                }
+            });
+
             values2table('users', users, onChange);
         }
 
@@ -208,8 +245,20 @@
         }
 
         function editLine(id, obj) {
+            if (selectedPlaceIndex == id) {
+                selectedPlaceIndex = -1;
+                selectedPlace = undefined;
+                $("#tab-places input[data-index='" + id + "']:first").closest("tr").removeClass("selected");
+                updateMap(true);
+                return;
+            }
+
             selectedPlaceIndex = id;
             selectedPlace = obj;
+
+            $("#tab-places input[data-index='" + selectedPlaceIndex + "']:first").closest("tr").addClass("selected");
+            $("#tab-places input[data-index!='" + selectedPlaceIndex + "']:first").closest("tr").removeClass("selected");
+
             updateMap(true);
         }
     </script>
@@ -221,6 +270,10 @@
         #map {
             width: 100%;
             height: calc(100% - 60px);
+        }
+
+        tr.selected {
+            background-color:#ffaaaa !important;;
         }
     </style>
 </head>
