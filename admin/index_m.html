@@ -1,5 +1,4 @@
 <html>
-
 <head>
     <link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
     <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
@@ -12,36 +11,46 @@
     <script type="text/javascript" src="../../js/adapter-settings.js"></script>
     <script type="text/javascript" src="words.js"></script>
     <script type="text/javascript">
-        var places = [],
-            users = [];
-        var config;
-
-        var selectedPlaceIndex = -1;
-        var selectedPlace;
-        var mapTimer;
-        var mapLoaded;
+        var selectedPlaceIndex  = -1,
+            places              = [],
+            users               = [],
+            config,
+            mapTimer,
+            mapLoaded;
 
         jQuery.fn.extend({
+            getDataValue: function (dataIndex, dataName) {
+                var elem = this.find("input[data-index='" + dataIndex + "'][data-name='" + dataName + "']");
+                return elem ? elem.val() : '';
+            },
+            setDataValue: function (dataIndex, dataName, value, raiseKeyUp = false) {
+                var elem = this.find("input[data-index='" + dataIndex + "'][data-name='" + dataName + "']");
+                elem.val(value);
+                if (raiseKeyUp) {
+                    elem.keyup();
+                }
+            },
+            initIfEmpty: function (dataIndex, dataName, initValue, raiseKeyUp = false) {
+                var tst = this.getDataValue(dataIndex, dataName);
+                if (tst == '')
+                    this.setDataValue(dataIndex, dataName, initValue, true);
+            },
             allEmpty: function (dataIndex, dataName) {
                 for(var idx in dataName) {
-                    var elem = this.find("input[data-index='" +dataIndex + "'][data-name='" + dataName[idx] + "']");
-                    if (elem) {
-                        var v = elem.val();
-                        if (typeof v != 'undefined' && v != '') {
-                            return false;
-                        }
+                    var tst = this.getDataValue(dataIndex, dataName[idx]);
+                    if (tst != '') {
+                        return false;
                     }
                 }
 
                 return true;
             },
-            initIfEmpty: function (dataIndex, dataName, initValue, raiseKeyUp = false) {
-                var elem = this.find("input[data-index='" +dataIndex + "'][data-name='" + dataName + "']");
-                if (elem && elem.val() == '')
-                    elem.val(initValue);
-                    if (raiseKeyUp) {
-                        elem.keyup();
-                    }
+            removeRowSelection: function () {
+                this.find("tr").removeClass("selected");
+            },
+            selectRow: function (dataIndex) {
+                this.removeRowSelection();
+                this.find("input[data-index='" + dataIndex + "']:first").closest("tr").addClass("selected");
             }
         });
 
@@ -66,41 +75,28 @@
                 mapTimer = null;
             }
 
-            var lng;
-            var lat;
-            var n = config.homeName || 'Home';
-            var r = config.radius;
-            var editable = false;
-            if (!selectedPlace && systemConfig && systemConfig.common && (systemConfig.common.longitude || systemConfig.common.latitude)) {
-                lng = systemConfig.common.longitude;
-                lat = systemConfig.common.latitude;
-            } else {
-                lat = selectedPlace.latitude;
-                lng = selectedPlace.longitude;
-                n = selectedPlace.name;
-                r = selectedPlace.radius;
-                editable = true;
-            }
-
-            lng = lng || 0;
-            lat = lat || 0;
-
+            var currentPosition = getCurrentPosition();
             var map = new google.maps.Map(document.getElementById('map'), {
+                center: currentPosition.position,
+                streetViewControl: false,
                 zoom: 16,
-                center: { lat: parseFloat(lat), lng: parseFloat(lng) }
             });
 
             var marker = new google.maps.Marker({
-                position: { lat: parseFloat(lat), lng: parseFloat(lng) },
+                position: currentPosition.position,
                 map: map,
-                title: n,
-                draggable: editable
+                title: currentPosition.name,
+                draggable: currentPosition.editable
             });
 
             var circle = new google.maps.Circle({
                 map: map,
-                radius: Number(r),
-                editable: editable
+                radius: currentPosition.radius,
+                editable: currentPosition.editable,
+                strokeColor: '#FF9999',
+                strokeWeight: 2,
+                fillColor: '#FF9999',
+                fillOpacity: 0.2
             });
 
             circle.bindTo('center', marker, 'position');
@@ -190,11 +186,11 @@
                 if (emptyLine)
                 {
                     selectedPlaceIndex = places.length -1 ;
-                    selectedPlace = places[selectedPlaceIndex];
                     $('#tab-places').initIfEmpty(selectedPlaceIndex, 'name', '...', true);
                     $('#tab-places').initIfEmpty(selectedPlaceIndex, 'latitude', systemConfig.common.latitude, true);
                     $('#tab-places').initIfEmpty(selectedPlaceIndex, 'longitude', systemConfig.common.longitude, true);
                     $('#tab-places').initIfEmpty(selectedPlaceIndex, 'radius', config.radius, true);
+                    $("#tab-places").selectRow(selectedPlaceIndex);
                     updateMap(true);
                 }
             });
@@ -202,11 +198,24 @@
             values2table('users', users, onChange);
         }
 
+        function getCurrentPosition() {
+            var n = selectedPlaceIndex < 0 ? config.homeName || 'Home' : $('#tab-places').getDataValue(selectedPlaceIndex, 'name');
+            var lat = selectedPlaceIndex < 0 ? systemConfig.common.latitude : $('#tab-places').getDataValue(selectedPlaceIndex, 'latitude');
+            var lng = selectedPlaceIndex < 0 ? systemConfig.common.longitude : $('#tab-places').getDataValue(selectedPlaceIndex, 'longitude');
+            var r = selectedPlaceIndex < 0 ? config.radius : $('#tab-places').getDataValue(selectedPlaceIndex, 'radius');
+            return {
+                name: n,
+                position: new google.maps.LatLng(parseFloat(lat || 0), parseFloat(lng|| 0)),
+                radius: Number(r || config.radius),
+                editable: !(selectedPlaceIndex < 0)
+            };
+        }
+
         function positionChanged(marker) {
             if (selectedPlaceIndex > -1) {
                 var pos = marker.getPosition();
-                $('#tab-places').find("input[data-index='" + selectedPlaceIndex + "'][data-name='latitude']").val(pos.lat()).keyup();
-                $('#tab-places').find("input[data-index='" + selectedPlaceIndex + "'][data-name='longitude']").val(pos.lng()).keyup();
+                $('#tab-places').setDataValue(selectedPlaceIndex, 'latitude', pos.lat(), true);
+                $('#tab-places').setDataValue(selectedPlaceIndex, 'longitude', pos.lng(), true);
             }
         }
 
@@ -219,7 +228,7 @@
                 }
 
                 c.setRadius(parseFloat(roundedRadius));
-                $('#tab-places').find("input[data-index='" + selectedPlaceIndex + "'][data-name='radius']").val(roundedRadius).keyup();
+                $('#tab-places').setDataValue(selectedPlaceIndex, 'radius', roundedRadius, true);
             }
         }
 
@@ -245,20 +254,8 @@
         }
 
         function editLine(id, obj) {
-            if (selectedPlaceIndex == id) {
-                selectedPlaceIndex = -1;
-                selectedPlace = undefined;
-                $("#tab-places input[data-index='" + id + "']:first").closest("tr").removeClass("selected");
-                updateMap(true);
-                return;
-            }
-
-            selectedPlaceIndex = id;
-            selectedPlace = obj;
-
-            $("#tab-places input[data-index='" + selectedPlaceIndex + "']:first").closest("tr").addClass("selected");
-            $("#tab-places input[data-index!='" + selectedPlaceIndex + "']:first").closest("tr").removeClass("selected");
-
+            selectedPlaceIndex = selectedPlaceIndex == id ? -1 : id;
+            $("#tab-places").selectRow(selectedPlaceIndex);
             updateMap(true);
         }
     </script>
@@ -273,11 +270,15 @@
         }
 
         tr.selected {
-            background-color:#ffaaaa !important;;
+            background-color:#f99 !important;
+        }
+
+        /* fix to have some space between table and button */
+        a.table-button-add {
+            margin-top: 10px !important;
         }
     </style>
 </head>
-
 <body>
     <div class="m adapter-container">
         <div class="row">
@@ -325,9 +326,6 @@
                 <div class="row top-padding">
                     <div class="col s12 m8">
                         <div class="col s12" id="places">
-                            <a class="btn-floating waves-effect waves-light blue table-button-add">
-                                <i class="material-icons">add</i>
-                            </a>
                             <div class="table-values-div">
                                 <table class="table-values">
                                     <thead>
@@ -341,6 +339,9 @@
                                     </thead>
                                 </table>
                             </div>
+                            <a class="btn-floating waves-effect waves-light blue table-button-add">
+                                <i class="material-icons">add</i>
+                            </a>
                         </div>
                     </div>
                     <div class="col s12 m4 map">
@@ -350,9 +351,6 @@
             </div>
             <div id="tab-users" class="col s12 page">
                 <div class="col s12" id="users">
-                    <a class="btn-floating waves-effect waves-light blue table-button-add">
-                        <i class="material-icons">add</i>
-                    </a>
                     <div class="table-values-div">
                         <table class="table-values">
                             <thead>
@@ -364,10 +362,12 @@
                             </thead>
                         </table>
                     </div>
+                    <a class="btn-floating waves-effect waves-light blue table-button-add">
+                        <i class="material-icons">add</i>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </body>
-
 </html>

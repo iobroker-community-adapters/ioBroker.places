@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "places",
-        "version": "0.4.1",
+        "version": "0.4.2",
         "news": {
+            "0.4.2": {
+                "en": "UI fixes",
+                "de": "Korrekturen für die Benutzeroberfläche",
+                "ru": "Исправления для пользовательского интерфейса",
+                "pt": "Correções para UI",
+                "nl": "Oplossingen voor UI",
+                "fr": "Corrections pour l'interface utilisateur",
+                "it": "Correzioni per l'interfaccia utente",
+                "es": "Correcciones para la interfaz de usuario",
+                "pl": "Poprawki dla interfejsu użytkownika"
+            },
             "0.4.1": {
                 "en": "Configuration dialog extended",
                 "de": "Konfigurationsdialog erweitert",

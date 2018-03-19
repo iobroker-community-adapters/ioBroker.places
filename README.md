@@ -123,6 +123,8 @@ on({id: "telegram.0.communicate.requestRaw", change: "ne"}, function (obj) {
 
 ## Changelog
 
+### 0.4.2
+* (BasGo) UI fixes
 ### 0.4.1
 * (BasGo) Configuration dialog extended
 ### 0.4.0
