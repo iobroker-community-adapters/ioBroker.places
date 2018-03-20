@@ -164,7 +164,7 @@ function processMessage(msg, cb) {
     msg.user = msg.user || 'Dummy';
     msg.timestamp = Number((msg.timestamp + '0000000000000').substring(0, 13));
     msg.date = adapter.formatDate(new Date(msg.timestamp), "YYYY-MM-DD hh:mm:ss");
-    adapter.log.debug('Processing location info: ' + JSON.stringify(obj.message));
+    adapter.log.debug('Processing location info: ' + JSON.stringify(msg));
 
     msg.atHome = geolib.isPointInCircle(msg, adapter.config, adapter.config.radius);
     msg.homeDistance = geolib.getDistance(msg, adapter.config) || 0;
