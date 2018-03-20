@@ -26,9 +26,6 @@ adapter.on('message', function (obj) {
         return;
     }
 
-    adapter.log.debug('Received message with location info: ' + JSON.stringify(obj.message));
-
-    // process message
     processMessage(obj.message, function(response){
         if (obj.callback) {
             adapter.log.silly('Found callback, returning result: ' + JSON.stringify(response));
@@ -167,6 +164,8 @@ function processMessage(msg, cb) {
     msg.user = msg.user || 'Dummy';
     msg.timestamp = Number((msg.timestamp + '0000000000000').substring(0, 13));
     msg.date = adapter.formatDate(new Date(msg.timestamp), "YYYY-MM-DD hh:mm:ss");
+    adapter.log.debug('Processing location info: ' + JSON.stringify(obj.message));
+
     msg.atHome = geolib.isPointInCircle(msg, adapter.config, adapter.config.radius);
     msg.homeDistance = geolib.getDistance(msg, adapter.config) || 0;
 
