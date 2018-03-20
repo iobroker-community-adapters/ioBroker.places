@@ -26,8 +26,6 @@ adapter.on('message', function (obj) {
         return;
     }
 
-    // ensure having correct timestamp
-    obj.message.timestamp = Number((obj.message.timestamp + '0000000000000').substring(0, 13));
     adapter.log.debug('Received message with location info: ' + JSON.stringify(obj.message));
 
     // process message
@@ -167,7 +165,7 @@ function getGeolocation(loc, cb) {
 
 function processMessage(msg, cb) {
     msg.user = msg.user || 'Dummy';
-
+    msg.timestamp = Number((msg.timestamp + '0000000000000').substring(0, 13));
     msg.date = adapter.formatDate(new Date(msg.timestamp), "YYYY-MM-DD hh:mm:ss");
     msg.atHome = geolib.isPointInCircle(msg, adapter.config, adapter.config.radius);
     msg.homeDistance = geolib.getDistance(msg, adapter.config) || 0;
