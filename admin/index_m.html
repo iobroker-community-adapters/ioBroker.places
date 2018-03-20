@@ -110,6 +110,42 @@
             });
         }
 
+        function setCloudConfiguration() {
+            getAdapterInstances('cloud', function (instances) {
+                var instanceText    =  '<option value="">' + _('none') + '</option>';
+                var serviceText     =  '<option value="">' + _('none') + '</option>';
+                for (var l = 0; l < instances.length; l++) {
+                    var isSelectedInstance = config.cloudInstance === instances[l]._id;
+                    instanceText += '<option value="' + instances[l]._id +'" ' + (isSelectedInstance ? 'selected' : '') + '>' + instances[l]._id.replace('system.adapter.', '') + '</option>';
+                    if (isSelectedInstance) {
+                        var services = instances[l].native.allowedServices.split(" ");
+                        for (var s = 0; s < services.length; s++) {
+                            var isSelectedService = config.cloudService === services[s];
+                            serviceText += '<option value="' + services[s] +'" ' + (config.cloudService === services[s] ? 'selected' : '') + '>' + services[s] + '</option>';
+                        }
+                    }
+                }
+                $('#cloudInstance').html(instanceText).select();
+                $('#cloudService').html(serviceText).select();
+            });
+        }
+
+        function updateCloudConfiguration() {
+            var cloudInstance = $("#cloudInstance option:selected").attr('value') || '';
+            var cloudService = $("#cloudService option:selected").attr('value') || '';
+            if (config.cloudInstance !== cloudInstance) {
+                console.log("Cloud-Instance changed to: " + JSON.stringify(cloudInstance));
+                config.cloudInstance = cloudInstance;
+                setCloudConfiguration();
+            }
+
+            if (config.cloudService !== cloudService) {
+                console.log("Cloud-Service changed to: " + JSON.stringify(cloudService));
+                config.cloudService = cloudService;
+                setCloudConfiguration();
+            }
+        }
+
         function load(settings, onChange) {
             if (!settings) return;
 
@@ -138,25 +174,26 @@
             });
 
             config = settings;
-            for (var key in settings) {
-                if (!settings.hasOwnProperty(key)) continue;
+            config.cloudInstance = config.cloudInstance || '';
+            config.cloudService = config.cloudService || '';
+            $('.value').each(function () {
+                var key = $(this).attr('id');
                 var $value = $('#' + key + '.value');
                 if ($value.attr('type') === 'checkbox') {
                     $value.prop('checked', settings[key]).on('change', function() {
-                        if ($('#auth').prop('checked')) {
-                            $('#secure').prop('checked', true);
-                        }
                         onChange();
-                        showHideSettings();
                     });
                 } else {
-                    $value.val(settings[key]).on('change', function() {
-                        onChange();
-                    }).keyup(function() {
-                        onChange();
-                    });
+                    $value.val(settings[key])
+                        .on('change', function() {
+                            updateCloudConfiguration();
+                            onChange();
+                        })
+                        .on('keyup', function() {
+                            onChange();
+                        });
                 }
-            }
+            });
 
             settings.places = settings.places || [];
             places = settings.places || [];
@@ -179,6 +216,8 @@
             $('.tab-places').on('click', function () {
                 updateMap();
             });
+
+            setCloudConfiguration();
 
             onChange(false);
             values2table('places', places, onChange, function () { 
@@ -284,14 +323,17 @@
         <div class="row">
             <div class="col s12">
                 <ul class="tabs">
-                    <li class="tab col s4">
+                    <li class="tab col s3">
                         <a href="#tab-main" class="translate active">GENERAL</a>
                     </li>
-                    <li class="tab col s4">
+                    <li class="tab col s3">
                         <a href="#tab-places" class="translate">PLACES</a>
                     </li>
-                    <li class="tab col s4">
+                    <li class="tab col s3">
                         <a href="#tab-users" class="translate">USERS</a>
+                    </li>
+                    <li class="tab col s3">
+                        <a href="#tab-integration" class="translate">INTEGRATION</a>
                     </li>
                 </ul>
             </div>
@@ -315,7 +357,7 @@
                         <label for="googleApiKey" class="translate">GOOGLE_API_KEY</label>
                     </div>
                 </div>
-                <div class="row"></div>
+                <div class="row">
                     <div class="col s12 m6">
                         <input id="useGeocoding" class="value" type="checkbox"/>
                         <label for="useGeocoding" class="translate">USE_GEOCODING</label>
@@ -367,6 +409,32 @@
                     </a>
                 </div>
             </div>
+            <div id="tab-integration" class="col s12 page">
+                <div class="row">
+                    <div class="input-field col s12 m6 l5">
+                        <select id="cloudInstance" class="value"></select>
+                        <label for="cloudInstance" class="translate">CLOUD_INSTANCE</label>
+                    </div>
+                    <div class="input-field col s12 m6 l5">
+                        <select id="cloudService" class="value"></select>
+                        <label for="cloudService" class="translate">CLOUD_SERVICE</label>
+                    </div>
+                </div>
+            </div>
+            <!-- <div id="tab-integration" class="col s12 page">
+                <div class="row">
+                    <div class="input-field col s12 m6 l5">
+                        <select id="cloud-instance" class="value"></select>
+                        <label for="cloud-instance" class="translate">CLOUD_INSTANCE</label>
+                        <span class="translate help">Cloud info</span>
+                    </div>
+                    <div class="input-field col s12 m6 l5">
+                        <select id="cloud-service" class="value"></select>
+                        <label for="cloud-service" class="translate">CLOUD_SERVICE</label>
+                        <span class="translate help">Cloud service</span>
+                    </div>
+                </div>
+            </div> -->
         </div>
     </div>
 </body>

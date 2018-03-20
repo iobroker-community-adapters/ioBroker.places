@@ -44,12 +44,21 @@ adapter.on('ready', function () {
         if (err) {
             adapter.log.info("Adapter could not read latitude/longitude from system config!");
         } else {
-            adapter.config.latitude     = obj.common.latitude;
-            adapter.config.longitude    = obj.common.longitude;
-            adapter.config.places       = adapter.config.places || [];
-            adapter.config.users        = adapter.config.users || [];
-            adapter.config.googleApiKey = adapter.config.googleApiKey || '';
-            adapter.config.useGeocoding = adapter.config.useGeocoding || false;
+            adapter.config.latitude             = obj.common.latitude;
+            adapter.config.longitude            = obj.common.longitude;
+            adapter.config.places               = adapter.config.places || [];
+            adapter.config.users                = adapter.config.users || [];
+            adapter.config.googleApiKey         = adapter.config.googleApiKey || '';
+            adapter.config.useGeocoding         = adapter.config.useGeocoding || false;
+            adapter.config.cloudSubscription    = '';
+            adapter.config.cloudInstance        = adapter.config.cloudInstance || '';
+            adapter.config.cloudService         = adapter.config.cloudService || '';
+
+            if (adapter.config.cloudInstance !== '' && adapter.config.cloudService !== '') {
+                adapter.config.cloudSubscription = adapter.config.cloudInstance.replace('system.adapter.', '') + ".services.custom_" + adapter.config.cloudService;
+                adapter.log.debug("Subscribed to cloud: " + adapter.config.cloudSubscription);
+                adapter.subscribeForeignStates(adapter.config.cloudSubscription);
+            }
             adapter.subscribeStates('*');
             main();
         }
@@ -58,18 +67,32 @@ adapter.on('ready', function () {
 
 adapter.on('stateChange', function (id, state) {
     if (id && state && !state.ack) {
-        id = id.substring(adapter.namespace.length + 1);
-        switch (id) {
-            case 'clearHome':
-                adapter.setState('personsAtHome', JSON.stringify([]), false);
-                break;
-            case 'personsAtHome':
-                var homePersons =state.val ? JSON.parse(state.val) : [];
-                adapter.setState('numberAtHome', homePersons.length, true);
-                adapter.setState('anybodyAtHome', homePersons.length > 0, true);
-                break;
-            default:
-                break;
+        adapter.log.debug('State changed: ' + JSON.stringify(id));
+
+        if (adapter.config.cloudSubscription.length > 0 && id.endsWith(adapter.config.cloudSubscription)) {
+            adapter.log.debug("Received request from " + adapter.config.cloudSubscription + ": " + JSON.stringify(state.val));
+            var req = JSON.parse(state.val);
+            if (req._type && req._type == 'location' && req.tid && req.lat && req.lon && req.tst) {
+                var loc = { user: req.tid, latitude: req.lat, longitude: req.lon,timestamp: req.tst };
+                processMessage(loc, function(response){
+                    adapter.log.debug("Processed OwnTracks request: " + JSON.stringify(response));
+                });
+            }
+        } else {
+            id = id.substring(adapter.namespace.length + 1);
+
+            switch (id) {
+                case 'clearHome':
+                    adapter.setState('personsAtHome', JSON.stringify([]), false);
+                    break;
+                case 'personsAtHome':
+                    var homePersons = state.val ? JSON.parse(state.val) : [];
+                    adapter.setState('numberAtHome', homePersons.length, true);
+                    adapter.setState('anybodyAtHome', homePersons.length > 0, true);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 });
@@ -79,6 +102,18 @@ String.prototype.equalIgnoreCase = function(str) {
     typeof str === 'string' &&
     this.toUpperCase() === str.toUpperCase());
 }
+
+if (!String.prototype.endsWith) {
+    String.prototype.endsWith = function(searchString, position) {
+        var subjectString = this.toString();
+        if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+          position = subjectString.length;
+        }
+        position -= searchString.length;
+        var lastIndex = subjectString.indexOf(searchString, position);
+        return lastIndex !== -1 && lastIndex === position;
+    };
+  }
 
 function main() {
     adapter.log.debug("Current configuration: " + JSON.stringify(adapter.config));
@@ -151,7 +186,7 @@ function processMessage(msg, cb) {
         }
     }
 
-    getGeolocation(msg, function(result){
+    getGeolocation(msg, function(result) {
         // try if user should be replaced
         for (var user of adapter.config.users) {
             if (result.user.equalIgnoreCase(user.name)) {
@@ -184,13 +219,15 @@ function processMessage(msg, cb) {
         adapter.setObjectNotExists(dpUser + '.address', { type: 'state', common: { role: 'text', name: 'address', read: true, write: false, type: 'string' }, native: {} });
     
         // set states
-        setStates(dpUser, result);
+        setStates(dpUser, result, function() {
+            cb(result);
+        });
 
-        cb(result);
+
     });
 }
 
-function setStates(dpUser, loc) {
+function setStates(dpUser, loc, cb) {
     adapter.getState(dpUser + '.timestamp', function (err, state) {
         if (!err && state && state.val) {
             var oldTs = Number(state.val);
@@ -202,6 +239,8 @@ function setStates(dpUser, loc) {
         } else {
             setValues(dpUser, loc);
         }
+
+        cb();
     });
 }
 

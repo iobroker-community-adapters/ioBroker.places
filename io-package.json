@@ -178,7 +178,9 @@
         "places": [],
         "users": [],
         "googleApiKey": "",
-        "useGeocoding": false
+        "useGeocoding": false,
+        "cloudInstance": "",
+        "cloudService": ""
     },
     "objects": [],
     "instanceObjects": [
