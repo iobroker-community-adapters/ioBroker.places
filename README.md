@@ -83,22 +83,9 @@ Add a custom services **xyz** under **White list for Services**.
 #### 2. Configure OwnTracks mobile apps
 Change the mode to **HTTP Private** and use the following address as **Host** : https://iobroker.pro/service/custom_xyz/<user-app-key>
 
-#### 3. Create script (ioBroker.javascript)
-Create a short script with a subscription to the cloud request, f.e. from **cloud.0.services.custom_xyz**, and send a new request object to iobroker.places (or an instance of it):
+#### 3. Configure iobroker.places
+On the tab Integration you have to select the instance of the cloud adapter and **xyz** as service. The adapter will listen to incoming requests for the service and start the processing.
 
-```javascript
-on({id: "cloud.0.services.custom_xyz", change: "ne"}, function (obj) {
-    var data = JSON.parse(obj.newState.val);
-    if (data._type === "location") {
-        sendTo('places.0', {
-            user: data.tid, 
-            latitude: data.lat, 
-            longitude: data.lon, 
-            timestamp: data.tst
-        }, function (res) { log('places analyzed cloud request position as: ' + JSON.stringify(res)); });
-    }
-});
-```
 
 ## Sample: Telegram + ioBroker.telegram + ioBroker.places
 #### 1. Configure iobroker.telegram
@@ -122,7 +109,8 @@ on({id: "telegram.0.communicate.requestRaw", change: "ne"}, function (obj) {
 ```
 
 ## Changelog
-
+### 0.5.0
+* (BasGo) Added optional subscription for cloud adapter
 ### 0.4.2
 * (BasGo) UI fixes
 ### 0.4.1
