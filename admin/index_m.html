@@ -112,8 +112,8 @@
 
         function setCloudConfiguration() {
             getAdapterInstances('cloud', function (instances) {
-                var instanceText    =  '<option value="">' + _('none') + '</option>';
-                var serviceText     =  '<option value="">' + _('none') + '</option>';
+                var instanceText    =  '<option value="">' + _('NO_INSTANCE') + '</option>';
+                var serviceText     =  '<option value="">' + _('NO_SERVICE') + '</option>';
                 for (var l = 0; l < instances.length; l++) {
                     var isSelectedInstance = config.cloudInstance === instances[l]._id;
                     instanceText += '<option value="' + instances[l]._id +'" ' + (isSelectedInstance ? 'selected' : '') + '>' + instances[l]._id.replace('system.adapter.', '') + '</option>';
@@ -392,49 +392,42 @@
                 </div>
             </div>
             <div id="tab-users" class="col s12 page">
-                <div class="col s12" id="users">
-                    <div class="table-values-div">
-                        <table class="table-values">
-                            <thead>
-                                <tr>
-                                    <th data-name="name" class="translate">USER_NAME</th>
-                                    <th data-name="replacement" class="translate">USER_REPLACEMENT</th>
-                                    <th data-buttons="delete up down"></th>
-                                </tr>
-                            </thead>
-                        </table>
+                <div class="row top-padding">
+                    <div class="col s12" id="users">
+                        <div class="table-values-div">
+                            <table class="table-values">
+                                <thead>
+                                    <tr>
+                                        <th data-name="name" class="translate">USER_NAME</th>
+                                        <th data-name="replacement" class="translate">USER_REPLACEMENT</th>
+                                        <th data-buttons="delete up down"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <a class="btn-floating waves-effect waves-light blue table-button-add">
+                            <i class="material-icons">add</i>
+                        </a>
                     </div>
-                    <a class="btn-floating waves-effect waves-light blue table-button-add">
-                        <i class="material-icons">add</i>
-                    </a>
                 </div>
             </div>
             <div id="tab-integration" class="col s12 page">
-                <div class="row">
-                    <div class="input-field col s12 m6 l5">
-                        <select id="cloudInstance" class="value"></select>
-                        <label for="cloudInstance" class="translate">CLOUD_INSTANCE</label>
+                <div class="row top-padding">
+                    <div class="row">
+                        <div class="input-field col s12 m3 l3">
+                            <select id="cloudInstance" class="value"></select>
+                            <label for="cloudInstance" class="translate">CLOUD_INSTANCE</label>
+                        </div>
+                        <div class="input-field col s12 m3 l3">
+                            <select id="cloudService" class="value"></select>
+                            <label for="cloudService" class="translate">CLOUD_SERVICE</label>
+                        </div>
+                        <div class="col s12 m6 l6">
+                            <p class="translate">CLOUD_HELP</p>
+                        </div>
                     </div>
-                    <div class="input-field col s12 m6 l5">
-                        <select id="cloudService" class="value"></select>
-                        <label for="cloudService" class="translate">CLOUD_SERVICE</label>
-                    </div>
-                </div>
+                </div> 
             </div>
-            <!-- <div id="tab-integration" class="col s12 page">
-                <div class="row">
-                    <div class="input-field col s12 m6 l5">
-                        <select id="cloud-instance" class="value"></select>
-                        <label for="cloud-instance" class="translate">CLOUD_INSTANCE</label>
-                        <span class="translate help">Cloud info</span>
-                    </div>
-                    <div class="input-field col s12 m6 l5">
-                        <select id="cloud-service" class="value"></select>
-                        <label for="cloud-service" class="translate">CLOUD_SERVICE</label>
-                        <span class="translate help">Cloud service</span>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </div>
 </body>

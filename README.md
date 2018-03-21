@@ -109,6 +109,8 @@ on({id: "telegram.0.communicate.requestRaw", change: "ne"}, function (obj) {
 ```
 
 ## Changelog
+### 0.5.1
+* (BasGo) Extended help texts
 ### 0.5.0
 * (BasGo) Added optional subscription for cloud adapter
 ### 0.4.2

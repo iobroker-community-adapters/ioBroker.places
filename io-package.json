@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "places",
-        "version": "0.5.0",
+        "version": "0.5.1",
         "news": {
+            "0.5.1": {
+                "en": "Help texts extended",
+                "de": "Hilfetexte erweitert",
+                "ru": "Расширены тексты справки",
+                "pt": "Textos de ajuda estendidos",
+                "nl": "Help-teksten uitgebreid",
+                "fr": "Textes d'aide étendus",
+                "it": "Aiuta i testi estesi",
+                "es": "Textos de ayuda extendidos",
+                "pl": "Rozszerzone teksty pomocy"
+            },
             "0.5.0": {
                 "en": "Added optional subscription for cloud adapter",
                 "de": "Optionales Abonnement für Cloud-Adapter hinzugefügt",
