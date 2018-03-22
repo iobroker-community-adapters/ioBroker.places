@@ -109,6 +109,9 @@ on({id: "telegram.0.communicate.requestRaw", change: "ne"}, function (obj) {
 ```
 
 ## Changelog
+### 0.6.0 (not published yet, waiting)
+* (BasGo) Changed implementation to use promises
+* (BasGo) Added route details for driving home
 ### 0.5.1
 * (BasGo) Extended help texts
 ### 0.5.0

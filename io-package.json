@@ -3,6 +3,17 @@
         "name": "places",
         "version": "0.5.1",
         "news": {
+            "0.6.0": {
+                "en": "Changed implementation to use promises\nAdded route details for driving home",
+                "de": "Implementierung geändert, um Promises zu verwenden\nAdded route details for driving home",
+                "ru": "Измененная реализация для использования обещаний\nДанные данные маршрута для езды домой",
+                "pt": "Implementação alterada para usar promessas\nAdicionado detalhes da rota para voltar para casa",
+                "nl": "Implementatie gewijzigd om beloften te gebruiken\nToegevoegde routegegevens voor het rijden naar huis",
+                "fr": "Modification de l'implémentation pour utiliser les promesses\nAjout des détails de l'itinéraire pour rentrer à la maison",
+                "it": "Implementazione modificata per utilizzare le promesse\nAggiunti dettagli del percorso per la guida a casa",
+                "es": "Se modificó la implementación para usar promesas\nSe agregaron detalles de ruta para conducir a casa",
+                "pl": "Zmieniono implementację, aby wykorzystać obietnice\nDodano szczegóły trasy do jazdy do domu"
+            },
             "0.5.1": {
                 "en": "Help texts extended",
                 "de": "Hilfetexte erweitert",

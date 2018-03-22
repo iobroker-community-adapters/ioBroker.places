@@ -26,9 +26,9 @@ adapter.on('message', function (obj) {
         return;
     }
 
-    processMessage(obj.message, function(response){
+    processMessage(obj.message).then(function(response){
         if (obj.callback) {
-            adapter.log.silly('Found callback, returning result: ' + JSON.stringify(response));
+            adapter.log.debug('Found callback, returning result: ' + JSON.stringify(response));
             adapter.sendTo(obj.from, obj.command, response, obj.callback);
         }
     });
@@ -41,6 +41,7 @@ adapter.on('ready', function () {
         } else {
             adapter.config.latitude             = obj.common.latitude;
             adapter.config.longitude            = obj.common.longitude;
+            adapter.config.language             = obj.common.language;
             adapter.config.places               = adapter.config.places || [];
             adapter.config.users                = adapter.config.users || [];
             adapter.config.googleApiKey         = adapter.config.googleApiKey || '';
@@ -66,10 +67,10 @@ adapter.on('stateChange', function (id, state) {
 
         if (adapter.config.cloudSubscription.length > 0 && id.endsWith(adapter.config.cloudSubscription)) {
             adapter.log.debug("Received request from " + adapter.config.cloudSubscription + ": " + JSON.stringify(state.val));
-            var req = JSON.parse(state.val);
-            if (req._type && req._type == 'location' && req.tid && req.lat && req.lon && req.tst) {
-                var loc = { user: req.tid, latitude: req.lat, longitude: req.lon,timestamp: req.tst };
-                processMessage(loc, function(response){
+            var r = JSON.parse(state.val);
+            if (r._type && r._type == 'location' && r.tid && r.lat && r.lon && r.tst) {
+                var req = { user: r.tid, latitude: r.lat, longitude: r.lon,timestamp: r.tst };
+                processMessage(req).then(function(response){
                     adapter.log.debug("Processed OwnTracks request: " + JSON.stringify(response));
                 });
             }
@@ -115,130 +116,178 @@ function main() {
     checkInstanceObjects();
 }
 
-function getGeolocation(loc, cb) {
-    loc.address = '';
-    loc.elevation = 0;
+function getGeocoding(req) {
+    req.address = '';
+    req.elevation = 0;
+    req.routeDistance = '';
+    req.routeDuration = '';
+    req.routeDurationWithTraffic = '';
 
-    if (!adapter.config.useGeocoding) {
-        adapter.log.debug('Skipping geocoding (deactivated by configuration)');
-        cb(loc);
-        return;
-    }
-
-    if (!adapter.config.googleApiKey || adapter.config.googleApiKey.length < 10) {
-        adapter.log.debug('Skipping geocoding (invalid API key)');
-        cb(loc);
-        return;
+    if (!adapter.config.useGeocoding || !adapter.config.googleApiKey || adapter.config.googleApiKey.length < 10) {
+        adapter.log.debug('Skipping geocoding (either deactivated by configuration or invalid API key)');
+        return new Promise(function(resolve, reject) {
+            resolve(req);
+        })
     }
 
     var client = googleMaps.createClient({
         key: adapter.config.googleApiKey
     });
 
-    client.reverseGeocode({
-        latlng: [loc.latitude, loc.longitude],
-        language: 'de'
-    }, function (err, response) {
-        if (err) {
-            adapter.log.error('Error while getting reverse geocode: ' + err);
-        } else if (response) {
-            loc.address = response.json.results[0].formatted_address
-        }
-
-        client.elevation({
-            locations: { lat: loc.latitude, lng: loc.longitude }
-        }, function (err, response) {
-            if (err) {
-                adapter.log.error('Error while getting elevation: ' + err);
-            } else if (response) {
-                loc.elevation = parseFloat(response.json.results[0].elevation).toFixed(1);
-            }
-
-            adapter.log.debug('Finished geocoding: ' + JSON.stringify(loc));
-            cb(loc);
-        });
-    });
+    return getAddress(client, req).then(r => getElevation(client, r)).then(r => getRoute(client, r));
 }
 
-function processMessage(msg, cb) {
-    msg.user = msg.user || 'Dummy';
-    msg.timestamp = Number((msg.timestamp + '0000000000000').substring(0, 13));
-    msg.date = adapter.formatDate(new Date(msg.timestamp), "YYYY-MM-DD hh:mm:ss");
-    adapter.log.debug('Processing location info: ' + JSON.stringify(msg));
+function getAddress(client, req) {
+    var options = {
+        latlng: [req.latitude, req.longitude],
+        language: adapter.config.language };
 
-    msg.atHome = geolib.isPointInCircle(msg, adapter.config, adapter.config.radius);
-    msg.homeDistance = geolib.getDistance(msg, adapter.config) || 0;
+    return new Promise(function(resolve, reject) {
+        client.reverseGeocode(options, function (err, response) {
+            if (err) {
+                adapter.log.error("Error while requesting address: " + JSON.stringify(err));
+            } else {
+                req.address = response.json.results[0].formatted_address;
+            }
+            resolve(req);
+        })
+    })
+}
 
-    if (msg.atHome) {
-        msg.name = adapter.config.homeName || 'Home';
+function getElevation(client, req) {
+    var options = {
+        locations: {
+            lat: req.latitude,
+            lng: req.longitude }
+    };
+
+    return new Promise(function(resolve, reject) {
+        client.elevation(options, function (err, response) {
+            if (err) {
+                adapter.log.error("Error while requesting elevation: " + JSON.stringify(err));
+            } else {
+                req.elevation = parseFloat(response.json.results[0].elevation).toFixed(1);
+            }
+            resolve(req);
+        })
+    })
+}
+
+function getRoute(client, req) {
+    var options = {
+        origins: req.latitude + "," + req.longitude,
+        destinations: adapter.config.latitude + "," + adapter.config.longitude,
+        language: adapter.config.language,
+        departure_time: 'now',
+        mode: 'driving',
+        traffic_model: 'best_guess'
+    };
+
+    return new Promise(function(resolve, reject) {
+        client.distanceMatrix(options, function (err, response) {
+            if (err) {
+                adapter.log.error("Error while requesting route: " + JSON.stringify(err));
+            } else {
+                adapter.log.debug("Received route response: " + JSON.stringify(response));
+                req.routeDistance               = response.json.rows[0].elements[0].distance.text;
+                req.routeDuration               = response.json.rows[0].elements[0].duration.text;
+                req.routeDurationWithTraffic    = response.json.rows[0].elements[0].duration_in_traffic.text
+            }
+            resolve(req);
+        })
+    })
+}
+
+function checkPlaces(req) {
+    req.atHome = geolib.isPointInCircle(req, adapter.config, adapter.config.radius);
+    req.distance = geolib.getDistance(req, adapter.config) || 0;
+    req.name = req.name || '';
+
+    if (req.atHome) {
+        req.name = adapter.config.homeName || 'Home';
     } else {
         for (var place of adapter.config.places) {
-            adapter.log.silly("Checking if position is at '" + place.name + "' (radius: " + place.radius + "m)");
-            var isThere = geolib.isPointInCircle(msg, place, place.radius);
+            adapter.log.debug("Checking if position is at '" + place.name + "' (radius: " + place.radius + "m)");
+            var isThere = geolib.isPointInCircle(req, place, place.radius);
             if (isThere) {
-                msg.name = place.name;
+                req.name = place.name;
                 adapter.log.debug("Place found, skipping other checks");
                 break;
             }
         }
     }
 
-    getGeolocation(msg, function(result) {
-        // try if user should be replaced
-        for (var user of adapter.config.users) {
-            if (result.user.equalIgnoreCase(user.name)) {
-                result.user = user.replacement;
-                adapter.log.silly("Replacement for user found, skipping other checks");
-                break;
-            }
-        }
-
-        // some default values if no valid content
-        result.user = result.user || 'Dummy';
-        result.name = result.name || '';
-
-        adapter.log.debug('Finished place analysis: ' + JSON.stringify(result));
-
-        // fix whitespaces in username
-        var dpUser = result.user.replace(/\s|\./g, '_');
-
-        // create object for user
-        adapter.setObjectNotExists(dpUser, { type: 'device', common: { id: dpUser, name: dpUser }, native: { name: dpUser, device: dpUser } });
-
-        // create objects for states
-        adapter.setObjectNotExists(dpUser + '.place', { type: 'state', common: { role: 'text', name: 'place', read: true, write: false, type: 'string' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.timestamp', { type: 'state', common: { role: 'value', name: 'timestamp', read: true, write: false, type: 'number' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.distance', { type: 'state', common: { role: 'value', name: 'distance', read: true, write: false, type: 'number' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.latitude', { type: 'state', common: { role: 'value.gps.latitude', name: 'latitude', read: true, write: false, type: 'number' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.longitude', { type: 'state', common: { role: 'value.gps.longitude', name: 'longitude', read: true, write: false, type: 'number' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.date', { type: 'state', common: { role: 'text', name: 'date', read: true, write: false, type: 'string' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.elevation', { type: 'state', common: { role: 'value', name: 'elevation', read: true, write: false, type: 'number' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.address', { type: 'state', common: { role: 'text', name: 'address', read: true, write: false, type: 'string' }, native: {} });
-    
-        // set states
-        setStates(dpUser, result, function() {
-            cb(result);
-        });
-
-
-    });
+    return new Promise(function(resolve, reject) { resolve(req); })
 }
 
-function setStates(dpUser, loc, cb) {
-    adapter.getState(dpUser + '.timestamp', function (err, state) {
-        if (!err && state && state.val) {
-            var oldTs = Number(state.val);
-            if (oldTs < loc.timestamp) {
-                setValues(dpUser, loc);
-            } else {
-                adapter.log.warn("Found a newer place for this user: skipping update");
-            }
-        } else {
-            setValues(dpUser, loc);
-        }
+function processMessage(req) {
+    req.timestamp = Number((req.timestamp + '0000000000000').substring(0, 13));
+    req.date = adapter.formatDate(new Date(req.timestamp), "YYYY-MM-DD hh:mm:ss");
+    adapter.log.debug('Processing location info: ' + JSON.stringify(req));
+    return replaceUser(req)
+            .then(r => checkPlaces(r))
+            .then(r => getGeocoding(r))
+            .then(r => storeLocation(r));
+}
 
-        cb();
-    });
+function replaceUser(req) {
+    req.user = req.user || 'Dummy';
+
+    for (var user of adapter.config.users) {
+        if (req.user.equalIgnoreCase(user.name)) {
+            req.user = user.replacement;
+            adapter.log.debug("Replacement for user found, skipping other checks");
+            break;
+        }
+    }
+
+    return new Promise(function(resolve, reject) { resolve(req); })
+}
+
+function storeLocation(req) {
+    // fix whitespaces in username
+    var dpUser = req.user.replace(/\s|\./g, '_');
+
+    // create object for user
+    adapter.setObjectNotExists(dpUser, { type: 'device', common: { id: dpUser, name: dpUser }, native: { name: dpUser, device: dpUser } });
+
+    // create objects for states
+    adapter.setObjectNotExists(dpUser + '.place', { type: 'state', common: { role: 'text', name: 'place', read: true, write: false, type: 'string' }, native: {} });
+    adapter.setObjectNotExists(dpUser + '.timestamp', { type: 'state', common: { role: 'value', name: 'timestamp', read: true, write: false, type: 'number' }, native: {} });
+    adapter.setObjectNotExists(dpUser + '.distance', { type: 'state', common: { role: 'value', name: 'distance', read: true, write: false, type: 'number' }, native: {} });
+    adapter.setObjectNotExists(dpUser + '.latitude', { type: 'state', common: { role: 'value.gps.latitude', name: 'latitude', read: true, write: false, type: 'number' }, native: {} });
+    adapter.setObjectNotExists(dpUser + '.longitude', { type: 'state', common: { role: 'value.gps.longitude', name: 'longitude', read: true, write: false, type: 'number' }, native: {} });
+    adapter.setObjectNotExists(dpUser + '.date', { type: 'state', common: { role: 'text', name: 'date', read: true, write: false, type: 'string' }, native: {} });
+    adapter.setObjectNotExists(dpUser + '.elevation', { type: 'state', common: { role: 'value', name: 'elevation', read: true, write: false, type: 'number' }, native: {} });
+    adapter.setObjectNotExists(dpUser + '.address', { type: 'state', common: { role: 'text', name: 'address', read: true, write: false, type: 'string' }, native: {} });
+    adapter.setObjectNotExists(dpUser + '.routeDistance', { type: 'state', common: { role: 'text', name: 'routeDistance', read: true, write: false, type: 'string' }, native: {} });
+    adapter.setObjectNotExists(dpUser + '.routeDuration', { type: 'state', common: { role: 'text', name: 'routeDuration', read: true, write: false, type: 'string' }, native: {} });
+    adapter.setObjectNotExists(dpUser + '.routeDurationWithTraffic', { type: 'state', common: { role: 'text', name: 'routeDurationWithTraffic', read: true, write: false, type: 'string' }, native: {} });
+
+    return setStates(dpUser, req);
+}
+
+function setStates(dpUser, req) {
+    return new Promise(function(resolve, reject) {
+        adapter.getState(dpUser + '.timestamp', function (err, state) {
+            if (err) {
+                reject(err);
+            } else {
+                if (state && state.val) {
+                    var oldTs = Number(state.val);
+                    if (oldTs < req.timestamp) {
+                        setValues(dpUser, req);
+                    } else {
+                        adapter.log.warn("Found a newer place for this user: skipping update");
+                    }
+                } else {
+                    setValues(dpUser, req);
+                }
+
+                resolve(req);
+            }
+        });
+    })
 }
 
 function setValues(dpUser, pos) {
@@ -247,9 +296,12 @@ function setValues(dpUser, pos) {
     setValue(dpUser, "place", pos.name);
     setValue(dpUser, "latitude", pos.latitude);
     setValue(dpUser, "longitude", pos.longitude);
-    setValue(dpUser, "distance", pos.homeDistance);
+    setValue(dpUser, "distance", pos.distance);
     setValue(dpUser, "address", pos.address);
     setValue(dpUser, "elevation", pos.elevation);
+    setValue(dpUser, "routeDistance", pos.routeDistance);
+    setValue(dpUser, "routeDuration", pos.routeDuration);
+    setValue(dpUser, "routeDurationWithTraffic", pos.routeDurationWithTraffic);
 
     analyzePersonsAtHome(pos);
 }
