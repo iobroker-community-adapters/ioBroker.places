@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "places",
-        "version": "0.6.0",
+        "version": "0.6.1",
         "news": {
+            "0.6.1": {
+                  "en": "Added handling for invalid route details",
+                  "de": "Zusätzliche Behandlung für ungültige Routendetails hinzugefügt",
+                  "ru": "Добавлена ​​обработка неверных данных маршрута",
+                  "pt": "Manipulação adicionada para detalhes de rota inválidos",
+                  "nl": "Afhandeling toegevoegd voor ongeldige routegegevens",
+                  "fr": "Gestion ajoutée pour les détails d'itinéraire incorrects",
+                  "it": "Aggiunta gestione per i dettagli del percorso non validi",
+                  "es": "Manejo adicional para detalles de ruta inválidos",
+                  "pl": "Dodano obsługę niepoprawnych szczegółów trasy"
+            },
             "0.6.0": {
                 "en": "Changed implementation to use promises\nAdded route details for driving home",
                 "de": "Implementierung geändert, um Promises zu verwenden\nAdded route details for driving home",

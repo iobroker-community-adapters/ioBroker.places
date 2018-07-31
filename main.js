@@ -93,6 +93,10 @@ adapter.on('stateChange', function (id, state) {
     }
 });
 
+Object.prototype.hasOwnProperty = function(property) {
+    return typeof this[property] !== 'undefined';
+};
+
 String.prototype.equalIgnoreCase = function(str) {
     return (str != null &&
     typeof str === 'string' &&
@@ -147,7 +151,8 @@ function getAddress(client, req) {
             if (err) {
                 adapter.log.error("Error while requesting address: " + JSON.stringify(err));
             } else {
-                req.address = response.json.results[0].formatted_address;
+                var obj = response.json.results[0];
+                req.address = obj.hasOwnProperty('formatted_address') ? obj.formatted_address : '';
             }
             resolve(req);
         })
@@ -166,7 +171,8 @@ function getElevation(client, req) {
             if (err) {
                 adapter.log.error("Error while requesting elevation: " + JSON.stringify(err));
             } else {
-                req.elevation = parseFloat(response.json.results[0].elevation).toFixed(1);
+                var obj = response.json.results[0];
+                req.elevation = obj.hasOwnProperty('elevation') ? parseFloat(obj.elevation).toFixed(1) : '';
             }
             resolve(req);
         })
@@ -189,9 +195,12 @@ function getRoute(client, req) {
                 adapter.log.error("Error while requesting route: " + JSON.stringify(err));
             } else {
                 adapter.log.debug("Received route response: " + JSON.stringify(response));
-                req.routeDistance               = response.json.rows[0].elements[0].distance.text;
-                req.routeDuration               = response.json.rows[0].elements[0].duration.text;
-                req.routeDurationWithTraffic    = response.json.rows[0].elements[0].duration_in_traffic.text
+                var obj = response.json.rows[0].elements[0];
+                if (obj.status == "OK") {
+                    req.routeDistance               = resp.hasOwnProperty('distance') ? resp.distance.text : '';
+                    req.routeDuration               = resp.hasOwnProperty('duration') ? resp.duration.text : '';
+                    req.routeDurationWithTraffic    = resp.hasOwnProperty('duration_in_traffic') ? resp.duration_in_traffic.text : '';
+                }
             }
             resolve(req);
         })

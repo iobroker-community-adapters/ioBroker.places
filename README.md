@@ -109,6 +109,8 @@ on({id: "telegram.0.communicate.requestRaw", change: "ne"}, function (obj) {
 ```
 
 ## Changelog
+### 0.6.1
+* (BasGo) Added handling for invalid route details
 ### 0.6.0
 * (BasGo) Changed implementation to use promises
 * (BasGo) Added route details for driving home
