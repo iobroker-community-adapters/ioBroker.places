@@ -4,7 +4,7 @@
 
 var utils       = require(__dirname + '/lib/utils');
 var geolib      = require('geolib');
-var googleMaps  = require('@google/maps')
+var googleMaps  = require('@google/maps');
 var adapter     = new utils.Adapter('places');
 
 adapter.on('unload', function (callback) {
@@ -93,10 +93,6 @@ adapter.on('stateChange', function (id, state) {
     }
 });
 
-Object.prototype.hasOwnProperty = function(property) {
-    return typeof this[property] !== 'undefined';
-};
-
 String.prototype.equalIgnoreCase = function(str) {
     return (str != null &&
     typeof str === 'string' &&
@@ -172,7 +168,7 @@ function getElevation(client, req) {
                 adapter.log.error("Error while requesting elevation: " + JSON.stringify(err));
             } else {
                 var obj = response.json.results[0];
-                req.elevation = obj.hasOwnProperty('elevation') ? parseFloat(obj.elevation).toFixed(1) : '';
+                req.elevation = obj.hasOwnProperty('elevation') ? Math.round(parseFloat(obj.elevation) * 10) / 10  : -1;
             }
             resolve(req);
         })
@@ -197,9 +193,9 @@ function getRoute(client, req) {
                 adapter.log.debug("Received route response: " + JSON.stringify(response));
                 var obj = response.json.rows[0].elements[0];
                 if (obj.status == "OK") {
-                    req.routeDistance               = resp.hasOwnProperty('distance') ? resp.distance.text : '';
-                    req.routeDuration               = resp.hasOwnProperty('duration') ? resp.duration.text : '';
-                    req.routeDurationWithTraffic    = resp.hasOwnProperty('duration_in_traffic') ? resp.duration_in_traffic.text : '';
+                    req.routeDistance               = obj.hasOwnProperty('distance') ? obj.distance.text : '';
+                    req.routeDuration               = obj.hasOwnProperty('duration') ? obj.duration.text : '';
+                    req.routeDurationWithTraffic    = obj.hasOwnProperty('duration_in_traffic') ? obj.duration_in_traffic.text : '';
                 }
             }
             resolve(req);
