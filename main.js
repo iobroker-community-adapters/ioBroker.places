@@ -30,7 +30,7 @@ adapter.on('message', function (obj) {
 
     processMessage(obj.message).then(function(response){
         if (obj.callback) {
-            adapter.log.debug('Found callback, returning result: ' + JSON.stringify(response));
+            adapter.log.info('Processed message, returning result: ' + JSON.stringify(response));
             adapter.sendTo(obj.from, obj.command, response, obj.callback);
         }
     });
@@ -65,16 +65,20 @@ adapter.on('ready', function () {
 
 adapter.on('stateChange', function (id, state) {
     if (id && state && !state.ack) {
-        adapter.log.silly('State changed: ' + JSON.stringify(id));
+        adapter.log.debug('State changed: ' + JSON.stringify(id));
 
         if (adapter.config.cloudSubscription.length > 0 && id.endsWith(adapter.config.cloudSubscription) && state.val.length > 0) {
             adapter.log.debug('Received request from ' + adapter.config.cloudSubscription + ': ' + JSON.stringify(state.val));
             var r = JSON.parse(state.val);
             if (r._type && r._type == 'location' && r.tid && r.lat && r.lon && r.tst) {
-                adapter.log.silly('Request structure equals OwnTracks structure');
+                adapter.log.debug('Request structure equals OwnTracks structure');
                 var req = { user: r.tid, latitude: r.lat, longitude: r.lon,timestamp: r.tst };
                 processMessage(req).then(function(response){
-                    adapter.log.debug('Processed OwnTracks request: ' + JSON.stringify(response));
+                    adapter.log.debug('Processed cloud request (identifier as OwnTracks): ' + JSON.stringify(response));
+                });
+            } else {
+                processMessage(r).then(function(response){
+                    adapter.log.info('Processed cloud request: ' + JSON.stringify(response));
                 });
             }
         } else {
@@ -150,7 +154,7 @@ function getAddress(client, req) {
             if (err) {
                 adapter.log.error('Error while requesting address: ' + JSON.stringify(err));
             } else {
-                adapter.log.silly('Received geocode response: ' + JSON.stringify(response));
+                adapter.log.debug('Received geocode response: ' + JSON.stringify(response));
                 var obj = response.json.results[0];
                 req.address = obj.hasOwnProperty('formatted_address') ? obj.formatted_address : '';
                 adapter.log.debug('Retrieved address -> address: ' + req.address);
@@ -173,7 +177,7 @@ function getElevation(client, req) {
             if (err) {
                 adapter.log.error('Error while requesting elevation: ' + JSON.stringify(err));
             } else {
-                adapter.log.silly('Received elevation response: ' + JSON.stringify(response));
+                adapter.log.debug('Received elevation response: ' + JSON.stringify(response));
                 var obj = response.json.results[0];
                 req.elevation = obj.hasOwnProperty('elevation') ? Math.round(parseFloat(obj.elevation) * 10) / 10  : -1;
                 adapter.log.debug('Retrieved elevation -> elevation: ' + req.elevation);
@@ -199,7 +203,7 @@ function getRoute(client, req) {
             if (err) {
                 adapter.log.error('Error while requesting route: ' + JSON.stringify(err));
             } else {
-                adapter.log.silly('Received route response: ' + JSON.stringify(response));
+                adapter.log.debug('Received route response: ' + JSON.stringify(response));
                 var obj = response.json.rows[0].elements[0];
                 if (obj.status == 'OK') {
                     req.routeDistance               = obj.hasOwnProperty('distance') ? obj.distance.text : '';
@@ -223,7 +227,7 @@ function checkPlaces(req) {
         req.name = adapter.config.homeName || 'Home';
     } else {
         for (var place of adapter.config.places) {
-            adapter.log.silly('Checking if position is at "' + place.name + '" (radius: ' + place.radius + 'm)');
+            adapter.log.debug('Checking if position is at "' + place.name + '" (radius: ' + place.radius + 'm)');
             var isThere = geolib.isPointInCircle(req, place, place.radius);
             if (isThere) {
                 req.name = place.name;
@@ -251,7 +255,7 @@ function replaceUser(req) {
 
     return new Promise(function(resolve, reject) {
         for (var user of adapter.config.users) {
-            adapter.log.silly('Checking if user "' + req.user + '" should be replaced with "' + user + '"');
+            adapter.log.debug('Checking if user "' + req.user + '" should be replaced with "' + user.name + '"');
             if (req.user.equalIgnoreCase(user.name)) {
                 req.user = user.replacement;
                 adapter.log.debug('Replacement for user found, skipping other checks');
@@ -310,7 +314,7 @@ function setStates(dpUser, req) {
 }
 
 function setValues(dpUser, pos) {
-    adapter.log.silly('Setting values for user ' + dpUser);
+    adapter.log.debug('Setting values for user ' + dpUser);
     setValue(dpUser, 'timestamp', pos.timestamp);
     setValue(dpUser, 'date', pos.date);
     setValue(dpUser, 'place', pos.name);
@@ -337,7 +341,7 @@ function setValue(user, key, value) {
 function analyzePersonsAtHome(loc) {
     var homePersons;
 
-    adapter.log.silly('Analyzizng if person arrived/left home');
+    adapter.log.debug('Updating persons at home');
 
     adapter.getState('personsAtHome', function (err, obj) {
         if (err) return;
@@ -347,9 +351,11 @@ function analyzePersonsAtHome(loc) {
         if (idx < 0 && loc.atHome) {
             homePersons.push(loc.user);
             adapter.setState('personsAtHome', JSON.stringify(homePersons), false);
+            adapter.log.debug('Added person at home');
         } else if (idx >= 0 && !loc.atHome) {
             homePersons.splice(idx, 1);
             adapter.setState('personsAtHome', JSON.stringify(homePersons), false);
+            adapter.log.debug('Removed person from home');
         }
     });
 }
