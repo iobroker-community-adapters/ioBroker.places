@@ -1,5 +1,7 @@
-/* jshint -W097 */// jshint strict:false
-/*jslint node: true */
+/* jshint -W097 */
+/* jshint strict:false  */
+/* jshint esversion: 6  */
+/* jslint node: true */
 'use strict';
 
 var utils       = require(__dirname + '/lib/utils');
@@ -22,7 +24,7 @@ adapter.on('message', function (obj) {
     }
 
     if (!obj.message.user || !obj.message.latitude || !obj.message.longitude || !obj.message.timestamp) {
-        adapter.log.warn('Ignoring incomplete message!')
+        adapter.log.warn('Ignoring incomplete message!');
         return;
     }
 
@@ -37,7 +39,7 @@ adapter.on('message', function (obj) {
 adapter.on('ready', function () {
     adapter.getForeignObject('system.config', null, function (err, obj) {
         if (err) {
-            adapter.log.info("Adapter could not read latitude/longitude from system config!");
+            adapter.log.info('Adapter could not read latitude/longitude from system config!');
         } else {
             adapter.config.latitude             = obj.common.latitude;
             adapter.config.longitude            = obj.common.longitude;
@@ -51,8 +53,8 @@ adapter.on('ready', function () {
             adapter.config.cloudService         = adapter.config.cloudService || '';
 
             if (adapter.config.cloudInstance !== '' && adapter.config.cloudService !== '') {
-                adapter.config.cloudSubscription = adapter.config.cloudInstance.replace('system.adapter.', '') + ".services.custom_" + adapter.config.cloudService;
-                adapter.log.debug("Subscribed to cloud: " + adapter.config.cloudSubscription);
+                adapter.config.cloudSubscription = adapter.config.cloudInstance.replace('system.adapter.', '') + '.services.custom_' + adapter.config.cloudService;
+                adapter.log.debug('Subscribed to cloud service: ' + adapter.config.cloudSubscription);
                 adapter.subscribeForeignStates(adapter.config.cloudSubscription);
             }
             adapter.subscribeStates('*');
@@ -63,15 +65,16 @@ adapter.on('ready', function () {
 
 adapter.on('stateChange', function (id, state) {
     if (id && state && !state.ack) {
-        adapter.log.debug('State changed: ' + JSON.stringify(id));
+        adapter.log.silly('State changed: ' + JSON.stringify(id));
 
-        if (adapter.config.cloudSubscription.length > 0 && id.endsWith(adapter.config.cloudSubscription)) {
-            adapter.log.debug("Received request from " + adapter.config.cloudSubscription + ": " + JSON.stringify(state.val));
+        if (adapter.config.cloudSubscription.length > 0 && id.endsWith(adapter.config.cloudSubscription) && state.val.length > 0) {
+            adapter.log.debug('Received request from ' + adapter.config.cloudSubscription + ': ' + JSON.stringify(state.val));
             var r = JSON.parse(state.val);
             if (r._type && r._type == 'location' && r.tid && r.lat && r.lon && r.tst) {
+                adapter.log.silly('Request structure equals OwnTracks structure');
                 var req = { user: r.tid, latitude: r.lat, longitude: r.lon,timestamp: r.tst };
                 processMessage(req).then(function(response){
-                    adapter.log.debug("Processed OwnTracks request: " + JSON.stringify(response));
+                    adapter.log.debug('Processed OwnTracks request: ' + JSON.stringify(response));
                 });
             }
         } else {
@@ -97,7 +100,7 @@ String.prototype.equalIgnoreCase = function(str) {
     return (str != null &&
     typeof str === 'string' &&
     this.toUpperCase() === str.toUpperCase());
-}
+};
 
 if (!String.prototype.endsWith) {
     String.prototype.endsWith = function(searchString, position) {
@@ -112,7 +115,7 @@ if (!String.prototype.endsWith) {
   }
 
 function main() {
-    adapter.log.debug("Current configuration: " + JSON.stringify(adapter.config));
+    adapter.log.debug('Current configuration: ' + JSON.stringify(adapter.config));
     checkInstanceObjects();
 }
 
@@ -127,7 +130,7 @@ function getGeocoding(req) {
         adapter.log.debug('Skipping geocoding (either deactivated by configuration or invalid API key)');
         return new Promise(function(resolve, reject) {
             resolve(req);
-        })
+        });
     }
 
     var client = googleMaps.createClient({
@@ -145,14 +148,17 @@ function getAddress(client, req) {
     return new Promise(function(resolve, reject) {
         client.reverseGeocode(options, function (err, response) {
             if (err) {
-                adapter.log.error("Error while requesting address: " + JSON.stringify(err));
+                adapter.log.error('Error while requesting address: ' + JSON.stringify(err));
             } else {
+                adapter.log.silly('Received geocode response: ' + JSON.stringify(response));
                 var obj = response.json.results[0];
                 req.address = obj.hasOwnProperty('formatted_address') ? obj.formatted_address : '';
+                adapter.log.debug('Retrieved address -> address: ' + req.address);
             }
+
             resolve(req);
-        })
-    })
+        });
+    });
 }
 
 function getElevation(client, req) {
@@ -165,14 +171,17 @@ function getElevation(client, req) {
     return new Promise(function(resolve, reject) {
         client.elevation(options, function (err, response) {
             if (err) {
-                adapter.log.error("Error while requesting elevation: " + JSON.stringify(err));
+                adapter.log.error('Error while requesting elevation: ' + JSON.stringify(err));
             } else {
+                adapter.log.silly('Received elevation response: ' + JSON.stringify(response));
                 var obj = response.json.results[0];
                 req.elevation = obj.hasOwnProperty('elevation') ? Math.round(parseFloat(obj.elevation) * 10) / 10  : -1;
+                adapter.log.debug('Retrieved elevation -> elevation: ' + req.elevation);
             }
+
             resolve(req);
-        })
-    })
+        });
+    });
 }
 
 function getRoute(client, req) {
@@ -188,19 +197,21 @@ function getRoute(client, req) {
     return new Promise(function(resolve, reject) {
         client.distanceMatrix(options, function (err, response) {
             if (err) {
-                adapter.log.error("Error while requesting route: " + JSON.stringify(err));
+                adapter.log.error('Error while requesting route: ' + JSON.stringify(err));
             } else {
-                adapter.log.debug("Received route response: " + JSON.stringify(response));
+                adapter.log.silly('Received route response: ' + JSON.stringify(response));
                 var obj = response.json.rows[0].elements[0];
-                if (obj.status == "OK") {
+                if (obj.status == 'OK') {
                     req.routeDistance               = obj.hasOwnProperty('distance') ? obj.distance.text : '';
                     req.routeDuration               = obj.hasOwnProperty('duration') ? obj.duration.text : '';
                     req.routeDurationWithTraffic    = obj.hasOwnProperty('duration_in_traffic') ? obj.duration_in_traffic.text : '';
+                    adapter.log.debug('Retrieved routing details -> routeDistance: ' + req.routeDistance + ', routeDuration: ' + req.routeDuration + ', routeDurationWithTraffix: ' + req.routeDurationWithTraffic);
                 }
             }
+
             resolve(req);
-        })
-    })
+        });
+    });
 }
 
 function checkPlaces(req) {
@@ -212,23 +223,23 @@ function checkPlaces(req) {
         req.name = adapter.config.homeName || 'Home';
     } else {
         for (var place of adapter.config.places) {
-            adapter.log.debug("Checking if position is at '" + place.name + "' (radius: " + place.radius + "m)");
+            adapter.log.silly('Checking if position is at "' + place.name + '" (radius: ' + place.radius + 'm)');
             var isThere = geolib.isPointInCircle(req, place, place.radius);
             if (isThere) {
                 req.name = place.name;
-                adapter.log.debug("Place found, skipping other checks");
+                adapter.log.debug('Place found, skipping other checks');
                 break;
             }
         }
     }
 
-    return new Promise(function(resolve, reject) { resolve(req); })
+    return new Promise(function(resolve, reject) { resolve(req); });
 }
 
 function processMessage(req) {
     req.timestamp = Number((req.timestamp + '0000000000000').substring(0, 13));
-    req.date = adapter.formatDate(new Date(req.timestamp), "YYYY-MM-DD hh:mm:ss");
-    adapter.log.debug('Processing location info: ' + JSON.stringify(req));
+    req.date = adapter.formatDate(new Date(req.timestamp), 'YYYY-MM-DD hh:mm:ss');
+    adapter.log.debug('Processing message: ' + JSON.stringify(req));
     return replaceUser(req)
             .then(r => checkPlaces(r))
             .then(r => getGeocoding(r))
@@ -238,15 +249,18 @@ function processMessage(req) {
 function replaceUser(req) {
     req.user = req.user || 'Dummy';
 
-    for (var user of adapter.config.users) {
-        if (req.user.equalIgnoreCase(user.name)) {
-            req.user = user.replacement;
-            adapter.log.debug("Replacement for user found, skipping other checks");
-            break;
+    return new Promise(function(resolve, reject) {
+        for (var user of adapter.config.users) {
+            adapter.log.silly('Checking if user "' + req.user + '" should be replaced with "' + user + '"');
+            if (req.user.equalIgnoreCase(user.name)) {
+                req.user = user.replacement;
+                adapter.log.debug('Replacement for user found, skipping other checks');
+                break;
+            }
         }
-    }
 
-    return new Promise(function(resolve, reject) { resolve(req); })
+        resolve(req);
+    });
 }
 
 function storeLocation(req) {
@@ -283,7 +297,7 @@ function setStates(dpUser, req) {
                     if (oldTs < req.timestamp) {
                         setValues(dpUser, req);
                     } else {
-                        adapter.log.warn("Found a newer place for this user: skipping update");
+                        adapter.log.warn('Found a newer place for this user: skipping update');
                     }
                 } else {
                     setValues(dpUser, req);
@@ -292,35 +306,38 @@ function setStates(dpUser, req) {
                 resolve(req);
             }
         });
-    })
+    });
 }
 
 function setValues(dpUser, pos) {
-    setValue(dpUser, "timestamp", pos.timestamp);
-    setValue(dpUser, "date", pos.date);
-    setValue(dpUser, "place", pos.name);
-    setValue(dpUser, "latitude", pos.latitude);
-    setValue(dpUser, "longitude", pos.longitude);
-    setValue(dpUser, "distance", pos.distance);
-    setValue(dpUser, "address", pos.address);
-    setValue(dpUser, "elevation", pos.elevation);
-    setValue(dpUser, "routeDistance", pos.routeDistance);
-    setValue(dpUser, "routeDuration", pos.routeDuration);
-    setValue(dpUser, "routeDurationWithTraffic", pos.routeDurationWithTraffic);
+    adapter.log.silly('Setting values for user ' + dpUser);
+    setValue(dpUser, 'timestamp', pos.timestamp);
+    setValue(dpUser, 'date', pos.date);
+    setValue(dpUser, 'place', pos.name);
+    setValue(dpUser, 'latitude', pos.latitude);
+    setValue(dpUser, 'longitude', pos.longitude);
+    setValue(dpUser, 'distance', pos.distance);
+    setValue(dpUser, 'address', pos.address);
+    setValue(dpUser, 'elevation', pos.elevation);
+    setValue(dpUser, 'routeDistance', pos.routeDistance);
+    setValue(dpUser, 'routeDuration', pos.routeDuration);
+    setValue(dpUser, 'routeDurationWithTraffic', pos.routeDurationWithTraffic);
 
     analyzePersonsAtHome(pos);
 }
 
 function setValue(user, key, value) {
-    adapter.setState(user + "." + key, { val: value, ack: true }, function (err, obj) {
+    adapter.setState(user + '.' + key, { val: value, ack: true }, function (err, obj) {
         if (err) {
-            adapter.log.warn("Error while setting value '" + value + "' for '" + user + "." + key + "' -> " + err);
+            adapter.log.warn('Error while setting value "' + value + '" for "' + user + '.' + key + '" -> ' + err);
         }
     });
 }
 
 function analyzePersonsAtHome(loc) {
     var homePersons;
+
+    adapter.log.silly('Analyzizng if person arrived/left home');
 
     adapter.getState('personsAtHome', function (err, obj) {
         if (err) return;
