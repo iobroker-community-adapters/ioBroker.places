@@ -1,5 +1,5 @@
 ![Logo](admin/places.png)
-ioBroker.places
+# ioBroker.places
 =================
 [![NPM version](https://img.shields.io/npm/v/iobroker.places.svg)](https://www.npmjs.com/package/iobroker.places)
 [![Dependency Status](https://img.shields.io/david/basgo/iobroker.places.svg)](https://david-dm.org/basgo/iobroker.places)
@@ -77,21 +77,21 @@ The following block shows how response messages look like. For each value the io
 ```
 
 ## Sample: OwnTracks + ioBroker.cloud (Pro) + ioBroker.places
-#### 1. Configure iobroker.cloud
+### 1. Configure iobroker.cloud
 Add a custom services **xyz** under **White list for Services**.
 
-#### 2. Configure OwnTracks mobile apps
+### 2. Configure OwnTracks mobile apps
 Change the mode to **HTTP Private** and use the following address as **Host** : https://iobroker.pro/service/custom_xyz/<user-app-key>
 
-#### 3. Configure iobroker.places
+### 3. Configure iobroker.places
 On the tab Integration you have to select the instance of the cloud adapter and **xyz** as service. The adapter will listen to incoming requests for the service and start the processing.
 
 
 ## Sample: Telegram + ioBroker.telegram + ioBroker.places
-#### 1. Configure iobroker.telegram
+### 1. Configure iobroker.telegram
 Enable the option to **store raw requests**.
 
-#### 2. Create script (ioBroker.javascript)
+### 2. Create script (ioBroker.javascript)
 Create a short script with a subscription to the raw request, f.e. from **telegram.0.communicate.requestRaw**, and send a new request object to iobroker.places (or an instance of it):
 
 ```javascript
@@ -109,40 +109,56 @@ on({id: "telegram.0.communicate.requestRaw", change: "ne"}, function (obj) {
 ```
 
 ## Changelog
+### 0.6.2 (2018-12-06)
+* (bluefox) Error with blockly was fixed
+
 ### 0.6.1
 * (BasGo) Added handling for invalid route details
+
 ### 0.6.0
 * (BasGo) Changed implementation to use promises
 * (BasGo) Added route details for driving home
+
 ### 0.5.1
 * (BasGo) Extended help texts
+
 ### 0.5.0
 * (BasGo) Added optional subscription for cloud adapter
+
 ### 0.4.2
 * (BasGo) UI fixes
+
 ### 0.4.1
 * (BasGo) Configuration dialog extended
+
 ### 0.4.0
 * (BasGo) Google Maps can be used for configuration
 * (BasGo) Geocoding can be activated
+
 ### 0.3.0
 * (BasGo) Added user mappings
+
 ### 0.2.3
 * (BasGo) Optimized state handling
 * (BasGo) Added option to clear array
+
 ### 0.2.2
 * (BasGo) Added check for newer entries
+
 ### 0.2.1
 * (BasGo) Extended configuration
+
 ### 0.2.0
 * (BasGo) Materialized admin page
+
 ### 0.1.1
 * (BasGo) Fixed some smaller issues
+
 ### 0.1.0
 * (BasGo) Initial release
 
-# License
+## License
 This adapter is licensed under the [MIT license](../blob/master/LICENSE) which is part of this repository.
 
-# Credits
+## Credits
 The implementation is partly based on dschaedls [ioBroker.geofency](https://github.com/ioBroker/ioBroker.geofency) adapter. The logo has been taken from [Free Icons PNG](http://www.freeiconspng.com/images/maps-icon) and has been modified to have a transparent background.
