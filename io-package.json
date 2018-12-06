@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "places",
-        "version": "0.6.1",
+        "version": "0.6.2",
         "news": {
+            "0.6.2": {
+                "en": "Error with blockly was fixed",
+                "de": "Fehler beim blockly wurde behoben",
+                "ru": "Ошибка с blockly была исправлена",
+                "pt": "Erro com blockly foi corrigido",
+                "nl": "Fout met blockly is verholpen",
+                "fr": "Erreur avec blockly a été corrigé",
+                "it": "È stato corretto l'errore con blockly",
+                "es": "Se solucionó el error con blockly",
+                "pl": "Naprawiono błąd z blockly"
+            },
             "0.6.1": {
                   "en": "Added handling for invalid route details",
                   "de": "Zusätzliche Behandlung für ungültige Routendetails hinzugefügt",
@@ -209,7 +220,6 @@
         "subscribe": "messagebox",
         "stopBeforeUpdate": true,
         "materialize": true,
-        "blockly": true,
         "config": {
             "minWidth": 800,
             "width": 1224,
