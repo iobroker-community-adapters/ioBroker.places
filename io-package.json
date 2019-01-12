@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "places",
-        "version": "0.6.2",
+        "version": "0.7.0",
         "news": {
+            "0.7.0": {
+                "en": "Added compact mode, replaced integration of iobroker.cloud with iobroker.iot",
+                "de": "Kompaktmodus hinzugefügt, Integration von iobroker.cloud durch iobroker.iot ersetzt",
+                "ru": "Добавлен компактный режим, заменена интеграция iobroker.cloud с iobroker.iot",
+                "pt": "Adicionado o modo compacto, substituiu a integração do iobroker.cloud com iobroker.iot",
+                "nl": "Toegevoegd compacte modus, vervangen integratie van iobroker.cloud met iobroker.iot",
+                "fr": "Ajout du mode compact, intégration de iobroker.cloud remplacée par iobroker.iot",
+                "it": "Aggiunta modalità compatta, sostituzione dell'integrazione di iobroker.cloud con iobroker.iot",
+                "es": "Se agregó el modo compacto, se reemplazó la integración de iobroker.cloud con iobroker.iot",
+                "pl": "Dodano tryb kompaktowy, zastąpił integrację iobroker.cloud z iobroker.iot",
+            },
             "0.6.2": {
                 "en": "Error with blockly was fixed",
                 "de": "Fehler beim blockly wurde behoben",
@@ -193,12 +204,13 @@
             "pl": "Adapter do analizy informacji o lokalizacji"
         },
         "authors": [
-            "Bastian Gogolin <basgo@gmx.de>"
+            "BasGo <basgo@gmx.de>"
         ],
         "platform": "Javascript/Node.js",
         "mode": "daemon",
         "icon": "places.png",
         "extIcon": "https://raw.githubusercontent.com/BasGo/ioBroker.places/master/admin/places.png",
+        "compact": true,
         "readme": "https://github.com/BasGo/ioBroker.places/blob/master/README.md",
         "license": "MIT",
         "npmLibs": [],

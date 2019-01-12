@@ -1,8 +1,8 @@
 {
   "name": "iobroker.places",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "Places adapter for ioBroker",
-  "author": "Bastian Gogolin <basgo@gmx.de>",
+  "author": "BasGo <basgo@gmx.de>",
   "contributors": [],
   "homepage": "https://github.com/BasGo/ioBroker.places",
   "license": "MIT",

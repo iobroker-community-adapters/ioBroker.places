@@ -111,7 +111,7 @@
         }
 
         function setCloudConfiguration() {
-            getAdapterInstances('cloud', function (instances) {
+            getAdapterInstances('iot', function (instances) {
                 var instanceText    =  '<option value="">' + _('NO_INSTANCE') + '</option>';
                 var serviceText     =  '<option value="">' + _('NO_SERVICE') + '</option>';
                 for (var l = 0; l < instances.length; l++) {
@@ -134,13 +134,13 @@
             var cloudInstance = $("#cloudInstance option:selected").attr('value') || '';
             var cloudService = $("#cloudService option:selected").attr('value') || '';
             if (config.cloudInstance !== cloudInstance) {
-                console.log("Cloud-Instance changed to: " + JSON.stringify(cloudInstance));
+                console.log("IOT-Instance changed to: " + JSON.stringify(cloudInstance));
                 config.cloudInstance = cloudInstance;
                 setCloudConfiguration();
             }
 
             if (config.cloudService !== cloudService) {
-                console.log("Cloud-Service changed to: " + JSON.stringify(cloudService));
+                console.log("IOT-Service changed to: " + JSON.stringify(cloudService));
                 config.cloudService = cloudService;
                 setCloudConfiguration();
             }

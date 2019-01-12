@@ -4,101 +4,107 @@
 /* jslint node: true */
 'use strict';
 
-var utils       = require(__dirname + '/lib/utils');
+const utils = require('@iobroker/adapter-core');
 var geolib      = require('geolib');
 var googleMaps  = require('@google/maps');
-var adapter     = new utils.Adapter('places');
+const adapterName = require('./package.json').name.split('.').pop();
 
-adapter.on('unload', function (callback) {
-    try {
-        callback();
-    } catch (e) {
-        callback();
-    }
-});
-
-adapter.on('message', function (obj) {
-    if (typeof obj !== 'object' || !obj.message || obj.command !== 'send') {
-        adapter.log.warn('Ignoring invalid message!');
-        return;
-    }
-
-    if (!obj.message.user || !obj.message.latitude || !obj.message.longitude || !obj.message.timestamp) {
-        adapter.log.warn('Ignoring incomplete message!');
-        return;
-    }
-
-    processMessage(obj.message).then(function(response){
-        if (obj.callback) {
-            adapter.log.info('Processed message, returning result: ' + JSON.stringify(response));
-            adapter.sendTo(obj.from, obj.command, response, obj.callback);
+let adapter;
+function startAdapter(options) {
+    options = options || {};
+    Object.assign(options,{
+        name:  adapterName,
+        stateChange:  function (id, state) {
+            if (id && state && !state.ack) {
+                adapter.log.debug('State changed: ' + JSON.stringify(id));
+                if (adapter.config.cloudSubscription.length > 0 && id.endsWith(adapter.config.cloudSubscription) && state.val.length > 0) {
+                    adapter.log.debug('Received request from ' + adapter.config.cloudSubscription + ': ' + JSON.stringify(state.val));
+                    var r = JSON.parse(state.val);
+                    if (r._type && r._type == 'location' && r.tid && r.lat && r.lon && r.tst) {
+                        adapter.log.debug('Request structure equals OwnTracks structure');
+                        var req = { user: r.tid, latitude: r.lat, longitude: r.lon,timestamp: r.tst };
+                        processMessage(req).then(function(response){
+                            adapter.log.debug('Processed cloud request (identifier as OwnTracks): ' + JSON.stringify(response));
+                        });
+                    } else {
+                        processMessage(r).then(function(response){
+                            adapter.log.info('Processed cloud request: ' + JSON.stringify(response));
+                        });
+                    }
+                } else {
+                    id = id.substring(adapter.namespace.length + 1);
+                    switch (id) {
+                        case 'clearHome':
+                            adapter.setState('personsAtHome', JSON.stringify([]), false);
+                            break;
+                        case 'personsAtHome':
+                            var homePersons = state.val ? JSON.parse(state.val) : [];
+                            adapter.setState('numberAtHome', homePersons.length, true);
+                            adapter.setState('anybodyAtHome', homePersons.length > 0, true);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        },
+        unload: function (callback) {
+            try {
+                callback();
+            } catch (e) {
+                callback();
+            }
+        },
+        message: function (obj) {
+            if (typeof obj !== 'object' || !obj.message || obj.command !== 'send') {
+                adapter.log.warn('Ignoring invalid message!');
+                return;
+            }
+        
+            if (!obj.message.user || !obj.message.latitude || !obj.message.longitude || !obj.message.timestamp) {
+                adapter.log.warn('Ignoring incomplete message!');
+                return;
+            }
+        
+            processMessage(obj.message).then(function(response){
+                if (obj.callback) {
+                    adapter.log.info('Processed message, returning result: ' + JSON.stringify(response));
+                    adapter.sendTo(obj.from, obj.command, response, obj.callback);
+                }
+            });
+        },
+        ready: function () {
+            adapter.getForeignObject('system.config', null, function (err, obj) {
+                if (err) {
+                    adapter.log.info('Adapter could not read latitude/longitude from system config!');
+                } else {
+                    adapter.config.latitude             = obj.common.latitude;
+                    adapter.config.longitude            = obj.common.longitude;
+                    adapter.config.language             = obj.common.language;
+                    adapter.config.places               = adapter.config.places || [];
+                    adapter.config.users                = adapter.config.users || [];
+                    adapter.config.googleApiKey         = adapter.config.googleApiKey || '';
+                    adapter.config.useGeocoding         = adapter.config.useGeocoding || false;
+                    adapter.config.cloudSubscription    = '';
+                    adapter.config.cloudInstance        = adapter.config.cloudInstance || '';
+                    adapter.config.cloudService         = adapter.config.cloudService || '';
+        
+                    if (adapter.config.cloudInstance !== '' && adapter.config.cloudService !== '') {
+                        adapter.config.cloudSubscription = adapter.config.cloudInstance.replace('system.adapter.', '') + '.services.custom_' + adapter.config.cloudService;
+                        adapter.log.debug('Subscribed to cloud service: ' + adapter.config.cloudSubscription);
+                        adapter.subscribeForeignStates(adapter.config.cloudSubscription);
+                    }
+                    adapter.subscribeStates('*');
+                    main();
+                }
+            });
         }
     });
-});
 
-adapter.on('ready', function () {
-    adapter.getForeignObject('system.config', null, function (err, obj) {
-        if (err) {
-            adapter.log.info('Adapter could not read latitude/longitude from system config!');
-        } else {
-            adapter.config.latitude             = obj.common.latitude;
-            adapter.config.longitude            = obj.common.longitude;
-            adapter.config.language             = obj.common.language;
-            adapter.config.places               = adapter.config.places || [];
-            adapter.config.users                = adapter.config.users || [];
-            adapter.config.googleApiKey         = adapter.config.googleApiKey || '';
-            adapter.config.useGeocoding         = adapter.config.useGeocoding || false;
-            adapter.config.cloudSubscription    = '';
-            adapter.config.cloudInstance        = adapter.config.cloudInstance || '';
-            adapter.config.cloudService         = adapter.config.cloudService || '';
+    adapter = new utils.Adapter(options);
 
-            if (adapter.config.cloudInstance !== '' && adapter.config.cloudService !== '') {
-                adapter.config.cloudSubscription = adapter.config.cloudInstance.replace('system.adapter.', '') + '.services.custom_' + adapter.config.cloudService;
-                adapter.log.debug('Subscribed to cloud service: ' + adapter.config.cloudSubscription);
-                adapter.subscribeForeignStates(adapter.config.cloudSubscription);
-            }
-            adapter.subscribeStates('*');
-            main();
-        }
-    });
-});
-
-adapter.on('stateChange', function (id, state) {
-    if (id && state && !state.ack) {
-        adapter.log.debug('State changed: ' + JSON.stringify(id));
-
-        if (adapter.config.cloudSubscription.length > 0 && id.endsWith(adapter.config.cloudSubscription) && state.val.length > 0) {
-            adapter.log.debug('Received request from ' + adapter.config.cloudSubscription + ': ' + JSON.stringify(state.val));
-            var r = JSON.parse(state.val);
-            if (r._type && r._type == 'location' && r.tid && r.lat && r.lon && r.tst) {
-                adapter.log.debug('Request structure equals OwnTracks structure');
-                var req = { user: r.tid, latitude: r.lat, longitude: r.lon,timestamp: r.tst };
-                processMessage(req).then(function(response){
-                    adapter.log.debug('Processed cloud request (identifier as OwnTracks): ' + JSON.stringify(response));
-                });
-            } else {
-                processMessage(r).then(function(response){
-                    adapter.log.info('Processed cloud request: ' + JSON.stringify(response));
-                });
-            }
-        } else {
-            id = id.substring(adapter.namespace.length + 1);
-
-            switch (id) {
-                case 'clearHome':
-                    adapter.setState('personsAtHome', JSON.stringify([]), false);
-                    break;
-                case 'personsAtHome':
-                    var homePersons = state.val ? JSON.parse(state.val) : [];
-                    adapter.setState('numberAtHome', homePersons.length, true);
-                    adapter.setState('anybodyAtHome', homePersons.length > 0, true);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-});
+    return adapter;
+}
 
 String.prototype.equalIgnoreCase = function(str) {
     return (str != null &&
@@ -369,3 +375,11 @@ function checkInstanceObjects() {
         adapter.setObjectNotExists(objs.instanceObjects[i]._id, objs.instanceObjects[i]);
     }
 }
+
+// If started as allInOne/compact mode => return function to create instance
+if (module && module.parent) {
+    module.exports = startAdapter;
+} else {
+    // or start the instance directly
+    startAdapter();
+} 
