@@ -76,8 +76,8 @@ The following block shows how response messages look like. For each value the io
 }
 ```
 
-## Sample: OwnTracks + ioBroker.cloud (Pro) + ioBroker.places
-### 1. Configure iobroker.cloud
+## Sample: OwnTracks + ioBroker.iot + ioBroker.places
+### 1. Configure iobroker.iot
 Add a custom services **xyz** under **White list for Services**.
 
 ### 2. Configure OwnTracks mobile apps
@@ -109,6 +109,10 @@ on({id: "telegram.0.communicate.requestRaw", change: "ne"}, function (obj) {
 ```
 
 ## Changelog
+
+### 0.7.0 (2019-01-12)
+* (BasGo) Added compact mode, replaced integration of iobroker.cloud with iobroker.iot
+
 ### 0.6.2 (2018-12-06)
 * (bluefox) Error with blockly was fixed
 
