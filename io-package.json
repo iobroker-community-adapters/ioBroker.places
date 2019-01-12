@@ -12,7 +12,7 @@
                 "fr": "Ajout du mode compact, intégration de iobroker.cloud remplacée par iobroker.iot",
                 "it": "Aggiunta modalità compatta, sostituzione dell'integrazione di iobroker.cloud con iobroker.iot",
                 "es": "Se agregó el modo compacto, se reemplazó la integración de iobroker.cloud con iobroker.iot",
-                "pl": "Dodano tryb kompaktowy, zastąpił integrację iobroker.cloud z iobroker.iot",
+                "pl": "Dodano tryb kompaktowy, zastąpił integrację iobroker.cloud z iobroker.iot"
             },
             "0.6.2": {
                 "en": "Error with blockly was fixed",
