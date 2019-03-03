@@ -6,7 +6,16 @@
   "contributors": [],
   "homepage": "https://github.com/BasGo/ioBroker.places",
   "license": "MIT",
-  "keywords": ["iobroker", "geofence", "egigeozone", "geofency", "locations", "places", "coordinates", "gps"],
+  "keywords": [
+    "iobroker",
+    "geofence",
+    "egigeozone",
+    "geofency",
+    "locations",
+    "places",
+    "coordinates",
+    "gps"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/BasGo/ioBroker.places"
@@ -20,15 +29,16 @@
   },
   "devDependencies": {
     "gulp": "^3.9.1",
-    "mocha": "^5.0.4",
-    "chai": "^4.1.2"
+    "mocha": "^6.0.2",
+    "chai": "^4.1.2",
+    "@iobroker/adapter-core": "^1.0.3"
   },
   "bugs": {
     "url": "https://github.com/BasGo/ioBroker.places/issues"
   },
   "main": "main.js",
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha"
+    "test": "node node_modules/mocha/bin/mocha --exit"
   },
   "readmeFilename": "README.md"
 }
