@@ -1,6 +1,6 @@
 ![Logo](admin/places.png)
 # ioBroker.places
-
+![Number of Installations](http://iobroker.live/badges/places-installed.svg) ![Number of Installations](http://iobroker.live/badges/places-stable.svg) 
 [![NPM version](https://img.shields.io/npm/v/iobroker.places.svg)](https://www.npmjs.com/package/iobroker.places)
 [![Dependency Status](https://img.shields.io/david/basgo/iobroker.places.svg)](https://david-dm.org/basgo/iobroker.places)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.places.svg)](https://www.npmjs.com/package/iobroker.places)
