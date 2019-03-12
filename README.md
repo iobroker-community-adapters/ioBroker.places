@@ -161,8 +161,11 @@ on({id: "telegram.0.communicate.requestRaw", change: "ne"}, function (obj) {
 ### 0.1.0
 * (BasGo) Initial release
 
-## License
-This adapter is licensed under the [MIT license](../blob/master/LICENSE) which is part of this repository.
-
 ## Credits
 The implementation is partly based on dschaedls [ioBroker.geofency](https://github.com/ioBroker/ioBroker.geofency) adapter. The logo has been taken from [Free Icons PNG](http://www.freeiconspng.com/images/maps-icon) and has been modified to have a transparent background.
+
+## License
+
+This adapter is licensed under the [MIT License](../blob/master/LICENSE) which is part of this repository.
+
+Copyright (c) 2018-2019 BasGo <basgo@gmx.de>
