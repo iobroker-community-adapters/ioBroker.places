@@ -16,6 +16,18 @@
             "name": "Attach to process",
             "address": "127.0.0.1",
             "port": 5858
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Mocha (Unit test)",
+            "program": "${workspaceFolder}\\node_modules\\mocha\\bin\\_mocha",
+            "args": [
+                "test/unit",
+                "--exit"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
         }
     ]
 }

@@ -21,4 +21,5 @@ addons:
       - g++-4.9
 script:
   - 'npm run test:package'
+  - 'npm run test:unit'
   - 'npm run test:integration'
