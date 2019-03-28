@@ -4,7 +4,7 @@
   "description": "Places adapter for ioBroker",
   "author": "BasGo <basgo@gmx.de>",
   "contributors": [],
-  "homepage": "https://github.com/BasGo/ioBroker.places",
+  "homepage": "https://github.com/iobroker-community-adapters/ioBroker.places",
   "license": "MIT",
   "keywords": [
     "iobroker",
@@ -18,7 +18,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/BasGo/ioBroker.places"
+    "url": "https://github.com/iobroker-community-adapters/ioBroker.places"
   },
   "dependencies": {
     "request": "^2.76.0",
@@ -34,7 +34,7 @@
     "@iobroker/testing": "^1.1.10"
   },
   "bugs": {
-    "url": "https://github.com/BasGo/ioBroker.places/issues"
+    "url": "https://github.com/iobroker-community-adapters/ioBroker.places/issues"
   },
   "main": "main.js",
   "scripts": {
