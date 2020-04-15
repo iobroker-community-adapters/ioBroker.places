@@ -25,7 +25,7 @@
     "url": "^0.11.0",
     "@iobroker/adapter-core": "^1.0.3",
     "geolib": "^2.0.24",
-    "@google/maps": "^0.4.5"
+    "@google/maps": "^1.1.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
