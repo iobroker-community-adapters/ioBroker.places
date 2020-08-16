@@ -32,13 +32,13 @@
             },
             initIfEmpty: function (dataIndex, dataName, initValue, raiseKeyUp = false) {
                 var tst = this.getDataValue(dataIndex, dataName);
-                if (tst == '')
+                if (tst === '')
                     this.setDataValue(dataIndex, dataName, initValue, true);
             },
             allEmpty: function (dataIndex, dataName) {
                 for(var idx in dataName) {
                     var tst = this.getDataValue(dataIndex, dataName[idx]);
-                    if (tst != '') {
+                    if (tst) {
                         return false;
                     }
                 }
@@ -46,7 +46,7 @@
                 return true;
             },
             removeRowSelection: function () {
-                this.find("tr").removeClass("selected");
+                this.find('tr').removeClass('selected');
             },
             selectRow: function (dataIndex) {
                 this.removeRowSelection();
@@ -202,10 +202,10 @@
             users = settings.users || [];
 
             for (var c = 0; c < settings.places.length; c++) {
-                settings.places[c].name = settings.places[c].name || '';
-                settings.places[c].latitude = settings.places[c].latitude || '';
+                settings.places[c].name      = settings.places[c].name || '';
+                settings.places[c].latitude  = settings.places[c].latitude || '';
                 settings.places[c].longitude = settings.places[c].longitude || '';
-                settings.places[c].radius = settings.places[c].radius || settings.radius;
+                settings.places[c].radius    = settings.places[c].radius || settings.radius;
             }
 
             for (var c = 0; c < settings.users.length; c++) {
@@ -340,7 +340,7 @@
             <div id="tab-main" class="col s12 page">
                 <div class="row">
                     <div class="col s6 m6 l6">
-                        <img src="places.png" class="logo">
+                        <img src="places.png" class="logo" alt="logo"/>
                     </div>
                 </div>
                 <div class="row">
