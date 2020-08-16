@@ -70,6 +70,10 @@ function startAdapter(options) {
             if (err || !obj) {
                 adapter.log.info('Adapter could not read latitude/longitude from system config!');
             } else {
+                if (!obj.common.longitude || !obj.common.latitude) {
+                    adapter.log.info('Adapter could not read latitude/longitude from system config! Fields are empty');
+                }
+
                 adapter.config.latitude             = parseFloat(obj.common.latitude);
                 adapter.config.longitude            = parseFloat(obj.common.longitude);
                 adapter.config.language             = obj.common.language;
