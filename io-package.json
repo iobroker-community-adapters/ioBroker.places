@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "places",
-        "version": "0.7.0",
+        "version": "1.0.0",
         "news": {
+            "1.0.0": {
+                "en": "Updated packages\nRefactoring",
+                "de": "Aktualisierte Pakete\nRefactoring",
+                "ru": "Обновленные пакеты\nРефакторинг",
+                "pt": "Pacotes atualizados\nReestruturação",
+                "nl": "Bijgewerkte pakketten\nRefactoring",
+                "fr": "Packages mis à jour\nRefactoring",
+                "it": "Pacchetti aggiornati\nrefactoring",
+                "es": "Paquetes actualizados\nRefactorización",
+                "pl": "Zaktualizowane pakiety\nRefaktoryzacja",
+                "zh-cn": "更新包\n重构"
+            },
             "0.7.0": {
                 "en": "Added compact mode, replaced integration of iobroker.cloud with iobroker.iot",
                 "de": "Kompaktmodus hinzugefügt, Integration von iobroker.cloud durch iobroker.iot ersetzt",
@@ -228,7 +240,6 @@
         "loglevel": "info",
         "enabled": false,
         "messagebox": true,
-        "systemConfig": true,
         "subscribe": "messagebox",
         "stopBeforeUpdate": true,
         "materialize": true,
