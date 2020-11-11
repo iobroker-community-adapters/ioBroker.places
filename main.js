@@ -180,7 +180,11 @@ function getAddress(client, req) {
     return new Promise(resolve =>
         client.reverseGeocode(options, (err, response) => {
             if (err) {
-                adapter.log.error('Error while requesting address: ' + JSON.stringify(err));
+                if (err.json && err.json.error_message) {
+                    adapter.log.error('Error while requesting address: ' + err.json.error_message);
+                } else {
+                    adapter.log.error('Error while requesting address: ' + JSON.stringify(err));
+                }              
             } else {
                 adapter.log.debug('Received geocode response: ' + JSON.stringify(response));
                 const obj = response.json.results[0];
@@ -202,7 +206,11 @@ function getElevation(client, req) {
     return new Promise(resolve =>
         client.elevation(options, (err, response) => {
             if (err) {
-                adapter.log.error('Error while requesting elevation: ' + JSON.stringify(err));
+                if (err.json && err.json.error_message) {
+                    adapter.log.error('Error while requesting elevation: ' + err.json.error_message);
+                } else {
+                    adapter.log.error('Error while requesting elevation: ' + JSON.stringify(err));
+                }      
             } else {
                 adapter.log.debug('Received elevation response: ' + JSON.stringify(response));
                 const obj = response.json.results[0];
@@ -227,7 +235,11 @@ function getRoute(client, req) {
     return new Promise(resolve =>
         client.distanceMatrix(options, (err, response) => {
             if (err) {
-                adapter.log.error('Error while requesting route: ' + JSON.stringify(err));
+                if (err.json && err.json.error_message) {
+                    adapter.log.error('Error while requesting route: ' + err.json.error_message);
+                } else {
+                    adapter.log.error('Error while requesting route: ' + JSON.stringify(err));
+                }      
             } else {
                 adapter.log.debug('Received route response: ' + JSON.stringify(response));
                 const obj = response.json.rows[0].elements[0];
