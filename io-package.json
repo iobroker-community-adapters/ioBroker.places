@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "places",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "news": {
+          "1.0.1": {
+                "en": "Small bugfixes",
+                "de": "Kleine Fehlerbehebungen",
+                "ru": "Мелкие исправления",
+                "pt": "Pequenas correções de bugs",
+                "nl": "Kleine bugfixes",
+                "fr": "Petites corrections de bugs",
+                "it": "Piccole correzioni di bug",
+                "es": "Pequeñas correcciones de errores",
+                "pl": "Małe poprawki",
+                "zh-cn": "小错误修正"
+            },
             "1.0.0": {
                 "en": "Updated packages\nRefactoring",
                 "de": "Aktualisierte Pakete\nRefactoring",

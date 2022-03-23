@@ -1,6 +1,6 @@
 {
   "name": "iobroker.places",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Places adapter for ioBroker",
   "author": "BasGo <basgo@gmx.de>",
   "contributors": [],
