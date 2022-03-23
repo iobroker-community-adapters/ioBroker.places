@@ -44,7 +44,7 @@ function startAdapter(options) {
 
                 switch (id) {
                     case 'clearHome':
-                        adapter.setState('personsAtHome', JSON.stringify([]), false);
+                        adapter.setState('personsAtHome', JSON.stringify([]), true);
                         break;
 
                     case 'personsAtHome':
@@ -393,11 +393,11 @@ function analyzePersonsAtHome(loc) {
 
         if (idx < 0 && loc.atHome) {
             homePersons.push(loc.user);
-            adapter.setState('personsAtHome', JSON.stringify(homePersons), false);
+            adapter.setState('personsAtHome', JSON.stringify(homePersons), true);
             adapter.log.debug('Added person at home');
         } else if (idx >= 0 && !loc.atHome) {
             homePersons.splice(idx, 1);
-            adapter.setState('personsAtHome', JSON.stringify(homePersons), false);
+            adapter.setState('personsAtHome', JSON.stringify(homePersons), true);
             adapter.log.debug('Removed person from home');
         }
     });
