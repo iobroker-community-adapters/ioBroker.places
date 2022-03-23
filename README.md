@@ -168,4 +168,4 @@ The implementation is partly based on dschaedls [ioBroker.geofency](https://gith
 
 This adapter is licensed under the [MIT License](../blob/master/LICENSE) which is part of this repository.
 
-Copyright (c) 2018-2020 BasGo <basgo@gmx.de>
+Copyright (c) 2018-2022 BasGo <basgo@gmx.de>
