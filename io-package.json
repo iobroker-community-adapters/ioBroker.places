@@ -227,6 +227,13 @@
         "license": "MIT",
         "npmLibs": [],
         "type": "geoposition",
+        "connectionType": "local",
+        "dataSource": "assumption",
+        "dependencies": [
+          {
+            "js-controller": ">=2.0.0"
+          }
+        ],
         "keywords": [
             "iobroker",
             "geofence",
