@@ -1,0 +1,22 @@
+{
+    "ADD_PLACE": "Добавить место",
+    "CLOUD_HELP": "Эти страницы позволяют настроить автоматическую обработку запросов, представленных с помощью <a href=\"https://iobroker.pro/accessRemote\" target=\"_blank\">https://iobroker.pro</a> и <a href=\"http://owntracks.org/\" target=\"_blank\">OwnTracks</a>.",
+    "CLOUD_INSTANCE": "Пример облака",
+    "CLOUD_SERVICE": "Облачный сервис",
+    "GENERAL": "Генеральная",
+    "GOOGLE_API_KEY": "API-ключ для Google Maps",
+    "HOME_NAME": "Название места, если кто-то дома",
+    "INTEGRATION": "интеграция",
+    "NO_INSTANCE": "неактивный",
+    "NO_SERVICE": "-",
+    "PLACES": "Пользовательские места",
+    "PLACE_LATITUDE": "широта",
+    "PLACE_LONGITUDE": "долгота",
+    "PLACE_NAME": "имя",
+    "PLACE_RADIUS": "Радиус",
+    "RADIUS": "Радиус в метрах, чтобы найти место",
+    "USERS": "User",
+    "USER_NAME": "имя пользователя",
+    "USER_REPLACEMENT": "Заменить",
+    "USE_GEOCODING": "Использование геокодирования Google Maps"
+}

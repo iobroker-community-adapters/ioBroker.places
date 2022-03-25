@@ -1,0 +1,22 @@
+{
+    "ADD_PLACE": "Voeg een plaats toe",
+    "CLOUD_HELP": "Op deze pagina kunt u een automatische verwerking configureren voor aanvragen die zijn ingediend met behulp van <a href=\"https://iobroker.pro/accessRemote\" target=\"_blank\">https://iobroker.pro</a> en <a href=\"http://owntracks.org/\" target=\"_blank\">OwnTracks</a>.",
+    "CLOUD_INSTANCE": "Cloud instantie",
+    "CLOUD_SERVICE": "Cloud dienstverlening",
+    "GENERAL": "Algemeen",
+    "GOOGLE_API_KEY": "API-sleutel voor Google Maps",
+    "HOME_NAME": "Naam van de plaats als iemand thuis is",
+    "INTEGRATION": "integratie",
+    "NO_INSTANCE": "inactief",
+    "NO_SERVICE": "-",
+    "PLACES": "Aangepaste plaatsen",
+    "PLACE_LATITUDE": "Breedtegraad",
+    "PLACE_LONGITUDE": "Lengtegraad",
+    "PLACE_NAME": "Naam",
+    "PLACE_RADIUS": "Radius",
+    "RADIUS": "Straal in meters om een ​​locatie te vinden",
+    "USERS": "User",
+    "USER_NAME": "Gebruikersnaam",
+    "USER_REPLACEMENT": "Vervangen door",
+    "USE_GEOCODING": "Gebruik Google Maps Geocoding"
+}

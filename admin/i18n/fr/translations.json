@@ -1,0 +1,22 @@
+{
+    "ADD_PLACE": "Ajouter un lieu",
+    "CLOUD_HELP": "Cette page permet de configurer un traitement automatique pour les requêtes soumises en utilisant <a href=\"https://iobroker.pro/accessRemote\" target=\"_blank\">https://iobroker.pro</a> et <a href=\"http://owntracks.org/\" target=\"_blank\">OwnTracks</a>.",
+    "CLOUD_INSTANCE": "Instance de cloud",
+    "CLOUD_SERVICE": "Service cloud",
+    "GENERAL": "Général",
+    "GOOGLE_API_KEY": "Clé de l'API pour Google Maps",
+    "HOME_NAME": "Nom du lieu si quelqu'un est à la maison",
+    "INTEGRATION": "L'intégration",
+    "NO_INSTANCE": "inactif",
+    "NO_SERVICE": "-",
+    "PLACES": "Lieux personnalisés",
+    "PLACE_LATITUDE": "Latitude",
+    "PLACE_LONGITUDE": "Longitude",
+    "PLACE_NAME": "prénom",
+    "PLACE_RADIUS": "Rayon",
+    "RADIUS": "Rayon en mètres pour trouver un emplacement",
+    "USERS": "User",
+    "USER_NAME": "Nom d'utilisateur",
+    "USER_REPLACEMENT": "Remplacer par",
+    "USE_GEOCODING": "Utiliser le géocodage Google Maps"
+}

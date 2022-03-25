@@ -3,18 +3,6 @@
         "name": "places",
         "version": "1.0.1",
         "news": {
-          "1.0.1": {
-                "en": "Small bugfixes",
-                "de": "Kleine Fehlerbehebungen",
-                "ru": "Мелкие исправления",
-                "pt": "Pequenas correções de bugs",
-                "nl": "Kleine bugfixes",
-                "fr": "Petites corrections de bugs",
-                "it": "Piccole correzioni di bug",
-                "es": "Pequeñas correcciones de errores",
-                "pl": "Małe poprawki",
-                "zh-cn": "小错误修正"
-            },
             "1.0.0": {
                 "en": "Updated packages\nRefactoring",
                 "de": "Aktualisierte Pakete\nRefactoring",
@@ -36,7 +24,8 @@
                 "fr": "Ajout du mode compact, intégration de iobroker.cloud remplacée par iobroker.iot",
                 "it": "Aggiunta modalità compatta, sostituzione dell'integrazione di iobroker.cloud con iobroker.iot",
                 "es": "Se agregó el modo compacto, se reemplazó la integración de iobroker.cloud con iobroker.iot",
-                "pl": "Dodano tryb kompaktowy, zastąpił integrację iobroker.cloud z iobroker.iot"
+                "pl": "Dodano tryb kompaktowy, zastąpił integrację iobroker.cloud z iobroker.iot",
+                "zh-cn": "添加了紧凑模式，将 iobroker.cloud 替换为 iobroker.iot 的集成"
             },
             "0.6.2": {
                 "en": "Error with blockly was fixed",
@@ -47,18 +36,20 @@
                 "fr": "Erreur avec blockly a été corrigé",
                 "it": "È stato corretto l'errore con blockly",
                 "es": "Se solucionó el error con blockly",
-                "pl": "Naprawiono błąd z blockly"
+                "pl": "Naprawiono błąd z blockly",
+                "zh-cn": "块状错误已修复"
             },
             "0.6.1": {
-                  "en": "Added handling for invalid route details",
-                  "de": "Zusätzliche Behandlung für ungültige Routendetails hinzugefügt",
-                  "ru": "Добавлена ​​обработка неверных данных маршрута",
-                  "pt": "Manipulação adicionada para detalhes de rota inválidos",
-                  "nl": "Afhandeling toegevoegd voor ongeldige routegegevens",
-                  "fr": "Gestion ajoutée pour les détails d'itinéraire incorrects",
-                  "it": "Aggiunta gestione per i dettagli del percorso non validi",
-                  "es": "Manejo adicional para detalles de ruta inválidos",
-                  "pl": "Dodano obsługę niepoprawnych szczegółów trasy"
+                "en": "Added handling for invalid route details",
+                "de": "Zusätzliche Behandlung für ungültige Routendetails hinzugefügt",
+                "ru": "Добавлена ​​обработка неверных данных маршрута",
+                "pt": "Manipulação adicionada para detalhes de rota inválidos",
+                "nl": "Afhandeling toegevoegd voor ongeldige routegegevens",
+                "fr": "Gestion ajoutée pour les détails d'itinéraire incorrects",
+                "it": "Aggiunta gestione per i dettagli del percorso non validi",
+                "es": "Manejo adicional para detalles de ruta inválidos",
+                "pl": "Dodano obsługę niepoprawnych szczegółów trasy",
+                "zh-cn": "添加了对无效路线详细信息的处理"
             },
             "0.6.0": {
                 "en": "Changed implementation to use promises\nAdded route details for driving home",
@@ -69,7 +60,8 @@
                 "fr": "Modification de l'implémentation pour utiliser les promesses\nAjout des détails de l'itinéraire pour rentrer à la maison",
                 "it": "Implementazione modificata per utilizzare le promesse\nAggiunti dettagli del percorso per la guida a casa",
                 "es": "Se modificó la implementación para usar promesas\nSe agregaron detalles de ruta para conducir a casa",
-                "pl": "Zmieniono implementację, aby wykorzystać obietnice\nDodano szczegóły trasy do jazdy do domu"
+                "pl": "Zmieniono implementację, aby wykorzystać obietnice\nDodano szczegóły trasy do jazdy do domu",
+                "zh-cn": "更改实现以使用承诺\n"
             },
             "0.5.1": {
                 "en": "Help texts extended",
@@ -80,7 +72,8 @@
                 "fr": "Textes d'aide étendus",
                 "it": "Aiuta i testi estesi",
                 "es": "Textos de ayuda extendidos",
-                "pl": "Rozszerzone teksty pomocy"
+                "pl": "Rozszerzone teksty pomocy",
+                "zh-cn": "帮助文本扩展"
             },
             "0.5.0": {
                 "en": "Added optional subscription for cloud adapter",
@@ -91,7 +84,8 @@
                 "fr": "Ajout d'un abonnement facultatif pour l'adaptateur cloud",
                 "it": "Aggiunta di una sottoscrizione opzionale per l'adattatore cloud",
                 "es": "Se agregó una suscripción opcional para el adaptador de nube",
-                "pl": "Dodano opcjonalną subskrypcję dla adaptera chmury"
+                "pl": "Dodano opcjonalną subskrypcję dla adaptera chmury",
+                "zh-cn": "添加了云适配器的可选订阅"
             },
             "0.4.2": {
                 "en": "UI fixes",
@@ -102,7 +96,8 @@
                 "fr": "Corrections pour l'interface utilisateur",
                 "it": "Correzioni per l'interfaccia utente",
                 "es": "Correcciones para la interfaz de usuario",
-                "pl": "Poprawki dla interfejsu użytkownika"
+                "pl": "Poprawki dla interfejsu użytkownika",
+                "zh-cn": "用户界面修复"
             },
             "0.4.1": {
                 "en": "Configuration dialog extended",
@@ -113,7 +108,8 @@
                 "fr": "Boîte de dialogue de configuration étendue",
                 "it": "Finestra di dialogo di configurazione estesa",
                 "es": "Diálogo de configuración extendido",
-                "pl": "Rozszerzone okno konfiguracji"
+                "pl": "Rozszerzone okno konfiguracji",
+                "zh-cn": "配置对话框扩展"
             },
             "0.4.0": {
                 "en": "Google Maps can be used for configuration\nGeocoding can be activated",
@@ -124,7 +120,8 @@
                 "fr": "Google Maps peut être utilisé pour la configuration\nGeocoding peut être activé",
                 "it": "Google Maps può essere utilizzato per la configurazione\nGeocoding può essere attivato",
                 "es": "Google Maps se puede usar para la configuración\nLa codificación geográfica se puede activar",
-                "pl": "Do konfiguracji można użyć Google Maps\nGoocoding można aktywować"
+                "pl": "Do konfiguracji można użyć Google Maps\nGoocoding można aktywować",
+                "zh-cn": "谷歌地图可用于配置\n"
             },
             "0.3.0": {
                 "en": "Added user mappings",
@@ -135,7 +132,8 @@
                 "fr": "Mappages d'utilisateurs ajoutés",
                 "it": "Aggiunti mappature utente",
                 "es": "Mapeos de usuarios agregados",
-                "pl": "Dodano mapowania użytkowników"
+                "pl": "Dodano mapowania użytkowników",
+                "zh-cn": "添加了用户映射"
             },
             "0.2.3": {
                 "en": "Optimized state handling\nAdded option to clear array",
@@ -146,7 +144,8 @@
                 "fr": "Gestion optimisée des états\nAjout de l'option pour effacer le tableau",
                 "it": "Gestione dello stato ottimizzata\nUna opzione aggiunta per cancellare la matrice",
                 "es": "Manejo de estado optimizado\nOpción de opción para borrar matriz",
-                "pl": "Zoptymalizowana obsługa stanów\nDodano opcję czyszczenia tablicy"
+                "pl": "Zoptymalizowana obsługa stanów\nDodano opcję czyszczenia tablicy",
+                "zh-cn": "优化状态处理\n"
             },
             "0.2.2": {
                 "en": "Added check for newer entries",
@@ -157,7 +156,8 @@
                 "fr": "Vérification supplémentaire pour les entrées plus récentes",
                 "it": "Aggiunto controllo per le voci più recenti",
                 "es": "Comprobación adicional para entradas más nuevas",
-                "pl": "Dodano sprawdzanie nowszych wpisów"
+                "pl": "Dodano sprawdzanie nowszych wpisów",
+                "zh-cn": "添加了对较新条目的检查"
             },
             "0.2.1": {
                 "en": "Extended configuration",
@@ -168,7 +168,8 @@
                 "fr": "Configuration étendue",
                 "it": "Configurazione estesa",
                 "es": "Configuración extendida",
-                "pl": "Rozszerzona konfiguracja"
+                "pl": "Rozszerzona konfiguracja",
+                "zh-cn": "扩展配置"
             },
             "0.2.0": {
                 "en": "Materialized admin page",
@@ -179,7 +180,8 @@
                 "fr": "Page d'administration matérialisée",
                 "it": "Pagina di amministrazione materializzata",
                 "es": "Página de administración materializada",
-                "pl": "Zmaterializowana strona administratora"
+                "pl": "Zmaterializowana strona administratora",
+                "zh-cn": "物化管理页面"
             },
             "0.1.1": {
                 "en": "Fixed some smaller issues",
@@ -190,7 +192,8 @@
                 "fr": "Correction de quelques problèmes plus petits",
                 "it": "Risolti alcuni problemi minori",
                 "es": "Se corrigieron algunos problemas menores",
-                "pl": "Naprawiono kilka mniejszych problemów"
+                "pl": "Naprawiono kilka mniejszych problemów",
+                "zh-cn": "修复了一些小问题"
             },
             "0.1.0": {
                 "en": "Initial release",
@@ -201,7 +204,8 @@
                 "fr": "Première version",
                 "it": "Versione iniziale",
                 "es": "Versión inicial",
-                "pl": "Pierwsze wydanie"
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "初始发行"
             }
         },
         "title": "Places",
@@ -214,7 +218,8 @@
             "fr": "Analyse de localisation pour les coordonnées GPS",
             "it": "Analisi della posizione per le coordinate GPS",
             "es": "Análisis de ubicación para coordenadas de GPS",
-            "pl": "Analiza lokalizacji dla współrzędnych GPS"
+            "pl": "Analiza lokalizacji dla współrzędnych GPS",
+            "zh-cn": "GPS坐标的位置分析"
         },
         "desc": {
             "en": "Adapter for analyzing location information",
@@ -225,7 +230,8 @@
             "fr": "Adaptateur pour analyser des informations de localisation",
             "it": "Adattatore per analizzare le informazioni sulla posizione",
             "es": "Adaptador para analizar información de ubicación",
-            "pl": "Adapter do analizy informacji o lokalizacji"
+            "pl": "Adapter do analizy informacji o lokalizacji",
+            "zh-cn": "用于分析位置信息的适配器"
         },
         "authors": [
             "BasGo <basgo@gmx.de>"
@@ -237,14 +243,14 @@
         "compact": true,
         "readme": "https://github.com/iobroker-community-adapters/ioBroker.places/blob/master/README.md",
         "license": "MIT",
-        "npmLibs": [],
         "type": "geoposition",
         "connectionType": "local",
         "dataSource": "assumption",
+        "tier": 2,
         "dependencies": [
-          {
-            "js-controller": ">=2.0.0"
-          }
+            {
+                "js-controller": ">=2.0.0"
+            }
         ],
         "keywords": [
             "iobroker",
@@ -261,12 +267,7 @@
         "messagebox": true,
         "subscribe": "messagebox",
         "stopBeforeUpdate": true,
-        "materialize": true,
-        "config": {
-            "minWidth": 800,
-            "width": 1224,
-            "height": 600
-        }
+        "materialize": true
     },
     "native": {
         "radius": 250,
