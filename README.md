@@ -113,6 +113,7 @@ The implementation is partly based on dschaedls [ioBroker.geofency](https://gith
 ## Changelog
 ### __WORK IN PROGRESS__
 * (Basgo) Correctly set ack flag
+* (Apollon77) Add Sentry for crash reporting
 
 ### 1.0.0 (2020-08-16)
 * (bluefox) Updated packages

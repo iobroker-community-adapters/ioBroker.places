@@ -252,6 +252,11 @@
                 "js-controller": ">=2.0.0"
             }
         ],
+        "plugins": {
+            "sentry": {
+                "dsn": "https://4c41ba6151ed424682d1fcbc34dd5286@sentry.iobroker.net/187"
+            }
+        },
         "keywords": [
             "iobroker",
             "geofence",
