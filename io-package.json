@@ -1,341 +1,221 @@
 {
-    "common": {
-        "name": "places",
-        "version": "1.0.1",
-        "news": {
-            "1.0.0": {
-                "en": "Updated packages\nRefactoring",
-                "de": "Aktualisierte Pakete\nRefactoring",
-                "ru": "Обновленные пакеты\nРефакторинг",
-                "pt": "Pacotes atualizados\nReestruturação",
-                "nl": "Bijgewerkte pakketten\nRefactoring",
-                "fr": "Packages mis à jour\nRefactoring",
-                "it": "Pacchetti aggiornati\nrefactoring",
-                "es": "Paquetes actualizados\nRefactorización",
-                "pl": "Zaktualizowane pakiety\nRefaktoryzacja",
-                "zh-cn": "更新包\n重构"
-            },
-            "0.7.0": {
-                "en": "Added compact mode, replaced integration of iobroker.cloud with iobroker.iot",
-                "de": "Kompaktmodus hinzugefügt, Integration von iobroker.cloud durch iobroker.iot ersetzt",
-                "ru": "Добавлен компактный режим, заменена интеграция iobroker.cloud с iobroker.iot",
-                "pt": "Adicionado o modo compacto, substituiu a integração do iobroker.cloud com iobroker.iot",
-                "nl": "Toegevoegd compacte modus, vervangen integratie van iobroker.cloud met iobroker.iot",
-                "fr": "Ajout du mode compact, intégration de iobroker.cloud remplacée par iobroker.iot",
-                "it": "Aggiunta modalità compatta, sostituzione dell'integrazione di iobroker.cloud con iobroker.iot",
-                "es": "Se agregó el modo compacto, se reemplazó la integración de iobroker.cloud con iobroker.iot",
-                "pl": "Dodano tryb kompaktowy, zastąpił integrację iobroker.cloud z iobroker.iot",
-                "zh-cn": "添加了紧凑模式，将 iobroker.cloud 替换为 iobroker.iot 的集成"
-            },
-            "0.6.2": {
-                "en": "Error with blockly was fixed",
-                "de": "Fehler beim blockly wurde behoben",
-                "ru": "Ошибка с blockly была исправлена",
-                "pt": "Erro com blockly foi corrigido",
-                "nl": "Fout met blockly is verholpen",
-                "fr": "Erreur avec blockly a été corrigé",
-                "it": "È stato corretto l'errore con blockly",
-                "es": "Se solucionó el error con blockly",
-                "pl": "Naprawiono błąd z blockly",
-                "zh-cn": "块状错误已修复"
-            },
-            "0.6.1": {
-                "en": "Added handling for invalid route details",
-                "de": "Zusätzliche Behandlung für ungültige Routendetails hinzugefügt",
-                "ru": "Добавлена ​​обработка неверных данных маршрута",
-                "pt": "Manipulação adicionada para detalhes de rota inválidos",
-                "nl": "Afhandeling toegevoegd voor ongeldige routegegevens",
-                "fr": "Gestion ajoutée pour les détails d'itinéraire incorrects",
-                "it": "Aggiunta gestione per i dettagli del percorso non validi",
-                "es": "Manejo adicional para detalles de ruta inválidos",
-                "pl": "Dodano obsługę niepoprawnych szczegółów trasy",
-                "zh-cn": "添加了对无效路线详细信息的处理"
-            },
-            "0.6.0": {
-                "en": "Changed implementation to use promises\nAdded route details for driving home",
-                "de": "Implementierung geändert, um Promises zu verwenden\nAdded route details for driving home",
-                "ru": "Измененная реализация для использования обещаний\nДанные данные маршрута для езды домой",
-                "pt": "Implementação alterada para usar promessas\nAdicionado detalhes da rota para voltar para casa",
-                "nl": "Implementatie gewijzigd om beloften te gebruiken\nToegevoegde routegegevens voor het rijden naar huis",
-                "fr": "Modification de l'implémentation pour utiliser les promesses\nAjout des détails de l'itinéraire pour rentrer à la maison",
-                "it": "Implementazione modificata per utilizzare le promesse\nAggiunti dettagli del percorso per la guida a casa",
-                "es": "Se modificó la implementación para usar promesas\nSe agregaron detalles de ruta para conducir a casa",
-                "pl": "Zmieniono implementację, aby wykorzystać obietnice\nDodano szczegóły trasy do jazdy do domu",
-                "zh-cn": "更改实现以使用承诺\n"
-            },
-            "0.5.1": {
-                "en": "Help texts extended",
-                "de": "Hilfetexte erweitert",
-                "ru": "Расширены тексты справки",
-                "pt": "Textos de ajuda estendidos",
-                "nl": "Help-teksten uitgebreid",
-                "fr": "Textes d'aide étendus",
-                "it": "Aiuta i testi estesi",
-                "es": "Textos de ayuda extendidos",
-                "pl": "Rozszerzone teksty pomocy",
-                "zh-cn": "帮助文本扩展"
-            },
-            "0.5.0": {
-                "en": "Added optional subscription for cloud adapter",
-                "de": "Optionales Abonnement für Cloud-Adapter hinzugefügt",
-                "ru": "Добавлена ​​дополнительная подписка для облачного адаптера",
-                "pt": "Inscrição opcional adicionada para o adaptador de nuvem",
-                "nl": "Optioneel abonnement voor cloudadapter toegevoegd",
-                "fr": "Ajout d'un abonnement facultatif pour l'adaptateur cloud",
-                "it": "Aggiunta di una sottoscrizione opzionale per l'adattatore cloud",
-                "es": "Se agregó una suscripción opcional para el adaptador de nube",
-                "pl": "Dodano opcjonalną subskrypcję dla adaptera chmury",
-                "zh-cn": "添加了云适配器的可选订阅"
-            },
-            "0.4.2": {
-                "en": "UI fixes",
-                "de": "Korrekturen für die Benutzeroberfläche",
-                "ru": "Исправления для пользовательского интерфейса",
-                "pt": "Correções para UI",
-                "nl": "Oplossingen voor UI",
-                "fr": "Corrections pour l'interface utilisateur",
-                "it": "Correzioni per l'interfaccia utente",
-                "es": "Correcciones para la interfaz de usuario",
-                "pl": "Poprawki dla interfejsu użytkownika",
-                "zh-cn": "用户界面修复"
-            },
-            "0.4.1": {
-                "en": "Configuration dialog extended",
-                "de": "Konfigurationsdialog erweitert",
-                "ru": "Диалог конфигурации расширен",
-                "pt": "Diálogo de configuração ampliado",
-                "nl": "Configuratie dialoogvenster uitgebreid",
-                "fr": "Boîte de dialogue de configuration étendue",
-                "it": "Finestra di dialogo di configurazione estesa",
-                "es": "Diálogo de configuración extendido",
-                "pl": "Rozszerzone okno konfiguracji",
-                "zh-cn": "配置对话框扩展"
-            },
-            "0.4.0": {
-                "en": "Google Maps can be used for configuration\nGeocoding can be activated",
-                "de": "Google Maps kann für die Konfiguration verwendet werden\nGeocodierung kann aktiviert werden",
-                "ru": "Карты Google можно использовать для конфигурации\nГокодирование может быть активировано",
-                "pt": "O Google Maps pode ser usado para a configuração\nA codificação pode ser ativada",
-                "nl": "Google Maps kan worden gebruikt voor configuratie\nGeocoding kan worden geactiveerd",
-                "fr": "Google Maps peut être utilisé pour la configuration\nGeocoding peut être activé",
-                "it": "Google Maps può essere utilizzato per la configurazione\nGeocoding può essere attivato",
-                "es": "Google Maps se puede usar para la configuración\nLa codificación geográfica se puede activar",
-                "pl": "Do konfiguracji można użyć Google Maps\nGoocoding można aktywować",
-                "zh-cn": "谷歌地图可用于配置\n"
-            },
-            "0.3.0": {
-                "en": "Added user mappings",
-                "de": "Benutzerzuordnungen hinzugefügt",
-                "ru": "Добавлены сопоставления пользователей",
-                "pt": "Mapeamentos de usuários adicionados",
-                "nl": "Toegevoegde gebruikerstoewijzingen",
-                "fr": "Mappages d'utilisateurs ajoutés",
-                "it": "Aggiunti mappature utente",
-                "es": "Mapeos de usuarios agregados",
-                "pl": "Dodano mapowania użytkowników",
-                "zh-cn": "添加了用户映射"
-            },
-            "0.2.3": {
-                "en": "Optimized state handling\nAdded option to clear array",
-                "de": "Optimierte Statusbehandlung\nOption zum Löschen des Arrays hinzugefügt",
-                "ru": "Оптимизированная обработка состояния\nnУдаленная опция для очистки массива",
-                "pt": "Manipulação de estado otimizada\nAplicação para limpar a matriz",
-                "nl": "Geoptimaliseerde statusafhandeling\nToegevoegde optie om array te wissen",
-                "fr": "Gestion optimisée des états\nAjout de l'option pour effacer le tableau",
-                "it": "Gestione dello stato ottimizzata\nUna opzione aggiunta per cancellare la matrice",
-                "es": "Manejo de estado optimizado\nOpción de opción para borrar matriz",
-                "pl": "Zoptymalizowana obsługa stanów\nDodano opcję czyszczenia tablicy",
-                "zh-cn": "优化状态处理\n"
-            },
-            "0.2.2": {
-                "en": "Added check for newer entries",
-                "de": "Prüfung auf neuere Einträge hinzugefügt",
-                "ru": "Добавлена ​​проверка новых записей",
-                "pt": "Verificação adicional de entradas mais recentes",
-                "nl": "Controle toegevoegd voor nieuwere vermeldingen",
-                "fr": "Vérification supplémentaire pour les entrées plus récentes",
-                "it": "Aggiunto controllo per le voci più recenti",
-                "es": "Comprobación adicional para entradas más nuevas",
-                "pl": "Dodano sprawdzanie nowszych wpisów",
-                "zh-cn": "添加了对较新条目的检查"
-            },
-            "0.2.1": {
-                "en": "Extended configuration",
-                "de": "Erweiterte Konfiguration",
-                "ru": "Расширенная конфигурация",
-                "pt": "Configuração estendida",
-                "nl": "Uitgebreide configuratie",
-                "fr": "Configuration étendue",
-                "it": "Configurazione estesa",
-                "es": "Configuración extendida",
-                "pl": "Rozszerzona konfiguracja",
-                "zh-cn": "扩展配置"
-            },
-            "0.2.0": {
-                "en": "Materialized admin page",
-                "de": "Admin-Seite materialisiert",
-                "ru": "Материализованная страница администратора",
-                "pt": "Página de administração materializada",
-                "nl": "Gematerialiseerde beheerderspagina",
-                "fr": "Page d'administration matérialisée",
-                "it": "Pagina di amministrazione materializzata",
-                "es": "Página de administración materializada",
-                "pl": "Zmaterializowana strona administratora",
-                "zh-cn": "物化管理页面"
-            },
-            "0.1.1": {
-                "en": "Fixed some smaller issues",
-                "de": "Einige kleinere Probleme wurden behoben",
-                "ru": "Исправлены некоторые более мелкие проблемы",
-                "pt": "Corrigido alguns problemas menores",
-                "nl": "Enkele kleinere problemen opgelost",
-                "fr": "Correction de quelques problèmes plus petits",
-                "it": "Risolti alcuni problemi minori",
-                "es": "Se corrigieron algunos problemas menores",
-                "pl": "Naprawiono kilka mniejszych problemów",
-                "zh-cn": "修复了一些小问题"
-            },
-            "0.1.0": {
-                "en": "Initial release",
-                "de": "Erstveröffentlichung",
-                "ru": "Начальная версия",
-                "pt": "lançamento inicial",
-                "nl": "Eerste uitgave",
-                "fr": "Première version",
-                "it": "Versione iniziale",
-                "es": "Versión inicial",
-                "pl": "Pierwsze wydanie",
-                "zh-cn": "初始发行"
-            }
-        },
-        "title": "Places",
-        "titleLang": {
-            "en": "Location analysis for GPS coordinates",
-            "de": "Standortanalyse für GPS-Koordinaten",
-            "ru": "Анализ местоположения для координат GPS",
-            "pt": "Análise de localização para coordenadas GPS",
-            "nl": "Locatieanalyse voor GPS-coördinaten",
-            "fr": "Analyse de localisation pour les coordonnées GPS",
-            "it": "Analisi della posizione per le coordinate GPS",
-            "es": "Análisis de ubicación para coordenadas de GPS",
-            "pl": "Analiza lokalizacji dla współrzędnych GPS",
-            "zh-cn": "GPS坐标的位置分析"
-        },
-        "desc": {
-            "en": "Adapter for analyzing location information",
-            "de": "Adapter zum Analysieren von Standortinformationen",
-            "ru": "Адаптер для анализа информации о местоположении",
-            "pt": "Adaptador para análise de informações de localização",
-            "nl": "Adapter voor het analyseren van locatie-informatie",
-            "fr": "Adaptateur pour analyser des informations de localisation",
-            "it": "Adattatore per analizzare le informazioni sulla posizione",
-            "es": "Adaptador para analizar información de ubicación",
-            "pl": "Adapter do analizy informacji o lokalizacji",
-            "zh-cn": "用于分析位置信息的适配器"
-        },
-        "authors": [
-            "BasGo <basgo@gmx.de>"
-        ],
-        "platform": "Javascript/Node.js",
-        "mode": "daemon",
-        "icon": "places.png",
-        "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.places/master/admin/places.png",
-        "compact": true,
-        "readme": "https://github.com/iobroker-community-adapters/ioBroker.places/blob/master/README.md",
-        "license": "MIT",
-        "type": "geoposition",
-        "connectionType": "local",
-        "dataSource": "assumption",
-        "tier": 2,
-        "dependencies": [
-            {
-                "js-controller": ">=2.0.0"
-            }
-        ],
-        "plugins": {
-            "sentry": {
-                "dsn": "https://4c41ba6151ed424682d1fcbc34dd5286@sentry.iobroker.net/187"
-            }
-        },
-        "keywords": [
-            "iobroker",
-            "geofence",
-            "egigeozone",
-            "geofency",
-            "locations",
-            "places",
-            "coordinates",
-            "gps"
-        ],
-        "loglevel": "info",
-        "enabled": false,
-        "messagebox": true,
-        "subscribe": "messagebox",
-        "stopBeforeUpdate": true,
-        "materialize": true
+  "common": {
+    "name": "places",
+    "version": "1.1.0",
+    "news": {
+      "1.1.0": {
+        "en": "Correctly set ack flag\nAdd Sentry for crash reporting",
+        "de": "Ack-Flag korrekt setzen\nFügen Sie Sentry für Absturzberichte hinzu",
+        "ru": "Правильно установленный флаг подтверждения\nДобавьте Sentry для отчетов о сбоях",
+        "pt": "Definir sinalizador de confirmação corretamente\nAdicionar Sentinela para relatórios de falhas",
+        "nl": "ack vlag correct instellen\nSentry toevoegen voor crashrapportage",
+        "fr": "Définir correctement l'indicateur d'acquittement\nAjouter Sentry pour les rapports de plantage",
+        "it": "Impostare correttamente il flag di conferma\nAggiungi Sentinella per la segnalazione degli arresti anomali",
+        "es": "Establecer correctamente el indicador de reconocimiento\nAgregar Sentry para informes de fallas",
+        "pl": "Prawidłowo ustawiona flaga potwierdzenia\nDodaj Sentry do zgłaszania awarii",
+        "zh-cn": "正确设置确认标志\n添加 Sentry 以进行崩溃报告"
+      },
+      "1.0.0": {
+        "en": "Updated packages\nRefactoring",
+        "de": "Aktualisierte Pakete\nRefactoring",
+        "ru": "Обновленные пакеты\nРефакторинг",
+        "pt": "Pacotes atualizados\nReestruturação",
+        "nl": "Bijgewerkte pakketten\nRefactoring",
+        "fr": "Packages mis à jour\nRefactoring",
+        "it": "Pacchetti aggiornati\nrefactoring",
+        "es": "Paquetes actualizados\nRefactorización",
+        "pl": "Zaktualizowane pakiety\nRefaktoryzacja",
+        "zh-cn": "更新包\n重构"
+      },
+      "0.7.0": {
+        "en": "Added compact mode, replaced integration of iobroker.cloud with iobroker.iot",
+        "de": "Kompaktmodus hinzugefügt, Integration von iobroker.cloud durch iobroker.iot ersetzt",
+        "ru": "Добавлен компактный режим, заменена интеграция iobroker.cloud с iobroker.iot",
+        "pt": "Adicionado o modo compacto, substituiu a integração do iobroker.cloud com iobroker.iot",
+        "nl": "Toegevoegd compacte modus, vervangen integratie van iobroker.cloud met iobroker.iot",
+        "fr": "Ajout du mode compact, intégration de iobroker.cloud remplacée par iobroker.iot",
+        "it": "Aggiunta modalità compatta, sostituzione dell'integrazione di iobroker.cloud con iobroker.iot",
+        "es": "Se agregó el modo compacto, se reemplazó la integración de iobroker.cloud con iobroker.iot",
+        "pl": "Dodano tryb kompaktowy, zastąpił integrację iobroker.cloud z iobroker.iot",
+        "zh-cn": "添加了紧凑模式，将 iobroker.cloud 替换为 iobroker.iot 的集成"
+      },
+      "0.6.2": {
+        "en": "Error with blockly was fixed",
+        "de": "Fehler beim blockly wurde behoben",
+        "ru": "Ошибка с blockly была исправлена",
+        "pt": "Erro com blockly foi corrigido",
+        "nl": "Fout met blockly is verholpen",
+        "fr": "Erreur avec blockly a été corrigé",
+        "it": "È stato corretto l'errore con blockly",
+        "es": "Se solucionó el error con blockly",
+        "pl": "Naprawiono błąd z blockly",
+        "zh-cn": "块状错误已修复"
+      },
+      "0.6.1": {
+        "en": "Added handling for invalid route details",
+        "de": "Zusätzliche Behandlung für ungültige Routendetails hinzugefügt",
+        "ru": "Добавлена ​​обработка неверных данных маршрута",
+        "pt": "Manipulação adicionada para detalhes de rota inválidos",
+        "nl": "Afhandeling toegevoegd voor ongeldige routegegevens",
+        "fr": "Gestion ajoutée pour les détails d'itinéraire incorrects",
+        "it": "Aggiunta gestione per i dettagli del percorso non validi",
+        "es": "Manejo adicional para detalles de ruta inválidos",
+        "pl": "Dodano obsługę niepoprawnych szczegółów trasy",
+        "zh-cn": "添加了对无效路线详细信息的处理"
+      },
+      "0.6.0": {
+        "en": "Changed implementation to use promises\nAdded route details for driving home",
+        "de": "Implementierung geändert, um Promises zu verwenden\nAdded route details for driving home",
+        "ru": "Измененная реализация для использования обещаний\nДанные данные маршрута для езды домой",
+        "pt": "Implementação alterada para usar promessas\nAdicionado detalhes da rota para voltar para casa",
+        "nl": "Implementatie gewijzigd om beloften te gebruiken\nToegevoegde routegegevens voor het rijden naar huis",
+        "fr": "Modification de l'implémentation pour utiliser les promesses\nAjout des détails de l'itinéraire pour rentrer à la maison",
+        "it": "Implementazione modificata per utilizzare le promesse\nAggiunti dettagli del percorso per la guida a casa",
+        "es": "Se modificó la implementación para usar promesas\nSe agregaron detalles de ruta para conducir a casa",
+        "pl": "Zmieniono implementację, aby wykorzystać obietnice\nDodano szczegóły trasy do jazdy do domu",
+        "zh-cn": "更改实现以使用承诺\n"
+      },
+      "0.5.1": {
+        "en": "Help texts extended",
+        "de": "Hilfetexte erweitert",
+        "ru": "Расширены тексты справки",
+        "pt": "Textos de ajuda estendidos",
+        "nl": "Help-teksten uitgebreid",
+        "fr": "Textes d'aide étendus",
+        "it": "Aiuta i testi estesi",
+        "es": "Textos de ayuda extendidos",
+        "pl": "Rozszerzone teksty pomocy",
+        "zh-cn": "帮助文本扩展"
+      }
     },
-    "native": {
-        "radius": 250,
-        "homeName": "Home",
-        "places": [],
-        "users": [],
-        "googleApiKey": "",
-        "useGeocoding": false,
-        "cloudInstance": "",
-        "cloudService": ""
+    "title": "Places",
+    "titleLang": {
+      "en": "Location analysis for GPS coordinates",
+      "de": "Standortanalyse für GPS-Koordinaten",
+      "ru": "Анализ местоположения для координат GPS",
+      "pt": "Análise de localização para coordenadas GPS",
+      "nl": "Locatieanalyse voor GPS-coördinaten",
+      "fr": "Analyse de localisation pour les coordonnées GPS",
+      "it": "Analisi della posizione per le coordinate GPS",
+      "es": "Análisis de ubicación para coordenadas de GPS",
+      "pl": "Analiza lokalizacji dla współrzędnych GPS",
+      "zh-cn": "GPS坐标的位置分析"
     },
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "personsAtHome",
-            "type": "state",
-            "common": {
-                "name": "personsAtHome",
-                "type": "string",
-                "role": "state",
-                "read": true,
-                "write": false,
-                "def": [],
-                "desc": "Persons at home"
-            }
-        },
-        {
-            "_id": "numberAtHome",
-            "type": "state",
-            "common": {
-                "name": "numberAtHome",
-                "type": "number",
-                "role": "state",
-                "read": true,
-                "write": false,
-                "def": 0,
-                "desc": "Number of persons at home"
-            }
-        },
-        {
-            "_id": "anybodyAtHome",
-            "type": "state",
-            "common": {
-                "name": "anybodyAtHome",
-                "type": "boolean",
-                "role": "state",
-                "read": true,
-                "write": false,
-                "def": false,
-                "desc": "Indicator if anybody is at home"
-            }
-        },
-        {
-            "_id": "clearHome",
-            "type": "state",
-            "common": {
-                "name": "Clear",
-                "role": "button",
-                "type": "boolean",
-                "read": false,
-                "write": true,
-                "desc": "Clear persons at home"
-            }
-        }
-    ]
+    "desc": {
+      "en": "Adapter for analyzing location information",
+      "de": "Adapter zum Analysieren von Standortinformationen",
+      "ru": "Адаптер для анализа информации о местоположении",
+      "pt": "Adaptador para análise de informações de localização",
+      "nl": "Adapter voor het analyseren van locatie-informatie",
+      "fr": "Adaptateur pour analyser des informations de localisation",
+      "it": "Adattatore per analizzare le informazioni sulla posizione",
+      "es": "Adaptador para analizar información de ubicación",
+      "pl": "Adapter do analizy informacji o lokalizacji",
+      "zh-cn": "用于分析位置信息的适配器"
+    },
+    "authors": [
+      "BasGo <basgo@gmx.de>"
+    ],
+    "platform": "Javascript/Node.js",
+    "mode": "daemon",
+    "icon": "places.png",
+    "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.places/master/admin/places.png",
+    "compact": true,
+    "readme": "https://github.com/iobroker-community-adapters/ioBroker.places/blob/master/README.md",
+    "license": "MIT",
+    "type": "geoposition",
+    "connectionType": "local",
+    "dataSource": "assumption",
+    "tier": 2,
+    "dependencies": [
+      {
+        "js-controller": ">=2.0.0"
+      }
+    ],
+    "plugins": {
+      "sentry": {
+        "dsn": "https://4c41ba6151ed424682d1fcbc34dd5286@sentry.iobroker.net/187"
+      }
+    },
+    "keywords": [
+      "iobroker",
+      "geofence",
+      "egigeozone",
+      "geofency",
+      "locations",
+      "places",
+      "coordinates",
+      "gps"
+    ],
+    "loglevel": "info",
+    "enabled": false,
+    "messagebox": true,
+    "subscribe": "messagebox",
+    "stopBeforeUpdate": true,
+    "materialize": true
+  },
+  "native": {
+    "radius": 250,
+    "homeName": "Home",
+    "places": [],
+    "users": [],
+    "googleApiKey": "",
+    "useGeocoding": false,
+    "cloudInstance": "",
+    "cloudService": ""
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "personsAtHome",
+      "type": "state",
+      "common": {
+        "name": "personsAtHome",
+        "type": "string",
+        "role": "state",
+        "read": true,
+        "write": false,
+        "def": [],
+        "desc": "Persons at home"
+      }
+    },
+    {
+      "_id": "numberAtHome",
+      "type": "state",
+      "common": {
+        "name": "numberAtHome",
+        "type": "number",
+        "role": "state",
+        "read": true,
+        "write": false,
+        "def": 0,
+        "desc": "Number of persons at home"
+      }
+    },
+    {
+      "_id": "anybodyAtHome",
+      "type": "state",
+      "common": {
+        "name": "anybodyAtHome",
+        "type": "boolean",
+        "role": "state",
+        "read": true,
+        "write": false,
+        "def": false,
+        "desc": "Indicator if anybody is at home"
+      }
+    },
+    {
+      "_id": "clearHome",
+      "type": "state",
+      "common": {
+        "name": "Clear",
+        "role": "button",
+        "type": "boolean",
+        "read": false,
+        "write": true,
+        "desc": "Clear persons at home"
+      }
+    }
+  ]
 }

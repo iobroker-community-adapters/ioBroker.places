@@ -111,7 +111,7 @@ on({id: "telegram.0.communicate.requestRaw", change: "ne"}, function (obj) {
 The implementation is partly based on dschaedls [ioBroker.geofency](https://github.com/ioBroker/ioBroker.geofency) adapter. The logo has been taken from [Free Icons PNG](http://www.freeiconspng.com/images/maps-icon) and has been modified to have a transparent background.
 
 ## Changelog
-### __WORK IN PROGRESS__
+### 1.1.0 (2022-03-25)
 * (Basgo) Correctly set ack flag
 * (Apollon77) Add Sentry for crash reporting
 
