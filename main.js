@@ -17,10 +17,9 @@ function startAdapter(options) {
     adapter = new utils.Adapter(options);
 
     adapter.on('stateChange', (id, state) => {
-        if (id && state && !state.ack) {
-            adapter.log.debug('State changed: ' + JSON.stringify(id));
-            if (adapter.config.cloudSubscription.length > 0 && id.endsWith(adapter.config.cloudSubscription) && state.val.length > 0) {
-                adapter.log.debug('Received request from ' + adapter.config.cloudSubscription + ': ' + JSON.stringify(state.val));
+        if (id && state) {
+            if (adapter.config.cloudSubscription.length > 0 && id.endsWith(adapter.config.cloudSubscription) && typeof state.val === 'string' && state.val.length > 0) {
+                adapter.log.debug(`Received request from ${adapter.config.cloudSubscription}: ${JSON.stringify(state.val)}`);
                 let r;
                 try {
                     r = JSON.parse(state.val);
@@ -33,13 +32,14 @@ function startAdapter(options) {
                     const req = { user: r.tid, latitude: r.lat, longitude: r.lon,timestamp: r.tst };
                     processMessage(req)
                         .then(response =>
-                            adapter.log.debug('Processed cloud request (identifier as OwnTracks): ' + JSON.stringify(response)));
+                            adapter.log.debug(`Processed cloud request (identifier as OwnTracks): ${JSON.stringify(response)}`));
                 } else {
                     processMessage(r)
                         .then(response =>
-                            adapter.log.info('Processed cloud request: ' + JSON.stringify(response)));
+                            adapter.log.info(`Processed cloud request: ${JSON.stringify(response)}`));
                 }
-            } else {
+            } else if (state && !state.ack) {
+                adapter.log.debug(`State changed: ${JSON.stringify(id)}: ${JSON.stringify(state)}`);
                 id = id.substring(adapter.namespace.length + 1);
 
                 switch (id) {
@@ -94,8 +94,8 @@ function startAdapter(options) {
             });
 
             if (adapter.config.cloudInstance && adapter.config.cloudService) {
-                adapter.config.cloudSubscription = adapter.config.cloudInstance.replace('system.adapter.', '') + '.services.custom_' + adapter.config.cloudService;
-                adapter.log.debug('Subscribed to cloud service: ' + adapter.config.cloudSubscription);
+                adapter.config.cloudSubscription = `${adapter.config.cloudInstance.replace('system.adapter.', '')}.services.custom_${adapter.config.cloudService}`;
+                adapter.log.debug(`Subscribed to cloud service: ${adapter.config.cloudSubscription}`);
                 adapter.subscribeForeignStates(adapter.config.cloudSubscription);
             }
             adapter.subscribeStates('*');
@@ -108,16 +108,16 @@ function startAdapter(options) {
             adapter.log.warn('Ignoring invalid message!');
             return false;
         }
-    
+
         if (!obj.message.user || !obj.message.latitude || !obj.message.longitude || !obj.message.timestamp) {
             adapter.log.warn('Ignoring incomplete message!');
             return false;
         }
-    
+
         processMessage(obj.message)
             .then(response => {
                 if (obj.callback) {
-                    adapter.log.info('Processed message, returning result: ' + JSON.stringify(response));
+                    adapter.log.info(`Processed message, returning result: ${JSON.stringify(response)}`);
                     adapter.sendTo(obj.from, obj.command, response, obj.callback);
                 }
             });
@@ -147,7 +147,7 @@ if (!String.prototype.endsWith) {
   }
 
 function main() {
-    adapter.log.debug('Current configuration: ' + JSON.stringify(adapter.config));
+    adapter.log.debug(`Current configuration: ${JSON.stringify(adapter.config)}`);
     checkInstanceObjects();
 }
 
@@ -181,15 +181,15 @@ function getAddress(client, req) {
         client.reverseGeocode(options, (err, response) => {
             if (err) {
                 if (err.json && err.json.error_message) {
-                    adapter.log.error('Error while requesting address: ' + err.json.error_message);
+                    adapter.log.error(`Error while requesting address: ${err.json.error_message}`);
                 } else {
-                    adapter.log.error('Error while requesting address: ' + JSON.stringify(err));
-                }              
+                    adapter.log.error(`Error while requesting address: ${JSON.stringify(err)}`);
+                }
             } else {
-                adapter.log.debug('Received geocode response: ' + JSON.stringify(response));
+                adapter.log.debug(`Received geocode response: ${JSON.stringify(response)}`);
                 const obj = response.json.results[0];
                 req.address = obj.hasOwnProperty('formatted_address') ? obj.formatted_address : '';
-                adapter.log.debug('Retrieved address -> address: ' + req.address);
+                adapter.log.debug(`Retrieved address -> address: ${req.address}`);
             }
 
             resolve(req);
@@ -207,15 +207,15 @@ function getElevation(client, req) {
         client.elevation(options, (err, response) => {
             if (err) {
                 if (err.json && err.json.error_message) {
-                    adapter.log.error('Error while requesting elevation: ' + err.json.error_message);
+                    adapter.log.error(`Error while requesting elevation: ${err.json.error_message}`);
                 } else {
-                    adapter.log.error('Error while requesting elevation: ' + JSON.stringify(err));
-                }      
+                    adapter.log.error(`Error while requesting elevation: ${JSON.stringify(err)}`);
+                }
             } else {
-                adapter.log.debug('Received elevation response: ' + JSON.stringify(response));
+                adapter.log.debug(`Received elevation response: ${JSON.stringify(response)}`);
                 const obj = response.json.results[0];
                 req.elevation = obj.hasOwnProperty('elevation') ? Math.round(parseFloat(obj.elevation) * 10) / 10  : -1;
-                adapter.log.debug('Retrieved elevation -> elevation: ' + req.elevation);
+                adapter.log.debug(`Retrieved elevation -> elevation: ${req.elevation}`);
             }
 
             resolve(req);
@@ -224,8 +224,8 @@ function getElevation(client, req) {
 
 function getRoute(client, req) {
     const options = {
-        origins:       req.latitude + ',' + req.longitude,
-        destinations:  adapter.config.latitude + ',' + adapter.config.longitude,
+        origins:       `${req.latitude},${req.longitude}`,
+        destinations:  `${adapter.config.latitude},${adapter.config.longitude}`,
         language:      adapter.config.language,
         departure_time: 'now',
         mode:           'driving',
@@ -236,18 +236,18 @@ function getRoute(client, req) {
         client.distanceMatrix(options, (err, response) => {
             if (err) {
                 if (err.json && err.json.error_message) {
-                    adapter.log.error('Error while requesting route: ' + err.json.error_message);
+                    adapter.log.error(`Error while requesting route: ${err.json.error_message}`);
                 } else {
-                    adapter.log.error('Error while requesting route: ' + JSON.stringify(err));
-                }      
+                    adapter.log.error(`Error while requesting route: ${JSON.stringify(err)}`);
+                }
             } else {
-                adapter.log.debug('Received route response: ' + JSON.stringify(response));
+                adapter.log.debug(`Received route response: ${JSON.stringify(response)}`);
                 const obj = response.json.rows[0].elements[0];
                 if (obj.status === 'OK') {
                     req.routeDistance               = obj.hasOwnProperty('distance') ? obj.distance.text : '';
                     req.routeDuration               = obj.hasOwnProperty('duration') ? obj.duration.text : '';
                     req.routeDurationWithTraffic    = obj.hasOwnProperty('duration_in_traffic') ? obj.duration_in_traffic.text : '';
-                    adapter.log.debug('Retrieved routing details -> routeDistance: ' + req.routeDistance + ', routeDuration: ' + req.routeDuration + ', routeDurationWithTraffix: ' + req.routeDurationWithTraffic);
+                    adapter.log.debug(`Retrieved routing details -> routeDistance: ${req.routeDistance}, routeDuration: ${req.routeDuration}, routeDurationWithTraffix: ${req.routeDurationWithTraffic}`);
                 }
             }
 
@@ -264,7 +264,7 @@ function checkPlaces(req) {
         req.name = adapter.config.homeName || 'Home';
     } else {
         for (const place of adapter.config.places) {
-            adapter.log.debug('Checking if position is at "' + place.name + '" (radius: ' + place.radius + 'm)');
+            adapter.log.debug(`Checking if position is at "${place.name}" (radius: ${place.radius}m)`);
             const isThere = geolib.isPointWithinRadius(req, place, place.radius);
             if (isThere) {
                 req.name = place.name;
@@ -278,9 +278,9 @@ function checkPlaces(req) {
 }
 
 function processMessage(req) {
-    req.timestamp = Number((req.timestamp + '0000000000000').substring(0, 13));
+    req.timestamp = Number((`${req.timestamp}0000000000000`).substring(0, 13));
     req.date = adapter.formatDate(new Date(req.timestamp), 'YYYY-MM-DD hh:mm:ss');
-    adapter.log.debug('Processing message: ' + JSON.stringify(req));
+    adapter.log.debug(`Processing message: ${JSON.stringify(req)}`);
 
     return replaceUser(req)
             .then(r => checkPlaces(r))
@@ -292,7 +292,7 @@ function replaceUser(req) {
     req.user = req.user || 'Dummy';
 
     for (const user of adapter.config.users) {
-        adapter.log.debug('Checking if user "' + req.user + '" should be replaced with "' + user.name + '"');
+        adapter.log.debug(`Checking if user "${req.user}" should be replaced with "${user.name}"`);
         if (user.replacement && req.user.equalIgnoreCase(user.name)) {
             req.user = user.replacement;
             adapter.log.debug('Replacement for user found, skipping other checks');
@@ -312,17 +312,17 @@ function storeLocation(req) {
         adapter.setObjectNotExists(dpUser, { type: 'device', common: { id: dpUser, name: dpUser }, native: { name: dpUser, device: dpUser } });
 
         // create objects for states
-        adapter.setObjectNotExists(dpUser + '.place', { type: 'state', common: { role: 'text', name: 'place', read: true, write: false, type: 'string' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.timestamp', { type: 'state', common: { role: 'value', name: 'timestamp', read: true, write: false, type: 'number' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.distance', { type: 'state', common: { role: 'value', name: 'distance', read: true, write: false, type: 'number' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.latitude', { type: 'state', common: { role: 'value.gps.latitude', name: 'latitude', read: true, write: false, type: 'number' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.longitude', { type: 'state', common: { role: 'value.gps.longitude', name: 'longitude', read: true, write: false, type: 'number' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.date', { type: 'state', common: { role: 'text', name: 'date', read: true, write: false, type: 'string' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.elevation', { type: 'state', common: { role: 'value', name: 'elevation', read: true, write: false, type: 'number' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.address', { type: 'state', common: { role: 'text', name: 'address', read: true, write: false, type: 'string' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.routeDistance', { type: 'state', common: { role: 'text', name: 'routeDistance', read: true, write: false, type: 'string' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.routeDuration', { type: 'state', common: { role: 'text', name: 'routeDuration', read: true, write: false, type: 'string' }, native: {} });
-        adapter.setObjectNotExists(dpUser + '.routeDurationWithTraffic', { type: 'state', common: { role: 'text', name: 'routeDurationWithTraffic', read: true, write: false, type: 'string' }, native: {} });
+        adapter.setObjectNotExists(`${dpUser}.place`, { type: 'state', common: { role: 'text', name: 'place', read: true, write: false, type: 'string' }, native: {} });
+        adapter.setObjectNotExists(`${dpUser}.timestamp`, { type: 'state', common: { role: 'value', name: 'timestamp', read: true, write: false, type: 'number' }, native: {} });
+        adapter.setObjectNotExists(`${dpUser}.distance`, { type: 'state', common: { role: 'value', name: 'distance', read: true, write: false, type: 'number' }, native: {} });
+        adapter.setObjectNotExists(`${dpUser}.latitude`, { type: 'state', common: { role: 'value.gps.latitude', name: 'latitude', read: true, write: false, type: 'number' }, native: {} });
+        adapter.setObjectNotExists(`${dpUser}.longitude`, { type: 'state', common: { role: 'value.gps.longitude', name: 'longitude', read: true, write: false, type: 'number' }, native: {} });
+        adapter.setObjectNotExists(`${dpUser}.date`, { type: 'state', common: { role: 'text', name: 'date', read: true, write: false, type: 'string' }, native: {} });
+        adapter.setObjectNotExists(`${dpUser}.elevation`, { type: 'state', common: { role: 'value', name: 'elevation', read: true, write: false, type: 'number' }, native: {} });
+        adapter.setObjectNotExists(`${dpUser}.address`, { type: 'state', common: { role: 'text', name: 'address', read: true, write: false, type: 'string' }, native: {} });
+        adapter.setObjectNotExists(`${dpUser}.routeDistance`, { type: 'state', common: { role: 'text', name: 'routeDistance', read: true, write: false, type: 'string' }, native: {} });
+        adapter.setObjectNotExists(`${dpUser}.routeDuration`, { type: 'state', common: { role: 'text', name: 'routeDuration', read: true, write: false, type: 'string' }, native: {} });
+        adapter.setObjectNotExists(`${dpUser}.routeDurationWithTraffic`, { type: 'state', common: { role: 'text', name: 'routeDurationWithTraffic', read: true, write: false, type: 'string' }, native: {} });
 
         return setStates(dpUser, req);
     } else {
@@ -332,7 +332,7 @@ function storeLocation(req) {
 
 function setStates(dpUser, req) {
     return new Promise((resolve, reject) => {
-        adapter.getState(dpUser + '.timestamp', (err, state) => {
+        adapter.getState(`${dpUser}.timestamp`, (err, state) => {
             if (err) {
                 reject(err);
             } else {
@@ -354,7 +354,7 @@ function setStates(dpUser, req) {
 }
 
 function setValues(dpUser, pos) {
-    adapter.log.debug('Setting values for user ' + dpUser);
+    adapter.log.debug(`Setting values for user ${dpUser}`);
     setValue(dpUser, 'timestamp', pos.timestamp);
     setValue(dpUser, 'date', pos.date);
     setValue(dpUser, 'place', pos.name);
@@ -371,8 +371,8 @@ function setValues(dpUser, pos) {
 }
 
 function setValue(user, key, value) {
-    adapter.setState(user + '.' + key, { val: value, ack: true }, err =>
-        err && adapter.log.warn('Error while setting value "' + value + '" for "' + user + '.' + key + '" -> ' + err));
+    adapter.setState(`${user}.${key}`, { val: value, ack: true }, err =>
+        err && adapter.log.warn(`Error while setting value "${value}" for "${user}.${key}" -> ${err}`));
 }
 
 function analyzePersonsAtHome(loc) {
@@ -417,4 +417,4 @@ if (module && module.parent) {
 } else {
     // or start the instance directly
     startAdapter();
-} 
+}
