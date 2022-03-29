@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "places",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "news": {
+      "1.1.1": {
+        "en": "Allow (again?) to consume external subscribed state value independently of ack flag",
+        "de": "Erlauben (erneut?) den externen abonnierten Statuswert unabhängig vom ack-Flag zu konsumieren",
+        "ru": "Разрешить (снова?) использовать внешнее значение состояния подписки независимо от флага подтверждения",
+        "pt": "Permitir (de novo?) consumir o valor do estado subscrito externo independentemente do sinalizador de confirmação",
+        "nl": "Sta (opnieuw?) toe om de externe geabonneerde statuswaarde te gebruiken, onafhankelijk van de ack-vlag",
+        "fr": "Autoriser (à nouveau ?) À consommer la valeur d'état souscrite externe indépendamment de l'indicateur d'accusé de réception",
+        "it": "Consenti (di nuovo?) di consumare il valore dello stato sottoscritto esterno indipendentemente dal flag di conferma",
+        "es": "Permitir (¿otra vez?) consumir valor de estado suscrito externo independientemente del indicador de reconocimiento",
+        "pl": "Zezwól (ponownie?) na wykorzystanie zewnętrznej wartości stanu subskrypcji niezależnie od flagi ack",
+        "zh-cn": "允许（再次？）独立于 ack 标志使用外部订阅状态值"
+      },
       "1.1.0": {
         "en": "Correctly set ack flag\nAdd Sentry for crash reporting",
         "de": "Ack-Flag korrekt setzen\nFügen Sie Sentry für Absturzberichte hinzu",
@@ -74,18 +86,6 @@
         "es": "Se modificó la implementación para usar promesas\nSe agregaron detalles de ruta para conducir a casa",
         "pl": "Zmieniono implementację, aby wykorzystać obietnice\nDodano szczegóły trasy do jazdy do domu",
         "zh-cn": "更改实现以使用承诺\n"
-      },
-      "0.5.1": {
-        "en": "Help texts extended",
-        "de": "Hilfetexte erweitert",
-        "ru": "Расширены тексты справки",
-        "pt": "Textos de ajuda estendidos",
-        "nl": "Help-teksten uitgebreid",
-        "fr": "Textes d'aide étendus",
-        "it": "Aiuta i testi estesi",
-        "es": "Textos de ayuda extendidos",
-        "pl": "Rozszerzone teksty pomocy",
-        "zh-cn": "帮助文本扩展"
       }
     },
     "title": "Places",
