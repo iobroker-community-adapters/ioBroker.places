@@ -45,17 +45,8 @@ function startAdapter(options) {
                 switch (id) {
                     case 'clearHome':
                         adapter.setState('personsAtHome', JSON.stringify([]), true);
-                        break;
-
-                    case 'personsAtHome':
-                        let homePersons = state.val ? JSON.parse(state.val) : [];
-                        try {
-                            homePersons = state && state.val ? JSON.parse(state.val) : [];
-                        } catch (e) {
-                            homePersons = [];
-                        }
-                        adapter.setState('numberAtHome', homePersons.length, true);
-                        adapter.setState('anybodyAtHome', !!homePersons.length, true);
+                        adapter.setState('numberAtHome', 0, true);
+                        adapter.setState('anybodyAtHome', false, true);
                         break;
 
                     default:
@@ -400,6 +391,8 @@ function analyzePersonsAtHome(loc) {
             adapter.setState('personsAtHome', JSON.stringify(homePersons), true);
             adapter.log.debug('Removed person from home');
         }
+        adapter.setState('numberAtHome', homePersons.length, true);
+        adapter.setState('anybodyAtHome', !!homePersons.length, true);
     });
 }
 
