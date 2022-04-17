@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "places",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "news": {
+      "1.1.2": {
+        "en": "Fix personsAtHome and anybodyAtHome states",
+        "de": "Korrigieren Sie die Zustände personsAtHome und anybodyAtHome",
+        "ru": "Исправление состояний personAtHome и anyAtHome",
+        "pt": "Corrigir os estados de peopleAtHome e anyAtHome",
+        "nl": "Fix personAtHome en anyoneAtHome staten",
+        "fr": "Correction des états personsAtHome et anyAtHome",
+        "it": "Correggi gli stati peopleAtHome e anyAtHome",
+        "es": "Corrija los estados depersonas en casa y cualquiera en casa",
+        "pl": "Napraw stany personAtHome i anybodyAtHome",
+        "zh-cn": "修复 personAtHome 和anyoneAtHome 状态"
+      },
       "1.1.1": {
         "en": "Allow (again?) to consume external subscribed state value independently of ack flag",
         "de": "Erlauben (erneut?) den externen abonnierten Statuswert unabhängig vom ack-Flag zu konsumieren",
@@ -74,18 +86,6 @@
         "es": "Manejo adicional para detalles de ruta inválidos",
         "pl": "Dodano obsługę niepoprawnych szczegółów trasy",
         "zh-cn": "添加了对无效路线详细信息的处理"
-      },
-      "0.6.0": {
-        "en": "Changed implementation to use promises\nAdded route details for driving home",
-        "de": "Implementierung geändert, um Promises zu verwenden\nAdded route details for driving home",
-        "ru": "Измененная реализация для использования обещаний\nДанные данные маршрута для езды домой",
-        "pt": "Implementação alterada para usar promessas\nAdicionado detalhes da rota para voltar para casa",
-        "nl": "Implementatie gewijzigd om beloften te gebruiken\nToegevoegde routegegevens voor het rijden naar huis",
-        "fr": "Modification de l'implémentation pour utiliser les promesses\nAjout des détails de l'itinéraire pour rentrer à la maison",
-        "it": "Implementazione modificata per utilizzare le promesse\nAggiunti dettagli del percorso per la guida a casa",
-        "es": "Se modificó la implementación para usar promesas\nSe agregaron detalles de ruta para conducir a casa",
-        "pl": "Zmieniono implementację, aby wykorzystać obietnice\nDodano szczegóły trasy do jazdy do domu",
-        "zh-cn": "更改实现以使用承诺\n"
       }
     },
     "title": "Places",
