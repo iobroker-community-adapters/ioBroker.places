@@ -23,7 +23,7 @@
   "dependencies": {
     "request": "^2.88.2",
     "url": "^0.11.0",
-    "@iobroker/adapter-core": "^2.6.0",
+    "@iobroker/adapter-core": "^2.6.6",
     "geolib": "^3.3.3",
     "@google/maps": "^1.1.3"
   },
