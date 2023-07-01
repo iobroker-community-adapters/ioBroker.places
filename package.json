@@ -24,7 +24,7 @@
     "request": "^2.88.2",
     "url": "^0.11.1",
     "@iobroker/adapter-core": "^2.6.8",
-    "geolib": "^3.3.3",
+    "geolib": "^3.3.4",
     "@google/maps": "^1.1.3"
   },
   "devDependencies": {
