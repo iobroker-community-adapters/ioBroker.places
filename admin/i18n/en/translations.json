@@ -1,0 +1,22 @@
+{
+    "ADD_PLACE": "Add place",
+    "CLOUD_HELP": "This pages allows to configure an automatic processing for requests submitted by using <a href=\"https://iobroker.pro/accessRemote\" target=\"_blank\">https://iobroker.pro</a> and <a href=\"http://owntracks.org/\" target=\"_blank\">OwnTracks</a>.",
+    "CLOUD_INSTANCE": "IOT instance",
+    "CLOUD_SERVICE": "IOT service",
+    "GENERAL": "General",
+    "GOOGLE_API_KEY": "API key for Google Maps",
+    "HOME_NAME": "Name of place if somebody is at home",
+    "INTEGRATION": "Integration",
+    "NO_INSTANCE": "inactive",
+    "NO_SERVICE": "-",
+    "PLACES": "Places",
+    "PLACE_LATITUDE": "Latitude",
+    "PLACE_LONGITUDE": "Longitude",
+    "PLACE_NAME": "Name",
+    "PLACE_RADIUS": "Radius",
+    "RADIUS": "Radius in meters to find a location",
+    "USERS": "User",
+    "USER_NAME": "Username",
+    "USER_REPLACEMENT": "Replace with",
+    "USE_GEOCODING": "Use Google Maps Geocoding"
+}

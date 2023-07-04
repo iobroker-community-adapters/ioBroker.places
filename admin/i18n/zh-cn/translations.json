@@ -1,0 +1,22 @@
+{
+    "ADD_PLACE": "添加地点",
+    "CLOUD_HELP": "此页面允许为使用 <a href=\"https://iobroker.pro/accessRemote\" target=\"_blank\">https://iobroker.pro</a> 和 <a href= 提交的请求配置自动处理",
+    "CLOUD_INSTANCE": "物联网实例",
+    "CLOUD_SERVICE": "物联网服务",
+    "GENERAL": "一般的",
+    "GOOGLE_API_KEY": "谷歌地图的 API 密钥",
+    "HOME_NAME": "有人在家时的地名",
+    "INTEGRATION": "一体化",
+    "NO_INSTANCE": "不活跃",
+    "NO_SERVICE": "-",
+    "PLACES": "地方",
+    "PLACE_LATITUDE": "纬度",
+    "PLACE_LONGITUDE": "经度",
+    "PLACE_NAME": "姓名",
+    "PLACE_RADIUS": "半径",
+    "RADIUS": "以米为单位的半径以查找位置",
+    "USERS": "用户",
+    "USER_NAME": "用户名",
+    "USER_REPLACEMENT": "用。。。来代替",
+    "USE_GEOCODING": "使用谷歌地图地理编码"
+}
