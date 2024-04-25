@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "places",
-    "version": "1.1.2",
+    "version": "1.2.0",
     "news": {
+      "1.2.0": {
+        "en": "Adapter requires node.js >= 18 and js-controller >= 5 now\nDependencies have been updated",
+        "de": "Adapter benötigt node.js >= 18 und js-controller >= 5 jetzt\nAbhängigkeiten wurden aktualisiert",
+        "ru": "Адаптер требует node.js >= 18 и js-контроллер >= 5 сейчас\nЗависимость обновлена",
+        "pt": "Adapter requer node.js >= 18 e js-controller >= 5 agora\nAs dependências foram atualizadas",
+        "nl": "Voor adaptor zijn node.js < 18 en js-controller > Nu 5\nAfhankelijkheden zijn bijgewerkt",
+        "fr": "L'adaptateur nécessite node.js >= 18 et js-controller >= 5 maintenant\nLes dépendances ont été actualisées",
+        "it": "Adattatore richiede node.js >= 18 e js-controller >= 5 ora\nLe dipendenze sono state aggiornate",
+        "es": "Adaptador requiere node.js √≥= 18 y js-controller 5 ahora\nSe han actualizado las dependencias",
+        "pl": "Adapter wymaga node.js > = 18 i kontroler js- > = 5 teraz\nZaktualizowano zależności",
+        "uk": "Адаптер вимагає node.js >= 18 і js-controller >= 5 тепер\nЗалежність було оновлено",
+        "zh-cn": "适配器需要节点.js QQ18和js控制器 QQ 现在5号\n依赖关系已更新"
+      },
       "1.1.2": {
         "en": "Fix personsAtHome and anybodyAtHome states",
         "de": "Korrigieren Sie die Zustände personsAtHome und anybodyAtHome",
@@ -74,18 +87,6 @@
         "es": "Se solucionó el error con blockly",
         "pl": "Naprawiono błąd z blockly",
         "zh-cn": "块状错误已修复"
-      },
-      "0.6.1": {
-        "en": "Added handling for invalid route details",
-        "de": "Zusätzliche Behandlung für ungültige Routendetails hinzugefügt",
-        "ru": "Добавлена ​​обработка неверных данных маршрута",
-        "pt": "Manipulação adicionada para detalhes de rota inválidos",
-        "nl": "Afhandeling toegevoegd voor ongeldige routegegevens",
-        "fr": "Gestion ajoutée pour les détails d'itinéraire incorrects",
-        "it": "Aggiunta gestione per i dettagli del percorso non validi",
-        "es": "Manejo adicional para detalles de ruta inválidos",
-        "pl": "Dodano obsługę niepoprawnych szczegółów trasy",
-        "zh-cn": "添加了对无效路线详细信息的处理"
       }
     },
     "titleLang": {
