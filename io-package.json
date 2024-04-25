@@ -88,7 +88,6 @@
         "zh-cn": "添加了对无效路线详细信息的处理"
       }
     },
-    "title": "Places",
     "titleLang": {
       "en": "Location analysis for GPS coordinates",
       "de": "Standortanalyse für GPS-Koordinaten",
@@ -122,14 +121,22 @@
     "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.places/master/admin/places.png",
     "compact": true,
     "readme": "https://github.com/iobroker-community-adapters/ioBroker.places/blob/master/README.md",
-    "license": "MIT",
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
     "type": "geoposition",
     "connectionType": "local",
     "dataSource": "assumption",
     "tier": 2,
     "dependencies": [
       {
-        "js-controller": ">=2.0.0"
+        "js-controller": ">=5.0.19"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=6.13.16"
       }
     ],
     "plugins": {
