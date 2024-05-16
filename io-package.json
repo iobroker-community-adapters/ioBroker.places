@@ -158,7 +158,6 @@
     "loglevel": "info",
     "enabled": false,
     "messagebox": true,
-    "subscribe": "messagebox",
     "stopBeforeUpdate": true,
     "materialize": true
   },
