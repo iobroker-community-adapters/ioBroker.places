@@ -115,7 +115,7 @@ The implementation is partly based on dschaedls [ioBroker.geofency](https://gith
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.3.0 (2025-05-13)
 * (TicoM1) Defaultvalue for state `personsAtHome` has been corrected.
 * (mcm1957) Adapter requires node.js >= 20, js-controller >= 6.0.11 and admin >=7.4.10 now.
 * (mcm1957) Several issues reported by repository checker have been fixed.
