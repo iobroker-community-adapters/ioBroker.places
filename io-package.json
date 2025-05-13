@@ -181,7 +181,7 @@
         "role": "state",
         "read": true,
         "write": false,
-        "def": [],
+        "def": "[]",
         "desc": "Persons at home"
       }
     },
