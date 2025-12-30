@@ -199,8 +199,7 @@ The implementation is partly based on dschaedls [ioBroker.geofency](https://gith
 The MIT License (MIT)
 
 
-Copyright (c) 2026 iobroker-community-adapters <iobroker-community-adapters@gmx.de>  
-Copyright (c) 2023-2025 ioBroker Community Developers <iobroker-community-adapters@gmx.de>  
+Copyright (c) 2023-2026 iobroker-community-adapters <iobroker-community-adapters@gmx.de>  
 Copyright (c) 2018-2022 BasGo <basgo@gmx.de>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
