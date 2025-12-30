@@ -115,7 +115,8 @@
       "zh-cn": "用于分析位置信息的适配器"
     },
     "authors": [
-      "BasGo <basgo@gmx.de>"
+      "BasGo <basgo@gmx.de>",
+      "iobroker-community-adapters <iobroker-community-adapters@gmx.de>"
     ],
     "platform": "Javascript/Node.js",
     "mode": "daemon",
@@ -138,7 +139,7 @@
     ],
     "globalDependencies": [
       {
-        "admin": ">=7.4.10"
+        "admin": ">=7.6.17"
       }
     ],
     "plugins": {
