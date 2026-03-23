@@ -155,7 +155,9 @@ function main() {
 
 function getGeocoding(req) {
     req.address = '';
-    req.elevation = 0;
+    if (!req.elevation) {
+        req.elevation = 0;
+    }
     req.routeDistance = '';
     req.routeDuration = '';
     req.routeDurationWithTraffic = '';
