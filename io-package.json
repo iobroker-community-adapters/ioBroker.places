@@ -39,7 +39,8 @@
         "it": "Correggi gli stati peopleAtHome e anyAtHome",
         "es": "Corrija los estados depersonas en casa y cualquiera en casa",
         "pl": "Napraw stany personAtHome i anybodyAtHome",
-        "zh-cn": "修复 personAtHome 和anyoneAtHome 状态"
+        "zh-cn": "修复 personAtHome 和anyoneAtHome 状态",
+        "uk": "Виправте стан personAtHome і anybodyAtHome"
       },
       "1.1.1": {
         "en": "Allow (again?) to consume external subscribed state value independently of ack flag",
@@ -51,7 +52,8 @@
         "it": "Consenti (di nuovo?) di consumare il valore dello stato sottoscritto esterno indipendentemente dal flag di conferma",
         "es": "Permitir (¿otra vez?) consumir valor de estado suscrito externo independientemente del indicador de reconocimiento",
         "pl": "Zezwól (ponownie?) na wykorzystanie zewnętrznej wartości stanu subskrypcji niezależnie od flagi ack",
-        "zh-cn": "允许（再次？）独立于 ack 标志使用外部订阅状态值"
+        "zh-cn": "允许（再次？）独立于 ack 标志使用外部订阅状态值",
+        "uk": "Дозволити (знову?) споживати зовнішнє значення підписаного стану незалежно від прапора підтвердження"
       },
       "1.1.0": {
         "en": "Correctly set ack flag\nAdd Sentry for crash reporting",
@@ -63,7 +65,8 @@
         "it": "Impostare correttamente il flag di conferma\nAggiungi Sentinella per la segnalazione degli arresti anomali",
         "es": "Establecer correctamente el indicador de reconocimiento\nAgregar Sentry para informes de fallas",
         "pl": "Prawidłowo ustawiona flaga potwierdzenia\nDodaj Sentry do zgłaszania awarii",
-        "zh-cn": "正确设置确认标志\n添加 Sentry 以进行崩溃报告"
+        "zh-cn": "正确设置确认标志\n添加 Sentry 以进行崩溃报告",
+        "uk": "Правильно встановлений прапор підтвердження\nДодайте Sentry для звітування про збої"
       },
       "1.0.0": {
         "en": "Updated packages\nRefactoring",
@@ -75,7 +78,8 @@
         "it": "Pacchetti aggiornati\nrefactoring",
         "es": "Paquetes actualizados\nRefactorización",
         "pl": "Zaktualizowane pakiety\nRefaktoryzacja",
-        "zh-cn": "更新包\n重构"
+        "zh-cn": "更新包\n重构",
+        "uk": "Оновлені пакети\nРефакторинг"
       },
       "0.7.0": {
         "en": "Added compact mode, replaced integration of iobroker.cloud with iobroker.iot",
@@ -87,7 +91,8 @@
         "it": "Aggiunta modalità compatta, sostituzione dell'integrazione di iobroker.cloud con iobroker.iot",
         "es": "Se agregó el modo compacto, se reemplazó la integración de iobroker.cloud con iobroker.iot",
         "pl": "Dodano tryb kompaktowy, zastąpił integrację iobroker.cloud z iobroker.iot",
-        "zh-cn": "添加了紧凑模式，将 iobroker.cloud 替换为 iobroker.iot 的集成"
+        "zh-cn": "添加了紧凑模式，将 iobroker.cloud 替换为 iobroker.iot 的集成",
+        "uk": "Додано компактний режим, замінено інтеграцію iobroker.cloud на iobroker.iot"
       }
     },
     "titleLang": {
@@ -100,7 +105,8 @@
       "it": "Analisi della posizione per le coordinate GPS",
       "es": "Análisis de ubicación para coordenadas de GPS",
       "pl": "Analiza lokalizacji dla współrzędnych GPS",
-      "zh-cn": "GPS坐标的位置分析"
+      "zh-cn": "GPS坐标的位置分析",
+      "uk": "Аналіз розташування для GPS-координат"
     },
     "desc": {
       "en": "Adapter for analyzing location information",
@@ -112,7 +118,8 @@
       "it": "Adattatore per analizzare le informazioni sulla posizione",
       "es": "Adaptador para analizar información de ubicación",
       "pl": "Adapter do analizy informacji o lokalizacji",
-      "zh-cn": "用于分析位置信息的适配器"
+      "zh-cn": "用于分析位置信息的适配器",
+      "uk": "Адаптер для аналізу інформації про місцезнаходження"
     },
     "authors": [
       "BasGo <basgo@gmx.de>",

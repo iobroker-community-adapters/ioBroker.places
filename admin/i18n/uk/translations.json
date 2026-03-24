@@ -1,0 +1,22 @@
+{
+    "ADD_PLACE": "Додати місце",
+    "CLOUD_HELP": "На цих сторінках можна налаштувати автоматичну обробку запитів, надісланих за допомогою <a href=\"https://iobroker.pro/accessRemote\" target=\"_blank\">https://iobroker.pro</a> та <a href=\"http://owntracks.org/\" target=\"_blank\">OwnTracks</a>.",
+    "CLOUD_INSTANCE": "екземпляр IOT",
+    "CLOUD_SERVICE": "Послуга IOT",
+    "GENERAL": "Загальний",
+    "GOOGLE_API_KEY": "Ключ API для Google Maps",
+    "HOME_NAME": "Назва місця, якщо хтось є вдома",
+    "INTEGRATION": "Інтеграція",
+    "NO_INSTANCE": "неактивний",
+    "NO_SERVICE": "-",
+    "PLACES": "Місця",
+    "PLACE_LATITUDE": "Широта",
+    "PLACE_LONGITUDE": "Довгота",
+    "PLACE_NAME": "Ім'я",
+    "PLACE_RADIUS": "Радіус",
+    "RADIUS": "Радіус у метрах для пошуку місця",
+    "USERS": "Користувач",
+    "USER_NAME": "Ім'я користувача",
+    "USER_REPLACEMENT": "Замінити на",
+    "USE_GEOCODING": "Використовуйте геокодування Google Maps"
+}
