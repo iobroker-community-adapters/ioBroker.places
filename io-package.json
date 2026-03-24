@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "places",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "news": {
+      "1.4.0": {
+        "en": "Adapter requires admin >= 7.7.22 now\nDon't zero out elevation when geocoding if it was provided (#290). \nDependencies have been updated",
+        "de": "Adapter benötigt admin >= 7.7.22 jetzt\nNicht aussteigen, wenn die Geocodierung bereitgestellt wurde (#290).\nAbhängigkeiten wurden aktualisiert",
+        "ru": "Адаптер требует администратора >= 7.7.22\nНе обнуляйте высоту при геокодировании, если она была предоставлена (# 290).\nЗависимости были обновлены",
+        "pt": "Adaptador requer admin >= 7.7.22 agora\nNão descarte a elevação quando a geocodificação foi fornecida (#290).\nAs dependências foram atualizadas",
+        "nl": "Adapter vereist admin < 7.7.22 nu\nZero-out hoogte niet wanneer geocoderen als het was voorzien (#290).\nAfhankelijkheden zijn bijgewerkt",
+        "fr": "Adaptateur nécessite admin >= 7.7.22 maintenant\nN'éliminez pas l'élévation lorsque le géocodage est fourni (#290).\nLes dépendances ont été actualisées",
+        "it": "Adattatore richiede admin >= 7.7.22 ora\nNon escludere l'elevazione quando la geocodifica è stata fornita (#290).\nLe dipendenze sono state aggiornate",
+        "es": "El adaptador requiere admin= 7.7.22 ahora\nNo pierda la elevación cuando se haya proporcionado geocodificación (#290).\nSe han actualizado las dependencias",
+        "pl": "Adapter wymaga admin > = 7.7.22\nNie wyzeruj wysokości podczas geokodowania, jeśli została dostarczona (# 290).\nZaktualizowano zależności",
+        "uk": "Адаптер вимагає адмін >= 7.7.22 тепер\nНе нулюйте під час геокодування, якщо вона була надана (#290).\nЗалежність було оновлено",
+        "zh-cn": "适任者需要管理员 \\ 7.7.22 现在\n如果提供地理编码, 请不要将海拔零除 (# 290) .\n依赖关系已更新"
+      },
       "1.3.0": {
         "en": "Defaultvalue for state `personsAtHome` has been corrected.\nAdapter requires node.js >= 20, js-controller >= 6.0.11 and admin >=7.4.10 now.\nSeveral issues reported by repository checker have been fixed.\nDependencies have been updated",
         "de": "Standardwert für State `persons AtHome` wurde korrigiert.\nAdapter benötigt node.js >= 20, js-controller >= 6.0.11 und admin >=7.4.10 jetzt.\nMehrere Probleme, die vom Repository Checker gemeldet wurden, wurden behoben.\nAbhängigkeiten wurden aktualisiert",
@@ -80,19 +93,6 @@
         "pl": "Zaktualizowane pakiety\nRefaktoryzacja",
         "zh-cn": "更新包\n重构",
         "uk": "Оновлені пакети\nРефакторинг"
-      },
-      "0.7.0": {
-        "en": "Added compact mode, replaced integration of iobroker.cloud with iobroker.iot",
-        "de": "Kompaktmodus hinzugefügt, Integration von iobroker.cloud durch iobroker.iot ersetzt",
-        "ru": "Добавлен компактный режим, заменена интеграция iobroker.cloud с iobroker.iot",
-        "pt": "Adicionado o modo compacto, substituiu a integração do iobroker.cloud com iobroker.iot",
-        "nl": "Toegevoegd compacte modus, vervangen integratie van iobroker.cloud met iobroker.iot",
-        "fr": "Ajout du mode compact, intégration de iobroker.cloud remplacée par iobroker.iot",
-        "it": "Aggiunta modalità compatta, sostituzione dell'integrazione di iobroker.cloud con iobroker.iot",
-        "es": "Se agregó el modo compacto, se reemplazó la integración de iobroker.cloud con iobroker.iot",
-        "pl": "Dodano tryb kompaktowy, zastąpił integrację iobroker.cloud z iobroker.iot",
-        "zh-cn": "添加了紧凑模式，将 iobroker.cloud 替换为 iobroker.iot 的集成",
-        "uk": "Додано компактний режим, замінено інтеграцію iobroker.cloud на iobroker.iot"
       }
     },
     "titleLang": {
