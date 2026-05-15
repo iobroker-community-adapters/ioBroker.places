@@ -136,6 +136,8 @@ The implementation is partly based on dschaedls [ioBroker.geofency](https://gith
 ### 1.1.1 (2022-03-29)
 * (Apollon77) Allow (again?) to consume external subscribed state value independently of ack flag
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 The MIT License (MIT)
