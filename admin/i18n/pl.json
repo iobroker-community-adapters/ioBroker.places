@@ -1,5 +1,4 @@
 {
-    "ADD_PLACE": "Dodaj miejsce",
     "CLOUD_HELP": "Na tych stronach można skonfigurować automatyczne przetwarzanie dla żądań przesłanych za pomocą <a href=\"https://iobroker.pro/accessRemote\" target=\"_blank\">https://iobroker.pro</a> i <a href=\"http://owntracks.org/\" target=\"_blank\">OwnTracks</a>.",
     "CLOUD_INSTANCE": "Instancja chmury",
     "CLOUD_SERVICE": "Usługa chmury",
@@ -7,8 +6,6 @@
     "GOOGLE_API_KEY": "Klucz API do Google Maps",
     "HOME_NAME": "Nazwa miejsca, w którym ktoś jest w domu",
     "INTEGRATION": "Integracja",
-    "NO_INSTANCE": "nieaktywny",
-    "NO_SERVICE": "-",
     "PLACES": "Niestandardowe miejsca",
     "PLACE_LATITUDE": "Szerokość",
     "PLACE_LONGITUDE": "Długość geograficzna",
