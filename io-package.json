@@ -167,7 +167,10 @@
     "enabled": false,
     "messagebox": true,
     "stopBeforeUpdate": true,
-    "materialize": true
+    "materialize": true,
+    "adminUI": {
+      "config": "json"
+    }
   },
   "native": {
     "radius": 250,

@@ -1,0 +1,151 @@
+{
+  "type": "tabs",
+  "items": {
+    "tabGeneral": {
+      "type": "panel",
+      "label": "GENERAL",
+      "items": {
+        "radius": {
+          "type": "number",
+          "label": "RADIUS",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        },
+        "homeName": {
+          "type": "text",
+          "label": "HOME_NAME",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        },
+        "googleApiKey": {
+          "type": "text",
+          "label": "GOOGLE_API_KEY",
+          "xs": 12,
+          "sm": 12,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        },
+        "useGeocoding": {
+          "type": "checkbox",
+          "label": "USE_GEOCODING",
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+        }
+      }
+    },
+    "tabPlaces": {
+      "type": "panel",
+      "label": "PLACES",
+      "items": {
+        "places": {
+          "type": "table",
+          "label": "PLACES",
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12,
+          "items": [
+            {
+              "type": "text",
+              "attr": "name",
+              "title": "PLACE_NAME",
+              "width": "25%"
+            },
+            {
+              "type": "text",
+              "attr": "latitude",
+              "title": "PLACE_LATITUDE",
+              "width": "25%"
+            },
+            {
+              "type": "text",
+              "attr": "longitude",
+              "title": "PLACE_LONGITUDE",
+              "width": "25%"
+            },
+            {
+              "type": "number",
+              "attr": "radius",
+              "title": "PLACE_RADIUS",
+              "width": "25%"
+            }
+          ]
+        }
+      }
+    },
+    "tabUsers": {
+      "type": "panel",
+      "label": "USERS",
+      "items": {
+        "users": {
+          "type": "table",
+          "label": "USERS",
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12,
+          "items": [
+            {
+              "type": "text",
+              "attr": "name",
+              "title": "USER_NAME",
+              "width": "50%"
+            },
+            {
+              "type": "text",
+              "attr": "replacement",
+              "title": "USER_REPLACEMENT",
+              "width": "50%"
+            }
+          ]
+        }
+      }
+    },
+    "tabIntegration": {
+      "type": "panel",
+      "label": "INTEGRATION",
+      "items": {
+        "cloudInstance": {
+          "type": "text",
+          "label": "CLOUD_INSTANCE",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        },
+        "cloudService": {
+          "type": "text",
+          "label": "CLOUD_SERVICE",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4,
+          "xl": 4
+        },
+        "cloudHelp": {
+          "type": "staticText",
+          "text": "CLOUD_HELP",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+        }
+      }
+    }
+  }
+}
