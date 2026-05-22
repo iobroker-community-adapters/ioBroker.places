@@ -1,5 +1,4 @@
 {
-    "ADD_PLACE": "Ort hinzufügen",
     "CLOUD_HELP": "Auf diesen Seiten können Sie eine automatische Verarbeitung für Anfragen konfigurieren, die mit <a href=\"https://iobroker.pro/accessRemote\" target=\"_blank\">https://iobroker.pro</a> und <a href=\"http://owntracks.org/\" target=\"_blank\">OwnTracks</a> gesendet werden.",
     "CLOUD_INSTANCE": "IOT-Instanz",
     "CLOUD_SERVICE": "IOT-Service",
@@ -7,8 +6,6 @@
     "GOOGLE_API_KEY": "API-Schlüssel für Google Maps",
     "HOME_NAME": "Name des Ortes, wenn jemand zu Hause ist",
     "INTEGRATION": "Integration",
-    "NO_INSTANCE": "inaktiv",
-    "NO_SERVICE": "-",
     "PLACES": "Orte",
     "PLACE_LATITUDE": "Breitengrad",
     "PLACE_LONGITUDE": "Längengrad",

@@ -167,7 +167,6 @@
     "enabled": false,
     "messagebox": true,
     "stopBeforeUpdate": true,
-    "materialize": true,
     "adminUI": {
       "config": "json"
     }
